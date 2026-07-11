@@ -135,7 +135,7 @@
 
         .player-row {
             display: grid;
-            grid-template-columns: 66px minmax(0, 1fr);
+            grid-template-columns: 66px minmax(0, 1fr) auto;
             gap: 8px;
             align-items: center;
             padding: 8px;
@@ -158,7 +158,36 @@
         }
 
         .player-row-scythe {
-            grid-template-columns: 58px minmax(0, 1fr) minmax(0, 1fr);
+            grid-template-columns: 58px minmax(0, 1fr) minmax(0, 1fr) auto;
+        }
+
+        .order-controls {
+            display: grid;
+            grid-template-columns: repeat(2, 32px);
+            gap: 4px;
+        }
+
+        .order-button {
+            width: 32px;
+            height: 32px;
+            padding: 0;
+            border: 1px solid var(--line);
+            border-radius: 8px;
+            background: #f8fafc;
+            color: #334155;
+            font-size: 1.05rem;
+            font-weight: 800;
+        }
+
+        .order-button:disabled {
+            cursor: default;
+            opacity: 0.35;
+        }
+
+        .order-help {
+            margin: 0 0 7px;
+            color: var(--muted);
+            font-size: 0.8rem;
         }
 
         .faction-badge {
@@ -316,6 +345,26 @@
         .clock-card.out {
             opacity: 0.55;
             background: #f1f5f9;
+        }
+
+        .clock-card.selecting-start {
+            border-style: dashed;
+            border-width: 3px;
+            background: linear-gradient(180deg, #edfdfa, #d8f5ee);
+        }
+
+        .clock-card.selecting-start:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 0 0 3px rgba(15, 118, 110, 0.2);
+        }
+
+        .clock-card.selecting-start .card-hint {
+            font-size: 0;
+        }
+
+        .clock-card.selecting-start .card-hint::after {
+            content: "Klikni: tento hr\00e1\010d za\010d\00edn\00e1";
+            font-size: 0.82rem;
         }
 
         .card-head {
@@ -608,6 +657,10 @@
             box-shadow: 0 0 0 3px rgba(42, 26, 14, 0.25);
         }
 
+        .mode-scythe .clock-card.selecting-start {
+            background: color-mix(in srgb, var(--player-color) 28%, #efe6d8);
+        }
+
         .mode-scythe .clock-card.active .card-faction,
         .mode-scythe .clock-card.active .card-order,
         .mode-scythe .clock-card.active .card-hint,
@@ -695,7 +748,7 @@
                     </div>
 
                     <div class="actions">
-                        <button id="startButton" class="btn btn-start" type="button">Spustit</button>
+                        <button id="startButton" class="btn btn-start" type="button">Vybrat za&#269;&#237;naj&#237;c&#237;ho</button>
                         <button id="resetButton" class="btn btn-reset" type="button">Restart</button>
                     </div>
                 </section>
@@ -786,6 +839,7 @@
             menuOpen: false,
             quickAddSeconds: 15,
             quickAddTargetId: null,
+            selectingFirstPlayer: false,
             timerId: null,
             lastTickAt: null
         };
@@ -888,7 +942,7 @@
             state.activeIndex = activePosition >= 0 ? activePosition : 0;
         }
 
-        function normalizeScythePlayers(activePlayerId = state.players[state.activeIndex]?.id) {
+        function normalizeScythePlayers(activePlayerId = state.players[state.activeIndex]?.id, sortByFaction = false) {
             if (state.gameMode !== "scythe") {
                 return;
             }
@@ -904,7 +958,9 @@
                     used.add(faction.id);
                 }
             });
-            sortPlayersByFaction(activePlayerId);
+            if (sortByFaction) {
+                sortPlayersByFaction(activePlayerId);
+            }
         }
 
         function chooseFaction(playerId, factionId) {
@@ -930,7 +986,7 @@
                 }
             }
 
-            normalizeScythePlayers(activePlayerId);
+            normalizeScythePlayers(activePlayerId, true);
         }
 
         function persistState() {
@@ -947,6 +1003,7 @@
                 menuOpen: state.menuOpen,
                 quickAddSeconds: state.quickAddSeconds,
                 quickAddTargetId: state.quickAddTargetId,
+                selectingFirstPlayer: state.selectingFirstPlayer,
                 lastTickAt: state.running && !state.paused ? Date.now() : null
             };
             localStorage.setItem(STORAGE_KEY, JSON.stringify(payload));
@@ -972,6 +1029,7 @@
                 state.menuOpen = Boolean(parsed.menuOpen);
                 state.quickAddSeconds = Math.max(1, Math.floor(Number(parsed.quickAddSeconds) || 15));
                 state.quickAddTargetId = typeof parsed.quickAddTargetId === "string" ? parsed.quickAddTargetId : null;
+                state.selectingFirstPlayer = Boolean(parsed.selectingFirstPlayer) && !state.running;
                 state.lastTickAt = typeof parsed.lastTickAt === "number" ? parsed.lastTickAt : null;
                 normalizeScythePlayers(state.players[state.activeIndex]?.id);
                 if (!state.players.some((player) => player.id === state.quickAddTargetId)) {
@@ -989,10 +1047,25 @@
             return String(m) + ":" + String(s).padStart(2, "0");
         }
 
+        function orderControls(player, index) {
+            return "<div class=\"order-controls\" aria-label=\"Upravit pořadí hráče\">"
+                + "<button class=\"order-button\" type=\"button\" data-move-player=\"" + player.id
+                + "\" data-move-direction=\"-1\" title=\"Posunout dříve\" aria-label=\"Posunout dříve\""
+                + (index === 0 ? " disabled" : "") + ">↑</button>"
+                + "<button class=\"order-button\" type=\"button\" data-move-player=\"" + player.id
+                + "\" data-move-direction=\"1\" title=\"Posunout později\" aria-label=\"Posunout později\""
+                + (index === state.players.length - 1 ? " disabled" : "") + ">↓</button>"
+                + "</div>";
+        }
+
         function renderPlayerInputs() {
             ui.playerList.innerHTML = "";
+            const orderHelp = document.createElement("p");
+            orderHelp.className = "order-help";
+            orderHelp.textContent = "Pořadí tahu upravíš šipkami. U Scythe se při změně frakce nejdřív obnoví automatické pořadí.";
+            ui.playerList.appendChild(orderHelp);
             state.players.forEach((player, index) => {
-                const row = document.createElement("label");
+                const row = document.createElement("div");
                 const safeName = player.name.replace(/\"/g, "&quot;");
                 if (state.gameMode === "scythe") {
                     const factionOptions = scytheFactions
@@ -1002,10 +1075,12 @@
                     row.className = "player-row player-row-scythe";
                     row.innerHTML = "<span class=\"faction-badge\" style=\"--badge-color:" + player.color + "\">" + factionLogo(faction) + "</span>"
                         + "<input type=\"text\" data-player-name=\"" + player.id + "\" value=\"" + safeName + "\">"
-                        + "<select data-player-faction=\"" + player.id + "\">" + factionOptions + "</select>";
+                        + "<select data-player-faction=\"" + player.id + "\">" + factionOptions + "</select>"
+                        + orderControls(player, index);
                 } else {
                     row.className = "player-row";
-                    row.innerHTML = "<strong>P" + (index + 1) + "</strong><input type=\"text\" data-player-name=\"" + player.id + "\" value=\"" + safeName + "\">";
+                    row.innerHTML = "<strong>P" + (index + 1) + "</strong><input type=\"text\" data-player-name=\"" + player.id + "\" value=\"" + safeName + "\">"
+                        + orderControls(player, index);
                 }
                 ui.playerList.appendChild(row);
             });
@@ -1017,10 +1092,13 @@
             state.players.forEach((player, index) => {
                 const card = document.createElement("button");
                 card.type = "button";
-                card.className = "clock-card" + (player.out ? " out" : "") + (index === state.activeIndex && !player.out ? " active" : "");
+                const selectingStart = state.selectingFirstPlayer && !state.running;
+                card.className = "clock-card" + (player.out ? " out" : "")
+                    + (index === state.activeIndex && !player.out && !selectingStart ? " active" : "")
+                    + (selectingStart ? " selecting-start" : "");
                 card.style.borderColor = player.color;
                 card.style.setProperty("--player-color", player.color);
-                if (index === state.activeIndex && !player.out) {
+                if (index === state.activeIndex && !player.out && !selectingStart) {
                     card.style.boxShadow = "0 0 0 3px " + player.color + "55";
                 }
 
@@ -1086,6 +1164,14 @@
         }
 
         function syncStatus() {
+            if (state.selectingFirstPlayer && !state.running) {
+                ui.statusText.textContent = "Vyber hr\u00e1\u010de, kter\u00fd za\u010d\u00edn\u00e1 \u2014 klikni na jeho dla\u017edici.";
+                ui.pauseButton.disabled = true;
+                ui.pauseButton.textContent = "PAUZA";
+                persistState();
+                return;
+            }
+
             if (!state.running) {
                 ui.statusText.textContent = "Nastav hráče a spusť odpočet.";
                 ui.pauseButton.disabled = true;
@@ -1179,6 +1265,11 @@
         }
 
         function onClockTap(index) {
+            if (state.selectingFirstPlayer && !state.running) {
+                startWithFirstPlayer(index);
+                return;
+            }
+
             if (!state.running || state.paused || index !== state.activeIndex) {
                 return;
             }
@@ -1242,6 +1333,22 @@
             if (ui.drawerSetupHost.contains(ui.setupPanel)) {
                 document.querySelector(".layout").insertBefore(ui.setupPanel, document.querySelector(".board"));
             }
+        }
+
+        function movePlayer(playerId, direction) {
+            const index = state.players.findIndex((player) => player.id === playerId);
+            const destination = index + direction;
+            if (index < 0 || destination < 0 || destination >= state.players.length) {
+                return;
+            }
+
+            const activePlayerId = state.players[state.activeIndex]?.id;
+            [state.players[index], state.players[destination]] = [state.players[destination], state.players[index]];
+            const activeIndex = state.players.findIndex((player) => player.id === activePlayerId);
+            state.activeIndex = activeIndex >= 0 ? activeIndex : 0;
+            renderPlayerInputs();
+            syncLayout();
+            persistState();
         }
 
         function rebuildPlayers() {
@@ -1337,6 +1444,7 @@
         }
 
         function startGame() {
+            stopTimer();
             readSetupFromInputs();
             rebuildPlayers();
             state.players.forEach((p) => {
@@ -1345,11 +1453,27 @@
             });
 
             state.activeIndex = 0;
+            state.running = false;
+            state.paused = true;
+            state.selectingFirstPlayer = true;
+            state.lastTickAt = null;
+            state.menuOpen = false;
+
+            syncLayout();
+        }
+
+        function startWithFirstPlayer(index) {
+            const player = state.players[index];
+            if (!player || player.out || !state.selectingFirstPlayer) {
+                return;
+            }
+
+            state.activeIndex = index;
+            state.selectingFirstPlayer = false;
             state.running = true;
             state.paused = false;
             state.lastTickAt = Date.now();
             state.menuOpen = false;
-
             syncLayout();
             startTimer();
         }
@@ -1364,6 +1488,7 @@
             state.activeIndex = 0;
             state.running = false;
             state.paused = true;
+            state.selectingFirstPlayer = false;
             state.menuOpen = false;
             state.quickAddTargetId = null;
             state.lastTickAt = null;
@@ -1408,6 +1533,15 @@
             ui.incrementSeconds.addEventListener("change", () => {
                 readSetupFromInputs();
                 persistState();
+            });
+
+            ui.playerList.addEventListener("click", (event) => {
+                const button = event.target.closest("button[data-move-player]");
+                if (!(button instanceof HTMLButtonElement)) {
+                    return;
+                }
+
+                movePlayer(button.dataset.movePlayer, Number(button.dataset.moveDirection));
             });
 
             ui.playerList.addEventListener("input", (event) => {
