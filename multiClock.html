@@ -1,0 +1,1543 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vícehráčové herní hodiny</title>
+    <style>
+        :root {
+            --bg: #1a2a43;
+            --bg2: #0f1a2d;
+            --panel: rgba(243, 246, 252, 0.96);
+            --line: #c8d3e5;
+            --text: #1c2433;
+            --muted: #5f6e83;
+            --accent: #0f766e;
+            --accent2: #f97316;
+            --danger: #be123c;
+            --shadow: 0 20px 42px rgba(10, 20, 35, 0.28);
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            min-height: 100vh;
+            font-family: "Segoe UI", Tahoma, sans-serif;
+            color: var(--text);
+            background:
+                radial-gradient(circle at 15% 18%, rgba(80, 132, 212, 0.28), transparent 35%),
+                radial-gradient(circle at 88% 90%, rgba(14, 168, 151, 0.22), transparent 32%),
+                linear-gradient(135deg, var(--bg), var(--bg2));
+        }
+
+        button,
+        input,
+        select {
+            font: inherit;
+        }
+
+        button {
+            border: 0;
+            cursor: pointer;
+            border-radius: 12px;
+        }
+
+        .app {
+            width: min(1320px, calc(100% - 24px));
+            margin: 0 auto;
+            padding: 12px 0 16px;
+        }
+
+        .topbar {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 12px;
+            padding: 12px 14px;
+            border-radius: 16px;
+            background: rgba(236, 243, 253, 0.92);
+            border: 1px solid rgba(255, 255, 255, 0.5);
+            box-shadow: var(--shadow);
+        }
+
+        .topbar h1 {
+            margin: 0;
+            font-size: clamp(1.05rem, 2.8vw, 1.5rem);
+        }
+
+        .mode-toggle {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 10px 12px;
+            color: #0f2942;
+            border: 1px solid var(--line);
+            background: #fff;
+        }
+
+        .layout {
+            margin-top: 10px;
+            display: grid;
+            gap: 10px;
+            grid-template-columns: minmax(290px, 340px) minmax(0, 1fr);
+        }
+
+        .panel {
+            background: var(--panel);
+            border: 1px solid rgba(255, 255, 255, 0.65);
+            border-radius: 16px;
+            box-shadow: var(--shadow);
+        }
+
+        .setup {
+            padding: 14px;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .field {
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+        }
+
+        .field span {
+            font-size: 0.9rem;
+            color: var(--muted);
+            font-weight: 600;
+        }
+
+        .field input {
+            width: 100%;
+            padding: 10px 11px;
+            border: 1px solid var(--line);
+            border-radius: 10px;
+            background: #fff;
+        }
+
+        .field select {
+            width: 100%;
+            padding: 10px 11px;
+            border: 1px solid var(--line);
+            border-radius: 10px;
+            background: #fff;
+        }
+
+        .player-list {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .player-row {
+            display: grid;
+            grid-template-columns: 66px minmax(0, 1fr);
+            gap: 8px;
+            align-items: center;
+            padding: 8px;
+            border: 1px solid #d8e2f2;
+            border-radius: 11px;
+            background: #fff;
+        }
+
+        .player-row strong {
+            font-size: 0.9rem;
+            color: #334155;
+            text-align: center;
+        }
+
+        .player-row input {
+            padding: 8px 9px;
+            border: 1px solid var(--line);
+            border-radius: 8px;
+            min-width: 0;
+        }
+
+        .player-row-scythe {
+            grid-template-columns: 58px minmax(0, 1fr) minmax(0, 1fr);
+        }
+
+        .faction-badge {
+            width: 44px;
+            height: 44px;
+            border-radius: 50%;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 800;
+            color: #fff;
+            border: 2px solid rgba(255, 255, 255, 0.55);
+            background: color-mix(in srgb, var(--badge-color) 78%, #1a1a1a);
+        }
+
+        .faction-logo {
+            width: 30px;
+            height: 30px;
+            display: block;
+            color: #fff;
+            fill: currentColor;
+        }
+
+        .card-faction-line {
+            display: flex;
+            align-items: center;
+            gap: 7px;
+            min-width: 0;
+        }
+
+        .card-faction-logo {
+            width: 34px;
+            height: 34px;
+            flex: 0 0 auto;
+            color: var(--player-color);
+        }
+
+        .clock-card.active .card-faction-logo {
+            color: inherit;
+        }
+
+        .actions {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 8px;
+        }
+
+        .btn {
+            padding: 11px 10px;
+            font-weight: 700;
+        }
+
+        .btn-start {
+            background: linear-gradient(135deg, #0f766e, #0e9f95);
+            color: #fff;
+        }
+
+        .btn-reset {
+            background: #fff;
+            color: #1d3557;
+            border: 1px solid var(--line);
+        }
+
+        .board {
+            padding: 10px;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            min-height: 72vh;
+        }
+
+        .playbar {
+            display: grid;
+            grid-template-columns: minmax(160px, 1fr) auto minmax(340px, auto);
+            gap: 8px;
+            align-items: center;
+        }
+
+        .status {
+            margin: 0;
+            color: var(--muted);
+            font-size: 0.92rem;
+        }
+
+        .btn-control {
+            color: #fff;
+            background: linear-gradient(135deg, #f97316, #ea580c);
+            min-width: 114px;
+        }
+
+        .btn-menu {
+            display: none;
+            color: #fff;
+            background: linear-gradient(135deg, #475569, #334155);
+            min-width: 114px;
+        }
+
+        .desktop-time-tools {
+            display: grid;
+            grid-template-columns: minmax(120px, 1fr) 86px auto;
+            gap: 6px;
+            align-items: center;
+        }
+
+        .desktop-time-tools select,
+        .desktop-time-tools input {
+            width: 100%;
+            min-width: 0;
+            padding: 10px 9px;
+            border: 1px solid var(--line);
+            border-radius: 10px;
+            background: #fff;
+        }
+
+        .desktop-time-tools .time-add-button {
+            width: auto;
+            margin: 0;
+            white-space: nowrap;
+        }
+
+        .quick-add-button {
+            display: none;
+            color: #fff;
+            background: var(--accent);
+        }
+
+        .clock-grid {
+            flex: 1;
+            display: grid;
+            gap: 8px;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            align-content: stretch;
+        }
+
+        .clock-card {
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            text-align: left;
+            min-height: 190px;
+            padding: 10px;
+            border: 2px solid #91a4c0;
+            border-radius: 12px;
+            background: #fcfdff;
+            transition: transform 120ms ease, border-color 120ms ease, box-shadow 120ms ease;
+        }
+
+        .clock-card.active {
+            border-color: var(--accent2);
+            background: linear-gradient(180deg, #fff3e7, #ffe4c6);
+            box-shadow: 0 0 0 3px rgba(249, 115, 22, 0.27);
+            transform: translateY(-1px);
+        }
+
+        .clock-card.out {
+            opacity: 0.55;
+            background: #f1f5f9;
+        }
+
+        .card-head {
+            display: flex;
+            justify-content: space-between;
+            gap: 6px;
+            align-items: center;
+        }
+
+        .card-name {
+            font-weight: 800;
+            font-size: 0.95rem;
+            color: #24324a;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+
+        .card-order {
+            font-size: 0.74rem;
+            color: #64748b;
+        }
+
+        .card-faction {
+            font-size: 0.74rem;
+            color: #64748b;
+            margin-top: 2px;
+            display: block;
+        }
+
+        .card-time {
+            text-align: center;
+            font-size: clamp(2rem, 8.6vw, 4rem);
+            font-weight: 900;
+            color: #111827;
+        }
+
+        .card-hint {
+            font-size: 0.82rem;
+            color: #64748b;
+            text-align: center;
+        }
+
+        .drawer {
+            position: fixed;
+            inset: 0;
+            display: none;
+            z-index: 60;
+            background: rgba(7, 13, 24, 0.48);
+        }
+
+        .drawer.open {
+            display: block;
+        }
+
+        .drawer-card {
+            width: min(420px, 100%);
+            height: 100%;
+            margin-left: auto;
+            padding: 14px;
+            overflow: auto;
+            background: #f7fbff;
+            border-left: 1px solid #d5e2f3;
+            box-shadow: -16px 0 32px rgba(8, 15, 26, 0.25);
+        }
+
+        .drawer-head {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 8px;
+        }
+
+        .drawer-close {
+            width: 38px;
+            height: 38px;
+            border-radius: 50%;
+            border: 1px solid #c8d3e5;
+            background: #fff;
+            font-size: 1.2rem;
+        }
+
+        .time-tools {
+            padding: 12px;
+            margin-bottom: 14px;
+            border: 1px solid var(--line);
+            border-radius: 12px;
+            background: rgba(255, 255, 255, 0.7);
+        }
+
+        .time-tools h3,
+        .drawer-setup-section h3 {
+            margin: 0 0 9px;
+            font-size: 1rem;
+        }
+
+        .time-row {
+            display: grid;
+            grid-template-columns: minmax(0, 1fr) 92px;
+            gap: 8px;
+        }
+
+        .time-row select,
+        .time-row input {
+            width: 100%;
+            min-width: 0;
+            padding: 10px;
+            border: 1px solid var(--line);
+            border-radius: 9px;
+            background: #fff;
+        }
+
+        .time-add-button {
+            width: 100%;
+            margin-top: 8px;
+            color: #fff;
+            background: var(--accent);
+        }
+
+        .time-feedback {
+            min-height: 1.2em;
+            margin: 7px 0 0;
+            color: var(--muted);
+            font-size: 0.82rem;
+        }
+
+        .drawer-setup-section {
+            display: none;
+        }
+
+        .hidden {
+            display: none !important;
+        }
+
+        .mobile-view .app {
+            width: min(460px, 100%);
+        }
+
+        .mobile-view .layout {
+            grid-template-columns: 1fr;
+        }
+
+        .mobile-view .board {
+            min-height: 62vh;
+        }
+
+        .mobile-view .btn-menu {
+            display: block;
+        }
+
+        .mobile-view .desktop-time-tools {
+            display: none;
+        }
+
+        .mobile-running .quick-add-button {
+            display: block;
+        }
+
+        .mobile-running .app {
+            width: 100%;
+            padding: 6px 0 0;
+        }
+
+        .mobile-running .topbar {
+            border-radius: 0;
+            border-left: 0;
+            border-right: 0;
+        }
+
+        .mobile-running .layout {
+            grid-template-columns: 1fr;
+            margin-top: 0;
+        }
+
+        .mobile-running .setup {
+            display: none;
+        }
+
+        .mobile-running .drawer .setup {
+            display: flex;
+            border: 0;
+            border-radius: 0;
+            box-shadow: none;
+            background: transparent;
+        }
+
+        .mobile-running .drawer-setup-section {
+            display: block;
+        }
+
+        .mobile-running .board {
+            min-height: calc(100dvh - 74px);
+            border-radius: 0;
+            border-left: 0;
+            border-right: 0;
+            padding: 6px 4px 6px;
+        }
+
+        .mobile-running .playbar {
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 5px;
+        }
+
+        .mobile-running .playbar .status {
+            display: none;
+        }
+
+        .mobile-running .btn-control,
+        .mobile-running .btn-menu,
+        .mobile-running .quick-add-button {
+            min-width: 0;
+            width: 100%;
+            padding: 10px 4px;
+            border-radius: 10px;
+            font-size: 0.9rem;
+        }
+
+        .mobile-running .clock-grid {
+            gap: 5px;
+        }
+
+        .mobile-running .clock-card {
+            min-height: clamp(105px, calc((100dvh - 132px) / var(--clock-rows, 2)), 240px);
+            padding: 7px;
+            border-radius: 10px;
+        }
+
+        .mobile-running .card-time {
+            font-size: clamp(2.1rem, 11vw, 3.2rem);
+        }
+
+        .mobile-running .card-hint {
+            display: none;
+        }
+
+        .mobile-running.many-clocks .card-order,
+        .mobile-running.many-clocks .card-faction {
+            display: none;
+        }
+
+        .mobile-running.many-clocks .card-faction-logo {
+            width: 22px;
+            height: 22px;
+        }
+
+        .mobile-running.many-clocks .card-name {
+            font-size: 0.72rem;
+        }
+
+        .mobile-running.many-clocks .card-time {
+            font-size: clamp(1.45rem, 8vw, 2.35rem);
+        }
+
+        .mode-scythe {
+            --bg: #6f6d6c;
+            --bg2: #4a3a31;
+            --panel: rgba(224, 215, 199, 0.93);
+            --line: rgba(58, 44, 35, 0.2);
+            --text: #1d1713;
+            --muted: #5f5348;
+            --accent: #8b5e3c;
+            --accent2: #9b6b45;
+        }
+
+        .mode-scythe .topbar,
+        .mode-scythe .panel,
+        .mode-scythe .drawer-card {
+            background: linear-gradient(180deg, rgba(224, 215, 199, 0.96), rgba(197, 184, 165, 0.93));
+            border-color: rgba(255, 255, 255, 0.3);
+        }
+
+        .mode-scythe .btn-start,
+        .mode-scythe .btn-control {
+            background: linear-gradient(135deg, #9b6b45, #69442a);
+        }
+
+        .mode-scythe .btn-menu {
+            background: linear-gradient(135deg, #7b5a3d, #59402b);
+        }
+
+        .mode-scythe .clock-card {
+            background: color-mix(in srgb, var(--player-color) 10%, #efe6d8);
+            border-color: color-mix(in srgb, var(--player-color) 86%, #e4d2bd);
+            color: color-mix(in srgb, var(--player-color) 70%, #2d241d);
+        }
+
+        .mode-scythe .clock-card.active {
+            background: color-mix(in srgb, var(--player-color) 80%, #3a2d22);
+            color: #f4ecdf;
+            box-shadow: 0 0 0 3px rgba(42, 26, 14, 0.25);
+        }
+
+        .mode-scythe .clock-card.active .card-faction,
+        .mode-scythe .clock-card.active .card-order,
+        .mode-scythe .clock-card.active .card-hint,
+        .mode-scythe .clock-card.active .card-time {
+            color: inherit;
+        }
+
+        @media (max-width: 1024px) {
+            .layout {
+                grid-template-columns: 1fr;
+            }
+
+            .playbar {
+                grid-template-columns: 1fr auto;
+            }
+
+            .desktop-time-tools {
+                grid-column: 1 / -1;
+            }
+
+            .board {
+                min-height: 62vh;
+            }
+        }
+
+        @media (max-width: 580px) {
+            .app {
+                width: 100%;
+            }
+
+            .topbar {
+                border-radius: 0;
+                border-left: 0;
+                border-right: 0;
+            }
+
+            .panel {
+                border-radius: 0;
+                border-left: 0;
+                border-right: 0;
+            }
+
+            .clock-card {
+                min-height: 150px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div id="appRoot" class="app-root">
+        <div class="app">
+            <header class="topbar">
+                <h1>Vícehráčové herní hodiny</h1>
+                <button id="modeToggle" class="mode-toggle" type="button" aria-label="Přepnout desktop nebo mobilní rozhraní">
+                    <span id="modeIcon">📱</span>
+                    <span id="modeLabel">Mobil</span>
+                </button>
+            </header>
+
+            <main class="layout">
+                <section id="setupPanel" class="panel setup">
+                    <div class="field">
+                        <span>Režim</span>
+                        <select id="gameMode">
+                            <option value="generic">Obecný</option>
+                            <option value="scythe">Scythe</option>
+                        </select>
+                    </div>
+                    <div class="field">
+                        <span id="playerCountLabel">Počet hráčů (3-20)</span>
+                        <input id="playerCount" type="number" min="3" max="20" value="4">
+                    </div>
+                    <div class="field">
+                        <span>Čas na hráče (minuty)</span>
+                        <input id="startMinutes" type="number" min="1" value="10">
+                    </div>
+                    <div class="field">
+                        <span>Přídavek na tah (sekundy)</span>
+                        <input id="incrementSeconds" type="number" min="0" value="0">
+                    </div>
+
+                    <div>
+                        <span style="font-size:0.9rem;color:#5f6e83;font-weight:600;">Jména hráčů</span>
+                        <div id="playerList" class="player-list"></div>
+                    </div>
+
+                    <div class="actions">
+                        <button id="startButton" class="btn btn-start" type="button">Spustit</button>
+                        <button id="resetButton" class="btn btn-reset" type="button">Restart</button>
+                    </div>
+                </section>
+
+                <section class="panel board">
+                    <div class="playbar">
+                        <p id="statusText" class="status">Nastav hráče a spusť odpočet.</p>
+                        <button id="pauseButton" class="btn btn-control" type="button" disabled>PAUZA</button>
+                        <div class="desktop-time-tools" aria-label="Jednorázové přidání času">
+                            <select id="desktopTimePlayerSelect" aria-label="Hráč, kterému se přidá čas"></select>
+                            <input id="desktopTimeAmount" type="number" min="1" step="1" value="15" aria-label="Počet sekund">
+                            <button id="desktopAddTimeButton" class="btn time-add-button" type="button">Přidat sekundy</button>
+                        </div>
+                        <button id="menuButton" class="btn btn-menu" type="button">MENU</button>
+                        <button id="quickAddButton" class="btn quick-add-button" type="button">Přidat 15 sekund</button>
+                    </div>
+
+                    <div id="clockGrid" class="clock-grid"></div>
+                </section>
+            </main>
+        </div>
+
+        <aside id="drawer" class="drawer" aria-hidden="true">
+            <div class="drawer-card">
+                <div class="drawer-head">
+                    <h2 style="margin:0;font-size:1.12rem;">Menu</h2>
+                    <button id="closeDrawer" class="drawer-close" type="button" aria-label="Zavřít menu">×</button>
+                </div>
+                <section class="time-tools" aria-labelledby="timeToolsTitle">
+                    <h3 id="timeToolsTitle">Jednorázově přidat čas</h3>
+                    <div class="time-row">
+                        <select id="timePlayerSelect" aria-label="Hráč, kterému se přidá čas"></select>
+                        <input id="timeAmount" type="number" min="1" step="1" value="15" aria-label="Počet sekund">
+                    </div>
+                    <button id="addTimeButton" class="btn time-add-button" type="button">Přidat sekundy</button>
+                    <p id="timeFeedback" class="time-feedback" aria-live="polite"></p>
+                </section>
+                <section class="drawer-setup-section">
+                    <h3>Nastavení partie</h3>
+                    <div id="drawerSetupHost"></div>
+                </section>
+            </div>
+        </aside>
+    </div>
+
+    <script>
+        const STORAGE_KEY = "multiclock-unified-v2";
+        const playerColors = [
+            "#0f766e", "#f97316", "#2563eb", "#be123c", "#9333ea",
+            "#16a34a", "#0891b2", "#ca8a04", "#db2777", "#4f46e5",
+            "#15803d", "#c2410c", "#0369a1", "#a21caf", "#65a30d",
+            "#b91c1c", "#0e7490", "#7c3aed", "#a16207", "#047857"
+        ];
+        const scytheFactions = [
+            { id: "rusviet", name: "Rusviet", color: "#d62b24", mark: "RS" },
+            { id: "nordic", name: "Nordic", color: "#2f57b8", mark: "ND" },
+            { id: "crimea", name: "Crimea", color: "#e4ad00", mark: "CR" },
+            { id: "saxony", name: "Saxony", color: "#202020", mark: "SX" },
+            { id: "polania", name: "Polania", color: "#c83a32", mark: "PL" },
+            { id: "albion", name: "Albion", color: "#4f6d2a", mark: "AL" },
+            { id: "togawa", name: "Togawa", color: "#7a4db2", mark: "TG" },
+            { id: "vesna", name: "Vesna", color: "#35bdb9", mark: "VS" },
+            { id: "fenris", name: "Fenris", color: "#ef8218", mark: "FN" }
+        ];
+
+        const factionLogoShapes = {
+            rusviet: "<path d=\"M24 3l5.2 13.1 14.1.9-10.9 9 3.5 13.7L24 32 12.1 39.7 15.6 26 4.7 17l14.1-.9z\"/>",
+            nordic: "<path d=\"M18 4h12v8h6v9h-9v19h-6V21h-9v-9h6zm-3 10v5h18v-5z\"/>",
+            crimea: "<path d=\"M8 34c5-2 7-7 9-13l-5-5 8-1 5-8 4 8 9 3-6 6 5 12-10-6-8 9z\"/>",
+            saxony: "<path d=\"M8 10l10 5 6-10 6 10 10-5-3 20-13 12L11 30zm11 13l5 6 5-6-5-3z\"/>",
+            polania: "<path d=\"M13 19a5 5 0 1 0 0-10 5 5 0 0 0 0 10zm11-7a5 5 0 1 0 0-10 5 5 0 0 0 0 10zm11 7a5 5 0 1 0 0-10 5 5 0 0 0 0 10zM24 17c-8 0-14 8-14 16 0 7 6 10 14 6 8 4 14 1 14-6 0-8-6-16-14-16z\"/>",
+            albion: "<path d=\"M5 29c3-10 10-16 20-16l7-7 1 9c6 3 10 8 10 14l-8 1-4 10h-5l1-9H16l-2 9H9l1-11zm28-7a2 2 0 1 0 0 .1z\"/>",
+            togawa: "<path d=\"M24 5a9 9 0 0 1 8 13l8 5-8 5a9 9 0 0 1-16 0l-8-5 8-5A9 9 0 0 1 24 5zm0 6a3 3 0 1 0 0 6 3 3 0 0 0 0-6zm-9 12l6 4-3 7zm18 0l-3 11-3-7z\"/>",
+            vesna: "<path d=\"M6 8l12 7 6-10 6 10 12-7-5 25-13 10-13-10zm10 15l8 11 8-11-8 5z\"/>",
+            fenris: "<path d=\"M9 20C9 9 16 4 24 4s15 5 15 16c0 7-3 11-7 14v9h-5v-7h-6v7h-5v-9c-4-3-7-7-7-14zm8-2a4 4 0 1 0 0 8 4 4 0 0 0 0-8zm14 0a4 4 0 1 0 0 8 4 4 0 0 0 0-8zM24 27l-4 6h8z\"/>"
+        };
+
+        const state = {
+            gameMode: "generic",
+            playerCount: 4,
+            startMinutes: 10,
+            incrementSeconds: 0,
+            players: [],
+            activeIndex: 0,
+            running: false,
+            paused: true,
+            mobileView: false,
+            menuOpen: false,
+            quickAddSeconds: 15,
+            quickAddTargetId: null,
+            timerId: null,
+            lastTickAt: null
+        };
+
+        const ui = {
+            root: document.getElementById("appRoot"),
+            app: document.querySelector(".app"),
+            setupPanel: document.getElementById("setupPanel"),
+            gameMode: document.getElementById("gameMode"),
+            playerCount: document.getElementById("playerCount"),
+            playerCountLabel: document.getElementById("playerCountLabel"),
+            startMinutes: document.getElementById("startMinutes"),
+            incrementSeconds: document.getElementById("incrementSeconds"),
+            playerList: document.getElementById("playerList"),
+            startButton: document.getElementById("startButton"),
+            resetButton: document.getElementById("resetButton"),
+            pauseButton: document.getElementById("pauseButton"),
+            menuButton: document.getElementById("menuButton"),
+            quickAddButton: document.getElementById("quickAddButton"),
+            desktopTimePlayerSelect: document.getElementById("desktopTimePlayerSelect"),
+            desktopTimeAmount: document.getElementById("desktopTimeAmount"),
+            desktopAddTimeButton: document.getElementById("desktopAddTimeButton"),
+            closeDrawer: document.getElementById("closeDrawer"),
+            drawer: document.getElementById("drawer"),
+            drawerSetupHost: document.getElementById("drawerSetupHost"),
+            timePlayerSelect: document.getElementById("timePlayerSelect"),
+            timeAmount: document.getElementById("timeAmount"),
+            addTimeButton: document.getElementById("addTimeButton"),
+            timeFeedback: document.getElementById("timeFeedback"),
+            modeToggle: document.getElementById("modeToggle"),
+            modeLabel: document.getElementById("modeLabel"),
+            modeIcon: document.getElementById("modeIcon"),
+            statusText: document.getElementById("statusText"),
+            clockGrid: document.getElementById("clockGrid")
+        };
+
+        function clamp(value, min, max) {
+            return Math.max(min, Math.min(max, value));
+        }
+
+        function getFactionById(id) {
+            return scytheFactions.find((f) => f.id === id) ?? scytheFactions[0];
+        }
+
+        function getMaxPlayers(mode = state.gameMode) {
+            return mode === "scythe" ? 8 : 20;
+        }
+
+        function factionLogo(faction, className = "faction-logo") {
+            return "<svg class=\"" + className + "\" viewBox=\"0 0 48 48\" role=\"img\" aria-label=\"Logo "
+                + faction.name + "\">" + factionLogoShapes[faction.id] + "</svg>";
+        }
+
+        function syncPlayerLimit() {
+            const maxPlayers = getMaxPlayers();
+            ui.playerCount.max = String(maxPlayers);
+            ui.playerCountLabel.textContent = "Počet hráčů (3-" + maxPlayers + ")";
+        }
+
+        function createPlayer(index, existing = null) {
+            if (state.gameMode === "scythe") {
+                const faction = getFactionById(existing?.factionId ?? scytheFactions[index % scytheFactions.length].id);
+                return {
+                    id: existing?.id ?? crypto.randomUUID(),
+                    name: existing?.name ?? faction.name,
+                    seconds: Math.max(0, Number(existing?.seconds ?? state.startMinutes * 60)),
+                    out: Boolean(existing?.out),
+                    color: faction.color,
+                    factionId: faction.id
+                };
+            }
+
+            return {
+                id: existing?.id ?? crypto.randomUUID(),
+                name: existing?.name ?? "Hráč " + (index + 1),
+                seconds: Math.max(0, Number(existing?.seconds ?? state.startMinutes * 60)),
+                out: Boolean(existing?.out),
+                color: existing?.color ?? playerColors[index % playerColors.length],
+                factionId: null
+            };
+        }
+
+        function setPlayerFaction(player, faction) {
+            const previousFaction = player.factionId ? getFactionById(player.factionId) : null;
+            const hadAutomaticName = !player.name || (previousFaction && player.name === previousFaction.name);
+            player.factionId = faction.id;
+            player.color = faction.color;
+            if (hadAutomaticName) {
+                player.name = faction.name;
+            }
+        }
+
+        function sortPlayersByFaction(activePlayerId = state.players[state.activeIndex]?.id) {
+            state.players.sort((a, b) => {
+                const aOrder = scytheFactions.findIndex((f) => f.id === a.factionId);
+                const bOrder = scytheFactions.findIndex((f) => f.id === b.factionId);
+                return aOrder - bOrder;
+            });
+            const activePosition = state.players.findIndex((player) => player.id === activePlayerId);
+            state.activeIndex = activePosition >= 0 ? activePosition : 0;
+        }
+
+        function normalizeScythePlayers(activePlayerId = state.players[state.activeIndex]?.id) {
+            if (state.gameMode !== "scythe") {
+                return;
+            }
+
+            const used = new Set();
+            state.players.forEach((player) => {
+                let faction = scytheFactions.find((item) => item.id === player.factionId);
+                if (!faction || used.has(faction.id)) {
+                    faction = scytheFactions.find((item) => !used.has(item.id));
+                }
+                if (faction) {
+                    setPlayerFaction(player, faction);
+                    used.add(faction.id);
+                }
+            });
+            sortPlayersByFaction(activePlayerId);
+        }
+
+        function chooseFaction(playerId, factionId) {
+            const activePlayerId = state.players[state.activeIndex]?.id;
+            const player = state.players.find((item) => item.id === playerId);
+            const faction = scytheFactions.find((item) => item.id === factionId);
+            if (!player || !faction) {
+                return;
+            }
+
+            const previousOwner = state.players.find((item) => item.id !== playerId && item.factionId === factionId);
+            setPlayerFaction(player, faction);
+
+            if (previousOwner) {
+                const occupied = new Set(
+                    state.players
+                        .filter((item) => item.id !== previousOwner.id)
+                        .map((item) => item.factionId)
+                );
+                const replacement = scytheFactions.find((item) => !occupied.has(item.id));
+                if (replacement) {
+                    setPlayerFaction(previousOwner, replacement);
+                }
+            }
+
+            normalizeScythePlayers(activePlayerId);
+        }
+
+        function persistState() {
+            const payload = {
+                gameMode: state.gameMode,
+                playerCount: state.playerCount,
+                startMinutes: state.startMinutes,
+                incrementSeconds: state.incrementSeconds,
+                players: state.players,
+                activeIndex: state.activeIndex,
+                running: state.running,
+                paused: state.paused,
+                mobileView: state.mobileView,
+                menuOpen: state.menuOpen,
+                quickAddSeconds: state.quickAddSeconds,
+                quickAddTargetId: state.quickAddTargetId,
+                lastTickAt: state.running && !state.paused ? Date.now() : null
+            };
+            localStorage.setItem(STORAGE_KEY, JSON.stringify(payload));
+        }
+
+        function restoreState() {
+            const raw = localStorage.getItem(STORAGE_KEY);
+            if (!raw) {
+                return;
+            }
+
+            try {
+                const parsed = JSON.parse(raw);
+                state.gameMode = parsed.gameMode === "scythe" ? "scythe" : "generic";
+                state.playerCount = clamp(Number(parsed.playerCount) || 4, 3, getMaxPlayers(state.gameMode));
+                state.startMinutes = Math.max(1, Number(parsed.startMinutes) || 10);
+                state.incrementSeconds = Math.max(0, Number(parsed.incrementSeconds) || 0);
+                state.players = Array.from({ length: state.playerCount }, (_, i) => createPlayer(i, parsed.players?.[i] ?? null));
+                state.activeIndex = clamp(Number(parsed.activeIndex) || 0, 0, state.playerCount - 1);
+                state.running = Boolean(parsed.running);
+                state.paused = Boolean(parsed.paused);
+                state.mobileView = Boolean(parsed.mobileView);
+                state.menuOpen = Boolean(parsed.menuOpen);
+                state.quickAddSeconds = Math.max(1, Math.floor(Number(parsed.quickAddSeconds) || 15));
+                state.quickAddTargetId = typeof parsed.quickAddTargetId === "string" ? parsed.quickAddTargetId : null;
+                state.lastTickAt = typeof parsed.lastTickAt === "number" ? parsed.lastTickAt : null;
+                normalizeScythePlayers(state.players[state.activeIndex]?.id);
+                if (!state.players.some((player) => player.id === state.quickAddTargetId)) {
+                    state.quickAddTargetId = null;
+                }
+            } catch {
+                localStorage.removeItem(STORAGE_KEY);
+            }
+        }
+
+        function formatTime(totalSeconds) {
+            const safe = Math.max(0, totalSeconds);
+            const m = Math.floor(safe / 60);
+            const s = safe % 60;
+            return String(m) + ":" + String(s).padStart(2, "0");
+        }
+
+        function renderPlayerInputs() {
+            ui.playerList.innerHTML = "";
+            state.players.forEach((player, index) => {
+                const row = document.createElement("label");
+                const safeName = player.name.replace(/\"/g, "&quot;");
+                if (state.gameMode === "scythe") {
+                    const factionOptions = scytheFactions
+                        .map((f) => "<option value=\"" + f.id + "\"" + (f.id === player.factionId ? " selected" : "") + ">" + f.name + "</option>")
+                        .join("");
+                    const faction = getFactionById(player.factionId);
+                    row.className = "player-row player-row-scythe";
+                    row.innerHTML = "<span class=\"faction-badge\" style=\"--badge-color:" + player.color + "\">" + factionLogo(faction) + "</span>"
+                        + "<input type=\"text\" data-player-name=\"" + player.id + "\" value=\"" + safeName + "\">"
+                        + "<select data-player-faction=\"" + player.id + "\">" + factionOptions + "</select>";
+                } else {
+                    row.className = "player-row";
+                    row.innerHTML = "<strong>P" + (index + 1) + "</strong><input type=\"text\" data-player-name=\"" + player.id + "\" value=\"" + safeName + "\">";
+                }
+                ui.playerList.appendChild(row);
+            });
+        }
+
+        function renderClocks() {
+            ui.clockGrid.innerHTML = "";
+
+            state.players.forEach((player, index) => {
+                const card = document.createElement("button");
+                card.type = "button";
+                card.className = "clock-card" + (player.out ? " out" : "") + (index === state.activeIndex && !player.out ? " active" : "");
+                card.style.borderColor = player.color;
+                card.style.setProperty("--player-color", player.color);
+                if (index === state.activeIndex && !player.out) {
+                    card.style.boxShadow = "0 0 0 3px " + player.color + "55";
+                }
+
+                const faction = player.factionId ? getFactionById(player.factionId) : null;
+                const playerHeading = faction
+                    ? "<span class=\"card-faction-line\">" + factionLogo(faction, "faction-logo card-faction-logo")
+                        + "<span class=\"card-name\">" + player.name + "<span class=\"card-faction\">" + faction.name + "</span></span></span>"
+                    : "<span class=\"card-name\">" + player.name + "</span>";
+
+                card.innerHTML = [
+                    "<div class=\"card-head\">" + playerHeading + "<span class=\"card-order\">Tah " + (index + 1) + "</span></div>",
+                    "<div class=\"card-time\">" + formatTime(player.seconds) + "</div>",
+                    "<div class=\"card-hint\">" + (player.out ? "Čas vypršel" : "Klikni při předání tahu") + "</div>"
+                ].join("");
+
+                if (player.out) {
+                    card.disabled = true;
+                }
+
+                card.addEventListener("click", () => onClockTap(index));
+                ui.clockGrid.appendChild(card);
+            });
+
+            updateGridColumns();
+        }
+
+        function updateGridColumns() {
+            const count = state.playerCount;
+            const mobileRunning = state.mobileView && state.running;
+
+            if (mobileRunning) {
+                const columns = count <= 4 ? 2 : count <= 9 ? 3 : 4;
+                ui.clockGrid.style.gridTemplateColumns = "repeat(" + columns + ", minmax(0, 1fr))";
+                ui.clockGrid.style.setProperty("--clock-rows", String(Math.ceil(count / columns)));
+                return;
+            }
+
+            const columns = count === 3 ? 3 : Math.min(5, Math.ceil(Math.sqrt(count)));
+            ui.clockGrid.style.gridTemplateColumns = "repeat(" + columns + ", minmax(0, 1fr))";
+            ui.clockGrid.style.removeProperty("--clock-rows");
+        }
+
+        function remainingPlayers() {
+            return state.players.filter((p) => !p.out).length;
+        }
+
+        function nextActive() {
+            if (remainingPlayers() <= 1) {
+                state.paused = true;
+                stopTimer();
+                const winner = state.players.findIndex((p) => !p.out);
+                state.activeIndex = winner >= 0 ? winner : 0;
+                syncTimeControls();
+                return;
+            }
+
+            let next = state.activeIndex;
+            do {
+                next = (next + 1) % state.players.length;
+            } while (state.players[next].out);
+            state.activeIndex = next;
+            syncTimeControls();
+        }
+
+        function syncStatus() {
+            if (!state.running) {
+                ui.statusText.textContent = "Nastav hráče a spusť odpočet.";
+                ui.pauseButton.disabled = true;
+                ui.pauseButton.textContent = "PAUZA";
+                persistState();
+                return;
+            }
+
+            const active = state.players[state.activeIndex];
+            const alive = remainingPlayers();
+            if (alive <= 1) {
+                ui.pauseButton.disabled = true;
+                ui.statusText.textContent = active ? "Vítězí " + active.name + "." : "Konec hry.";
+                persistState();
+                return;
+            }
+
+            ui.pauseButton.disabled = false;
+            ui.pauseButton.textContent = state.paused ? "POKRAČOVAT" : "PAUZA";
+            ui.statusText.textContent = state.paused
+                ? "Pozastaveno. Na tahu: " + active.name
+                : "Na tahu: " + active.name + " (klikni na jeho dlaždici)";
+            persistState();
+        }
+
+        function stopTimer() {
+            if (state.timerId) {
+                clearInterval(state.timerId);
+                state.timerId = null;
+            }
+        }
+
+        function applyElapsedTime() {
+            if (!state.running || state.paused || !state.lastTickAt) {
+                return;
+            }
+
+            const elapsed = Math.floor((Date.now() - state.lastTickAt) / 1000);
+            if (elapsed <= 0) {
+                return;
+            }
+
+            let left = elapsed;
+            while (left > 0 && remainingPlayers() > 1) {
+                const active = state.players[state.activeIndex];
+                if (!active || active.out) {
+                    nextActive();
+                    continue;
+                }
+
+                if (active.seconds > left) {
+                    active.seconds -= left;
+                    left = 0;
+                } else {
+                    left -= active.seconds;
+                    active.seconds = 0;
+                    active.out = true;
+                    nextActive();
+                }
+            }
+
+            state.lastTickAt = Date.now();
+        }
+
+        function startTimer() {
+            stopTimer();
+            state.lastTickAt = Date.now();
+
+            state.timerId = setInterval(() => {
+                if (!state.running || state.paused) {
+                    return;
+                }
+
+                const active = state.players[state.activeIndex];
+                if (!active || active.out) {
+                    return;
+                }
+
+                active.seconds -= 1;
+                state.lastTickAt = Date.now();
+
+                if (active.seconds <= 0) {
+                    active.seconds = 0;
+                    active.out = true;
+                    nextActive();
+                }
+
+                renderClocks();
+                syncStatus();
+            }, 1000);
+        }
+
+        function onClockTap(index) {
+            if (!state.running || state.paused || index !== state.activeIndex) {
+                return;
+            }
+
+            const active = state.players[state.activeIndex];
+            if (!active || active.out) {
+                return;
+            }
+
+            active.seconds += state.incrementSeconds;
+            nextActive();
+            renderClocks();
+            syncStatus();
+        }
+
+        function syncLayout() {
+            const mobileRunning = state.mobileView && state.running;
+            if (!state.mobileView) {
+                state.menuOpen = false;
+            }
+            document.body.classList.toggle("mobile-view", state.mobileView);
+            document.body.classList.toggle("mobile-running", mobileRunning);
+            document.body.classList.toggle("many-clocks", state.playerCount > 9);
+            document.body.classList.toggle("mode-scythe", state.gameMode === "scythe");
+            ui.modeLabel.textContent = state.mobileView ? "Desktop" : "Mobil";
+            ui.modeIcon.textContent = state.mobileView ? "🖥️" : "📱";
+            ui.menuButton.textContent = state.menuOpen ? "ZAVŘÍT" : "MENU";
+            syncPlayerLimit();
+            syncTimeControls();
+
+            if (!mobileRunning) {
+                if (!ui.setupPanel.parentElement.classList.contains("layout")) {
+                    document.querySelector(".layout").insertBefore(ui.setupPanel, document.querySelector(".board"));
+                }
+                ui.setupPanel.classList.remove("hidden");
+            }
+
+            if (state.menuOpen) {
+                openDrawer();
+            } else {
+                closeDrawer();
+            }
+
+            renderClocks();
+            syncStatus();
+        }
+
+        function openDrawer() {
+            ui.drawer.classList.add("open");
+            ui.drawer.setAttribute("aria-hidden", "false");
+            populateTimeMenu();
+            if (state.mobileView && state.running && !ui.drawerSetupHost.contains(ui.setupPanel)) {
+                ui.drawerSetupHost.appendChild(ui.setupPanel);
+            }
+            ui.setupPanel.classList.remove("hidden");
+        }
+
+        function closeDrawer() {
+            ui.drawer.classList.remove("open");
+            ui.drawer.setAttribute("aria-hidden", "true");
+            if (ui.drawerSetupHost.contains(ui.setupPanel)) {
+                document.querySelector(".layout").insertBefore(ui.setupPanel, document.querySelector(".board"));
+            }
+        }
+
+        function rebuildPlayers() {
+            const activePlayerId = state.players[state.activeIndex]?.id;
+            const old = state.players.slice();
+            state.players = Array.from({ length: state.playerCount }, (_, i) => createPlayer(i, old[i] ?? null));
+            state.activeIndex = clamp(state.activeIndex, 0, state.playerCount - 1);
+            normalizeScythePlayers(activePlayerId);
+        }
+
+        function readSetupFromInputs() {
+            state.gameMode = ui.gameMode.value === "scythe" ? "scythe" : "generic";
+            state.playerCount = clamp(Number(ui.playerCount.value) || 4, 3, getMaxPlayers());
+            state.startMinutes = Math.max(1, Number(ui.startMinutes.value) || 10);
+            state.incrementSeconds = Math.max(0, Number(ui.incrementSeconds.value) || 0);
+            syncPlayerLimit();
+            ui.gameMode.value = state.gameMode;
+            ui.playerCount.value = String(state.playerCount);
+            ui.startMinutes.value = String(state.startMinutes);
+            ui.incrementSeconds.value = String(state.incrementSeconds);
+        }
+
+        function getQuickAddPlayer() {
+            return state.players.find((player) => player.id === state.quickAddTargetId)
+                ?? state.players[state.activeIndex]
+                ?? state.players[0]
+                ?? null;
+        }
+
+        function timeTargetOptions() {
+            const activePlayer = state.players[state.activeIndex];
+            const automaticLabel = activePlayer ? "Aktivní: " + activePlayer.name : "Aktivní hráč";
+            return "<option value=\"\">" + automaticLabel + " (automaticky)</option>"
+                + state.players
+                    .map((player) => "<option value=\"" + player.id + "\">" + player.name + "</option>")
+                    .join("");
+        }
+
+        function syncTimeControls(clearFeedback = false) {
+            if (state.quickAddTargetId && !state.players.some((player) => player.id === state.quickAddTargetId)) {
+                state.quickAddTargetId = null;
+            }
+            const options = timeTargetOptions();
+            const targetValue = state.quickAddTargetId ?? "";
+            [ui.timePlayerSelect, ui.desktopTimePlayerSelect].forEach((select) => {
+                select.innerHTML = options;
+                select.value = targetValue;
+            });
+            [ui.timeAmount, ui.desktopTimeAmount].forEach((input) => {
+                input.value = String(state.quickAddSeconds);
+            });
+            ui.quickAddButton.textContent = "Přidat " + state.quickAddSeconds + " sekund";
+            if (clearFeedback) {
+                ui.timeFeedback.textContent = "";
+            }
+        }
+
+        function populateTimeMenu() {
+            syncTimeControls(true);
+        }
+
+        function updateTimeConfiguration(targetId, seconds) {
+            state.quickAddTargetId = state.players.some((player) => player.id === targetId) ? targetId : null;
+            state.quickAddSeconds = Math.max(1, Math.floor(Number(seconds) || 15));
+            syncTimeControls();
+            persistState();
+        }
+
+        function addConfiguredTime(feedbackElement = null) {
+            const player = getQuickAddPlayer();
+            const seconds = state.quickAddSeconds;
+            if (!player) {
+                return;
+            }
+
+            player.seconds += seconds;
+            player.out = false;
+            if (feedbackElement) {
+                feedbackElement.textContent = player.name + ": přidáno " + seconds + " s.";
+            }
+            renderClocks();
+            syncStatus();
+        }
+
+        function addTimeFromMenu() {
+            updateTimeConfiguration(ui.timePlayerSelect.value, ui.timeAmount.value);
+            addConfiguredTime(ui.timeFeedback);
+        }
+
+        function addTimeFromDesktop() {
+            updateTimeConfiguration(ui.desktopTimePlayerSelect.value, ui.desktopTimeAmount.value);
+            addConfiguredTime();
+        }
+
+        function startGame() {
+            readSetupFromInputs();
+            rebuildPlayers();
+            state.players.forEach((p) => {
+                p.seconds = state.startMinutes * 60;
+                p.out = false;
+            });
+
+            state.activeIndex = 0;
+            state.running = true;
+            state.paused = false;
+            state.lastTickAt = Date.now();
+            state.menuOpen = false;
+
+            syncLayout();
+            startTimer();
+        }
+
+        function resetGame() {
+            const retainedMode = state.gameMode;
+            stopTimer();
+            state.playerCount = 4;
+            state.gameMode = retainedMode;
+            state.startMinutes = 10;
+            state.incrementSeconds = 0;
+            state.activeIndex = 0;
+            state.running = false;
+            state.paused = true;
+            state.menuOpen = false;
+            state.quickAddTargetId = null;
+            state.lastTickAt = null;
+            ui.gameMode.value = retainedMode;
+            ui.playerCount.value = "4";
+            ui.startMinutes.value = "10";
+            ui.incrementSeconds.value = "0";
+            rebuildPlayers();
+            state.players.forEach((player) => {
+                player.seconds = state.startMinutes * 60;
+                player.out = false;
+            });
+            renderPlayerInputs();
+            syncLayout();
+            persistState();
+        }
+
+        function bindEvents() {
+            ui.gameMode.addEventListener("change", () => {
+                readSetupFromInputs();
+                rebuildPlayers();
+                renderPlayerInputs();
+                renderClocks();
+                syncLayout();
+                persistState();
+            });
+
+            ui.playerCount.addEventListener("change", () => {
+                readSetupFromInputs();
+                rebuildPlayers();
+                renderPlayerInputs();
+                renderClocks();
+                syncTimeControls();
+                persistState();
+            });
+
+            ui.startMinutes.addEventListener("change", () => {
+                readSetupFromInputs();
+                persistState();
+            });
+
+            ui.incrementSeconds.addEventListener("change", () => {
+                readSetupFromInputs();
+                persistState();
+            });
+
+            ui.playerList.addEventListener("input", (event) => {
+                const target = event.target;
+                if (!(target instanceof HTMLInputElement)) {
+                    return;
+                }
+
+                const player = state.players.find((item) => item.id === target.dataset.playerName);
+                if (!player) {
+                    return;
+                }
+
+                const playerIndex = state.players.indexOf(player);
+                player.name = target.value.trim() || "Hráč " + (playerIndex + 1);
+                renderClocks();
+                syncTimeControls();
+                persistState();
+            });
+
+            ui.playerList.addEventListener("change", (event) => {
+                const target = event.target;
+                if (!(target instanceof HTMLSelectElement)) {
+                    return;
+                }
+
+                const playerId = target.dataset.playerFaction;
+                if (!playerId) {
+                    return;
+                }
+
+                chooseFaction(playerId, target.value);
+                renderPlayerInputs();
+                renderClocks();
+                syncTimeControls();
+                persistState();
+            });
+
+            ui.startButton.addEventListener("click", startGame);
+            ui.resetButton.addEventListener("click", resetGame);
+
+            ui.pauseButton.addEventListener("click", () => {
+                if (!state.running || remainingPlayers() <= 1) {
+                    return;
+                }
+
+                state.paused = !state.paused;
+                state.lastTickAt = state.paused ? null : Date.now();
+                if (!state.paused && !state.timerId) {
+                    startTimer();
+                }
+                syncStatus();
+            });
+
+            ui.menuButton.addEventListener("click", () => {
+                const opening = !state.menuOpen;
+                if (opening && state.running) {
+                    state.paused = true;
+                    state.lastTickAt = null;
+                }
+                state.menuOpen = opening;
+                syncLayout();
+                persistState();
+            });
+
+            ui.addTimeButton.addEventListener("click", addTimeFromMenu);
+            ui.desktopAddTimeButton.addEventListener("click", addTimeFromDesktop);
+            ui.quickAddButton.addEventListener("click", () => addConfiguredTime());
+
+            ui.timePlayerSelect.addEventListener("change", () => {
+                updateTimeConfiguration(ui.timePlayerSelect.value, ui.timeAmount.value);
+            });
+            ui.timeAmount.addEventListener("change", () => {
+                updateTimeConfiguration(ui.timePlayerSelect.value, ui.timeAmount.value);
+            });
+            ui.desktopTimePlayerSelect.addEventListener("change", () => {
+                updateTimeConfiguration(ui.desktopTimePlayerSelect.value, ui.desktopTimeAmount.value);
+            });
+            ui.desktopTimeAmount.addEventListener("change", () => {
+                updateTimeConfiguration(ui.desktopTimePlayerSelect.value, ui.desktopTimeAmount.value);
+            });
+
+            ui.closeDrawer.addEventListener("click", () => {
+                state.menuOpen = false;
+                syncLayout();
+                persistState();
+            });
+
+            ui.drawer.addEventListener("click", (event) => {
+                if (event.target === ui.drawer) {
+                    state.menuOpen = false;
+                    syncLayout();
+                    persistState();
+                }
+            });
+
+            ui.modeToggle.addEventListener("click", () => {
+                state.mobileView = !state.mobileView;
+                if (!state.mobileView) {
+                    state.menuOpen = false;
+                }
+                syncLayout();
+                persistState();
+            });
+        }
+
+        function init() {
+            restoreState();
+            if (!state.players.length) {
+                state.players = Array.from({ length: state.playerCount }, (_, i) => createPlayer(i));
+            } else {
+                rebuildPlayers();
+            }
+
+            ui.playerCount.value = String(state.playerCount);
+            ui.gameMode.value = state.gameMode;
+            ui.startMinutes.value = String(state.startMinutes);
+            ui.incrementSeconds.value = String(state.incrementSeconds);
+
+            applyElapsedTime();
+            renderPlayerInputs();
+            bindEvents();
+            syncLayout();
+
+            if (state.running && !state.paused) {
+                startTimer();
+            }
+        }
+
+        init();
+    </script>
+</body>
+</html>

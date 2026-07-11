@@ -1,0 +1,13 @@
+Udělej aplikaci, která bude sloužit jako taková obdoba šachových hodin ale pro více hráčů. Hráči se budou střídat v pořadí, v jakém budou seřazeny jejich bloky. Každý blok bude jedna časomíra, poběží vždy jedna a po kliknutí se tato zastaví a spustí se jiná. Každému bloku půjde v nastavení přidat barva rámečku označující lépe kdo je kdo. Hodiny budou mít tlačítko pro pozastavení času, které bude součástí bloku s hodinami. To se využije třeba při hře Scythe, aby se občas zastavil čas všem. Taky tam půjde při otevření nastavení přidat čas - menu, které se zeptá komu přidat čas a kolik, s výchozí hodnotou.
+
+Další požadavky:
+1. Kromě základního konstantního času chci přidat možnost nastavení přídavku na tah, který se připočte hráči ve chvíli, kdy předá svůj tah dalšímu hráči.
+2. Design má být uzpůsobený pro tablety, telefony i 4K monitory.
+3. Na velkých monitorech bude pořád vidět nastavení, ale prostor s hodinovými bloky bude přes většinu obrazovky.
+4. Na telefonu se po spuštění nastavovací menu schová, ale půjde se k němu zase dostat.
+5. Aplikace bude mít dva režimy:
+   - obecný režim nezávislý na konkrétní hře,
+   - režim pro Scythe.
+6. V režimu Scythe si pro každého hráče vyberu frakci.
+7. Režim Scythe bude mít vlastní barevnost a zobrazení frakčních znaků podle dodaných log.
+
