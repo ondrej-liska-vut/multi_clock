@@ -404,15 +404,14 @@ function rebuildPlayersPreservingData() {
 }
 
 function resetConfiguration() {
-    state.gameMode = "generic";
-    state.playerCount = 4;
-    state.startMinutes = 10;
-    state.incrementSeconds = 0;
-    elements.gameMode.value = "generic";
-    elements.playerCount.value = "4";
-    elements.startMinutes.value = "10";
-    elements.incrementSeconds.value = "0";
-    state.players = Array.from({ length: 4 }, (_, index) => createPlayer(index));
+    state.players.forEach((player) => {
+        player.seconds = state.startMinutes * 60;
+        player.out = false;
+    });
+    state.activeIndex = 0;
+    state.running = false;
+    state.paused = true;
+    state.lastTickAt = null;
     buildPlayerConfig();
     renderAddTimeOptions();
     buildLiveColorControls();

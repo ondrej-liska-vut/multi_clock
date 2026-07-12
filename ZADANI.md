@@ -30,7 +30,7 @@ Tento soubor je průběžné zadání aktivní verze aplikace v `multiClock.html
 
 ## Menu během hry
 
-- Restart hry provádí pouze tlačítko `Restart` a nemění zvolený herní režim.
+- Reset hry provádí pouze tlačítko `Reset` a nemění zvolený herní režim ani ostatní nastavení.
 - Na desktopu se tlačítko `MENU` nezobrazuje. Vedle pauzy/pokračování je přímo výběr hráče, počet sekund a tlačítko pro přidání času.
 - Na mobilu jsou během hry vedle sebe pauza/pokračování, `MENU` a rychlé tlačítko `Přidat 15 sekund`.
 - Výchozím cílem rychlého přidání je vždy právě aktivní hráč; po předání tahu se cíl automaticky změní.

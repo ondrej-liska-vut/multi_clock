@@ -749,7 +749,7 @@
 
                     <div class="actions">
                         <button id="startButton" class="btn btn-start" type="button">Vybrat za&#269;&#237;naj&#237;c&#237;ho</button>
-                        <button id="resetButton" class="btn btn-reset" type="button">Restart</button>
+                        <button id="resetButton" class="btn btn-reset" type="button">Reset</button>
                     </div>
                 </section>
 
@@ -1479,12 +1479,9 @@
         }
 
         function resetGame() {
-            const retainedMode = state.gameMode;
             stopTimer();
-            state.playerCount = 4;
-            state.gameMode = retainedMode;
-            state.startMinutes = 10;
-            state.incrementSeconds = 0;
+            readSetupFromInputs();
+            rebuildPlayers();
             state.activeIndex = 0;
             state.running = false;
             state.paused = true;
@@ -1492,11 +1489,6 @@
             state.menuOpen = false;
             state.quickAddTargetId = null;
             state.lastTickAt = null;
-            ui.gameMode.value = retainedMode;
-            ui.playerCount.value = "4";
-            ui.startMinutes.value = "10";
-            ui.incrementSeconds.value = "0";
-            rebuildPlayers();
             state.players.forEach((player) => {
                 player.seconds = state.startMinutes * 60;
                 player.out = false;
