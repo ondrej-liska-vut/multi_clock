@@ -1,4 +1,4 @@
-# Vícehráčové herní hodiny
+# Vícehráčové hodiny
 
 Tento soubor je průběžné zadání aktivní verze aplikace v `multiClock.html`.
 
@@ -25,9 +25,12 @@ Tento soubor je průběžné zadání aktivní verze aplikace v `multiClock.html
 - Jméno hráče se zadává do automaticky rostoucího víceřádkového pole. Krátké jméno zůstává na jednom řádku, dlouhé jméno s příjmením se zalomí a zobrazí celé; při změně šířky se výška znovu přepočítá.
 - Na desktopové herní dlaždici může jméno využít až tři řádky; v kompaktním běžícím mobilním režimu zůstává limit dvou řádků.
 - Ve dvousloupcovém Scythe nastavení zabírá jméno celý horní řádek a výběr frakce se šipkami je pod ním.
+- Výběr frakce je kompaktní: v jednosloupcovém Scythe editoru má přibližně 105 px a ve dvousloupcové variantě používá 60 % dostupné spodní řádky; uvolněná šířka připadá jménu hráče.
+- Ve dvousloupcovém seznamu je první polovina hráčů shora dolů v levém sloupci a druhá polovina shora dolů v pravém sloupci; při lichém počtu je první sloupec o jednoho hráče delší.
 - Mřížka hodin odvozuje počet sloupců od dostupné šířky i výšky a drží klikací dlaždice co nejblíže čtvercovému poměru při minimální cílové šířce přibližně 180 px.
 - Cílové rozložení 2560 × 1440 zobrazí všech 20 hráčů bez nutnosti posouvat celou stránku; scrollování nastavení zůstává pouze jako pojistka pro nízké viewporty.
 - Přidání nebo odebrání hráče okamžitě překreslí mřížku a přepne mezi úzkým a širokým layoutem bez obnovení stránky.
+- Všechna číselná pole používají vlastní velká tlačítka `▲/▼` přes celou pravou výšku pole. Fungují na desktopu, v mobilním menu i v pokročilém nastavení a respektují `min`, `max` a `step`.
 
 ## Herní režimy
 
@@ -82,7 +85,16 @@ Tento soubor je průběžné zadání aktivní verze aplikace v `multiClock.html
 - Výběr jazyka okamžitě překládá statické texty, dynamické stavové hlášky, dlaždice, tooltipy a nastavení; zvolený jazyk se ukládá a synchronizuje mezi všemi přepínači.
 - Výchozí jména hráčů se při změně jazyka přeloží, pokud odpovídají výchozí šabloně v kterémkoli podporovaném jazyce; ručně upravená jména se nikdy nepřepisují.
 - Překlad výchozích jmen funguje stejně v obecném režimu i ve Scythe.
+- Nový hráč ve Scythe používá překládané výchozí jméno hráče, nikoli název frakce; starší automatická jména podle frakce se při změně jazyka převedou na aktuální šablonu hráče.
 - Česká hlavní tlačítka používají texty `Spustit` a `Vynulovat čas`.
+
+## Indexace a SEO
+
+- Hlavička obsahuje indexační pravidla, lokalizovaný popis, Open Graph, Twitter metadata a tematická klíčová slova.
+- Strukturovaná data `SoftwareApplication` uvádějí všechny jazykové názvy, běžná synonyma a hlavní funkce aplikace.
+- Soubor `robots.txt` povoluje procházení celého webu.
+- Title, description, Open Graph locale a sociální metadata se mění společně s jazykem rozhraní.
+- Canonical URL a sitemap je nutné doplnit po přidělení veřejné produkční domény.
 
 ## Aktuální kolo
 

@@ -3,7 +3,58 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Vícehráčové herní hodiny</title>
+    <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1">
+    <meta name="description" content="Online vícehráčové hodiny a časomíra pro deskové hry. Měřte čas 3 až 20 hráčům, předávejte tahy a nastavte zvuky, přídavky i režim Scythe.">
+    <meta name="keywords" content="vícehráčové hodiny, vícehráčová časomíra, herní hodiny, časomíra pro deskové hry, šachové hodiny pro více hráčů, Tahomíra, multiplayer clock, multi player clock, multiclock, multi clock, multiplayer timer, turn timer, board game timer, six player chess clock, 6 player chess clock, Scythe clock, Scythe timer, Mehrspieler Uhr, reloj multijugador, horloge multijoueur, orologio multigiocatore, zegar wieloosobowy">
+    <meta name="theme-color" content="#0f1a2d">
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="Vícehráčové hodiny">
+    <meta property="og:description" content="Online časomíra pro deskové hry se samostatným časem až pro 20 hráčů, předáváním tahů, zvuky a režimem Scythe.">
+    <meta property="og:locale" content="cs_CZ">
+    <meta property="og:locale:alternate" content="en_US">
+    <meta property="og:locale:alternate" content="de_DE">
+    <meta property="og:locale:alternate" content="es_ES">
+    <meta property="og:locale:alternate" content="hu_HU">
+    <meta property="og:locale:alternate" content="uk_UA">
+    <meta property="og:locale:alternate" content="pl_PL">
+    <meta property="og:locale:alternate" content="it_IT">
+    <meta property="og:locale:alternate" content="fr_FR">
+    <meta property="og:locale:alternate" content="ru_RU">
+    <meta property="og:locale:alternate" content="bs_BA">
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:title" content="Vícehráčové hodiny">
+    <meta name="twitter:description" content="Online časomíra pro deskové hry až pro 20 hráčů.">
+    <title>Vícehráčové hodiny</title>
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "SoftwareApplication",
+      "name": "Vícehráčové hodiny",
+      "alternateName": [
+        "Multiplayer Clock", "Mehrspieler-Uhr", "Reloj multijugador", "Többjátékos óra",
+        "Багатокористувацький годинник", "Zegar wieloosobowy", "Orologio multigiocatore",
+        "Horloge multijoueur", "Многопользовательские часы", "Sat za više igrača",
+        "Tahomíra", "Vícehráčová časomíra", "Herní hodiny", "MultiClock", "Multi Clock",
+        "Multi Player Clock", "Multiplayer Timer", "Turn Timer", "Board Game Timer",
+        "Six Player Chess Clock", "6 Player Chess Clock", "Scythe Clock", "Scythe Timer"
+      ],
+      "description": "Online vícehráčové hodiny a časomíra pro deskové hry se samostatným časem až pro 20 hráčů.",
+      "applicationCategory": "GameApplication",
+      "applicationSubCategory": "Board Game Timer",
+      "operatingSystem": "Any",
+      "isAccessibleForFree": true,
+      "browserRequirements": "Requires JavaScript and a modern web browser",
+      "inLanguage": ["cs", "en", "de", "es", "hu", "uk", "pl", "it", "fr", "ru", "bs"],
+      "featureList": [
+        "Independent clocks for 3 to 20 players",
+        "Turn handoff and configurable time increment",
+        "Scythe faction mode",
+        "Desktop and mobile layouts",
+        "Configurable sound alerts",
+        "Eleven interface languages"
+      ]
+    }
+    </script>
     <style>
         :root {
             --bg: #1a2a43;
@@ -48,15 +99,72 @@
 
         input[type="number"] {
             min-height: 44px;
+            appearance: textfield;
         }
 
         input[type="number"]::-webkit-inner-spin-button,
         input[type="number"]::-webkit-outer-spin-button {
-            width: 34px;
-            height: 34px;
+            appearance: none;
             margin: 0;
-            opacity: 1;
-            cursor: pointer;
+        }
+
+        .number-stepper {
+            position: relative;
+            display: block;
+            width: 100%;
+            min-width: 0;
+        }
+
+        .number-stepper input[type="number"] {
+            width: 100%;
+            padding-right: 54px;
+        }
+
+        .number-stepper-controls {
+            position: absolute;
+            top: 1px;
+            right: 1px;
+            bottom: 1px;
+            display: grid;
+            width: 48px;
+            grid-template-rows: 1fr 1fr;
+            overflow: hidden;
+            border-left: 1px solid var(--line);
+            border-radius: 0 9px 9px 0;
+        }
+
+        .number-stepper-button {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-width: 0;
+            min-height: 0;
+            padding: 0;
+            border-radius: 0;
+            background: #edf2f8;
+            color: #263b55;
+            font-size: 1.18rem;
+            font-weight: 900;
+            line-height: 1;
+        }
+
+        .number-stepper-button + .number-stepper-button {
+            border-top: 1px solid var(--line);
+        }
+
+        .number-stepper-button:hover,
+        .number-stepper-button:focus-visible {
+            background: #cddbed;
+            color: #0f2942;
+        }
+
+        .number-stepper-button:active {
+            background: #b8cbe2;
+        }
+
+        .number-stepper-button:disabled {
+            cursor: default;
+            opacity: 0.38;
         }
 
         .app {
@@ -373,7 +481,7 @@
         }
 
         .player-row-scythe {
-            grid-template-columns: 58px minmax(0, 1fr) minmax(0, 1fr) auto;
+            grid-template-columns: 58px minmax(0, 1fr) 105px auto;
         }
 
         .order-controls {
@@ -1137,6 +1245,11 @@
                 grid-template-columns: repeat(2, minmax(340px, 1fr));
             }
 
+            body.setup-two-columns:not(.mobile-view) .player-row {
+                grid-column: var(--player-list-column);
+                grid-row: var(--player-list-row);
+            }
+
             body.setup-two-columns:not(.mobile-view) .player-row-scythe {
                 grid-template-columns: 48px minmax(0, 1fr) auto;
                 grid-template-rows: auto auto;
@@ -1155,7 +1268,9 @@
             body.setup-two-columns:not(.mobile-view) .player-row-scythe select {
                 grid-column: 2;
                 grid-row: 2;
+                width: 60%;
                 min-width: 0;
+                justify-self: start;
             }
 
             body.setup-two-columns:not(.mobile-view) .player-row-scythe .order-controls {
@@ -1279,7 +1394,7 @@
     <div id="appRoot" class="app-root">
         <div class="app">
             <header class="topbar">
-                <h1 data-i18n="app.title">Vícehráčové herní hodiny</h1>
+                <h1 data-i18n="app.title">Vícehráčové hodiny</h1>
                 <div class="topbar-actions">
                     <select id="languageSelect" class="language-select" aria-label="Jazyk rozhraní" title="Vybrat jazyk (funkce bude doplněna)">
                         <option value="cs">CZ</option>
@@ -1551,6 +1666,17 @@
         function applyStaticTranslations() {
             document.documentElement.lang = state.language;
             document.title = t("app.title");
+            const localizedDescription = t("app.description");
+            document.querySelector("meta[name=\"description\"]").content = localizedDescription;
+            document.querySelector("meta[property=\"og:title\"]").content = t("app.title");
+            document.querySelector("meta[property=\"og:description\"]").content = localizedDescription;
+            document.querySelector("meta[name=\"twitter:title\"]").content = t("app.title");
+            document.querySelector("meta[name=\"twitter:description\"]").content = localizedDescription;
+            const localeMap = {
+                cs: "cs_CZ", en: "en_US", de: "de_DE", es: "es_ES", hu: "hu_HU", uk: "uk_UA",
+                pl: "pl_PL", it: "it_IT", fr: "fr_FR", ru: "ru_RU", bs: "bs_BA"
+            };
+            document.querySelector("meta[property=\"og:locale\"]").content = localeMap[state.language];
             document.querySelectorAll("[data-i18n]").forEach((element) => {
                 element.textContent = t(element.dataset.i18n);
             });
@@ -1573,6 +1699,7 @@
             [ui.timePlayerSelect, ui.desktopTimePlayerSelect].forEach((select) => {
                 select.setAttribute("aria-label", t("accessibility.timeTarget"));
             });
+            syncNumberStepperLabels();
         }
 
         function setLanguage(language) {
@@ -1584,7 +1711,9 @@
                 const hasDefaultName = window.MULTICLOCK_TRANSLATIONS.meta.supportedLanguages.some((languageCode) =>
                     player.name === defaultNameEntry[languageCode].replace("{number}", String(index + 1))
                 );
-                if (hasDefaultName) {
+                const hasLegacyFactionName = state.gameMode === "scythe"
+                    && scytheFactions.some((faction) => player.name === faction.name);
+                if (hasDefaultName || hasLegacyFactionName) {
                     const nextName = window.MULTICLOCK_TRANSLATIONS.strings["setup.playerDefaultName"][language]
                         .replace("{number}", String(index + 1));
                     player.name = nextName;
@@ -1598,6 +1727,69 @@
             renderPlayerInputs();
             syncLayout();
             persistState();
+        }
+
+        function updateNumberStepper(wrapper) {
+            const input = wrapper.querySelector("input[type=\"number\"]");
+            const value = Number(input.value);
+            const min = input.min === "" ? -Infinity : Number(input.min);
+            const max = input.max === "" ? Infinity : Number(input.max);
+            wrapper.querySelector("[data-step-direction=\"up\"]").disabled = Number.isFinite(value) && value >= max;
+            wrapper.querySelector("[data-step-direction=\"down\"]").disabled = Number.isFinite(value) && value <= min;
+        }
+
+        function syncNumberSteppers() {
+            document.querySelectorAll(".number-stepper").forEach(updateNumberStepper);
+        }
+
+        function syncNumberStepperLabels() {
+            document.querySelectorAll("[data-step-direction=\"up\"]").forEach((button) => {
+                button.setAttribute("aria-label", t("accessibility.increaseValue"));
+                button.title = t("accessibility.increaseValue");
+            });
+            document.querySelectorAll("[data-step-direction=\"down\"]").forEach((button) => {
+                button.setAttribute("aria-label", t("accessibility.decreaseValue"));
+                button.title = t("accessibility.decreaseValue");
+            });
+        }
+
+        function enhanceNumberInputs() {
+            document.querySelectorAll("input[type=\"number\"]").forEach((input) => {
+                if (input.closest(".number-stepper")) {
+                    return;
+                }
+                const wrapper = document.createElement("span");
+                wrapper.className = "number-stepper";
+                input.parentNode.insertBefore(wrapper, input);
+                wrapper.appendChild(input);
+
+                const controls = document.createElement("span");
+                controls.className = "number-stepper-controls";
+                controls.innerHTML = [
+                    "<button class=\"number-stepper-button\" type=\"button\" data-step-direction=\"up\" aria-hidden=\"false\">▲</button>",
+                    "<button class=\"number-stepper-button\" type=\"button\" data-step-direction=\"down\" aria-hidden=\"false\">▼</button>"
+                ].join("");
+                wrapper.appendChild(controls);
+
+                controls.addEventListener("click", (event) => {
+                    const button = event.target.closest("[data-step-direction]");
+                    if (!(button instanceof HTMLButtonElement) || button.disabled) {
+                        return;
+                    }
+                    if (button.dataset.stepDirection === "up") {
+                        input.stepUp();
+                    } else {
+                        input.stepDown();
+                    }
+                    input.dispatchEvent(new Event("input", { bubbles: true }));
+                    input.dispatchEvent(new Event("change", { bubbles: true }));
+                    updateNumberStepper(wrapper);
+                });
+                input.addEventListener("input", () => updateNumberStepper(wrapper));
+                input.addEventListener("change", () => updateNumberStepper(wrapper));
+                updateNumberStepper(wrapper);
+            });
+            syncNumberStepperLabels();
         }
 
         function getAudioContext() {
@@ -1749,7 +1941,7 @@
                 const faction = getFactionById(existing?.factionId ?? scytheFactions[index % scytheFactions.length].id);
                 return {
                     id: existing?.id ?? crypto.randomUUID(),
-                    name: existing?.name ?? faction.name,
+                    name: existing?.name ?? t("setup.playerDefaultName", { number: index + 1 }),
                     seconds: Math.max(0, Number(existing?.seconds ?? state.startMinutes * 60)),
                     out: Boolean(existing?.out),
                     color: faction.color,
@@ -1946,6 +2138,11 @@
             ui.playerList.appendChild(orderHelp);
             state.players.forEach((player, index) => {
                 const row = document.createElement("div");
+                const firstColumnCount = Math.ceil(state.players.length / 2);
+                const playerColumn = index < firstColumnCount ? 1 : 2;
+                const playerRow = index < firstColumnCount ? index + 2 : index - firstColumnCount + 2;
+                row.style.setProperty("--player-list-column", String(playerColumn));
+                row.style.setProperty("--player-list-row", String(playerRow));
                 const safeName = escapeHtml(player.name);
                 if (state.gameMode === "scythe") {
                     const factionOptions = scytheFactions
@@ -2267,6 +2464,7 @@
             syncPlayerLimit();
             syncTimeControls();
             syncSoundControl();
+            syncNumberSteppers();
 
             if (!mobileRunning) {
                 if (!ui.setupPanel.parentElement.classList.contains("layout")) {
@@ -2775,6 +2973,7 @@
             ui.drawerLanguageSelect.value = state.language;
             ui.mobileInlineLanguage.value = state.language;
 
+            enhanceNumberInputs();
             applyElapsedTime();
             applyStaticTranslations();
             renderPlayerInputs();

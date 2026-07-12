@@ -17,17 +17,30 @@
   },
   "strings": {
     "app.title": {
-      "cs": "Vícehráčové herní hodiny",
-      "en": "Multiplayer Game Clock",
-      "de": "Mehrspieler-Spieluhr",
+      "cs": "Vícehráčové hodiny",
+      "en": "Multiplayer Clock",
+      "de": "Mehrspieler-Uhr",
       "es": "Reloj multijugador",
-      "hu": "Többjátékos játékóra",
-      "uk": "Багатокористувацький ігровий годинник",
-      "pl": "Zegar do gier wieloosobowych",
+      "hu": "Többjátékos óra",
+      "uk": "Багатокористувацький годинник",
+      "pl": "Zegar wieloosobowy",
       "it": "Orologio multigiocatore",
       "fr": "Horloge multijoueur",
-      "ru": "Многопользовательские игровые часы",
+      "ru": "Многопользовательские часы",
       "bs": "Sat za više igrača"
+    },
+    "app.description": {
+      "cs": "Online vícehráčové hodiny a časomíra pro deskové hry až pro 20 hráčů.",
+      "en": "Online multiplayer clock and board game timer for up to 20 players.",
+      "de": "Online-Mehrspieler-Uhr und Brettspiel-Timer für bis zu 20 Spieler.",
+      "es": "Reloj multijugador y temporizador para juegos de mesa de hasta 20 jugadores.",
+      "hu": "Online többjátékos óra és társasjáték-időzítő akár 20 játékos számára.",
+      "uk": "Онлайн-годинник і таймер для настільних ігор до 20 гравців.",
+      "pl": "Internetowy zegar wieloosobowy i minutnik do gier planszowych dla maksymalnie 20 graczy.",
+      "it": "Orologio multigiocatore online e timer per giochi da tavolo fino a 20 giocatori.",
+      "fr": "Horloge multijoueur en ligne et minuteur de jeu de société jusqu'à 20 joueurs.",
+      "ru": "Онлайн-часы и таймер для настольных игр до 20 игроков.",
+      "bs": "Online sat za više igrača i mjerač vremena za društvene igre do 20 igrača."
     },
     "language.czech": {
       "cs": "Čeština",
@@ -678,6 +691,32 @@
       "fr": "Langue de l'interface",
       "ru": "Язык интерфейса",
       "bs": "Jezik sučelja"
+    },
+    "accessibility.increaseValue": {
+      "cs": "Zvýšit hodnotu",
+      "en": "Increase value",
+      "de": "Wert erhöhen",
+      "es": "Aumentar valor",
+      "hu": "Érték növelése",
+      "uk": "Збільшити значення",
+      "pl": "Zwiększ wartość",
+      "it": "Aumenta valore",
+      "fr": "Augmenter la valeur",
+      "ru": "Увеличить значение",
+      "bs": "Povećaj vrijednost"
+    },
+    "accessibility.decreaseValue": {
+      "cs": "Snížit hodnotu",
+      "en": "Decrease value",
+      "de": "Wert verringern",
+      "es": "Disminuir valor",
+      "hu": "Érték csökkentése",
+      "uk": "Зменшити значення",
+      "pl": "Zmniejsz wartość",
+      "it": "Diminuisci valore",
+      "fr": "Diminuer la valeur",
+      "ru": "Уменьшить значение",
+      "bs": "Smanji vrijednost"
     },
     "accessibility.closeSettings": {
       "cs": "Zavřít nastavení",
