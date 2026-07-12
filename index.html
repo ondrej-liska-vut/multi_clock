@@ -25,6 +25,7 @@
         body {
             margin: 0;
             min-height: 100vh;
+            overflow-x: clip;
             font-family: "Segoe UI", Tahoma, sans-serif;
             color: var(--text);
             background:
@@ -279,7 +280,7 @@
             margin-top: 10px;
             display: grid;
             gap: 10px;
-            grid-template-columns: minmax(290px, 340px) minmax(0, 1fr);
+            grid-template-columns: minmax(360px, 420px) minmax(0, 1fr);
         }
 
         .panel {
@@ -355,11 +356,20 @@
             text-align: center;
         }
 
-        .player-row input {
+        .player-name-input {
+            width: 100%;
+            min-width: 0;
+            min-height: 38px;
+            max-height: 96px;
             padding: 8px 9px;
             border: 1px solid var(--line);
             border-radius: 8px;
-            min-width: 0;
+            background: #fff;
+            color: var(--text);
+            line-height: 1.25;
+            overflow-y: auto;
+            resize: none;
+            scrollbar-width: thin;
         }
 
         .player-row-scythe {
@@ -629,16 +639,20 @@
             display: flex;
             justify-content: space-between;
             gap: 6px;
-            align-items: center;
+            align-items: flex-start;
         }
 
         .card-name {
             font-weight: 800;
             font-size: 0.95rem;
             color: #24324a;
+            display: -webkit-box;
+            min-width: 0;
             overflow: hidden;
-            text-overflow: ellipsis;
-            white-space: nowrap;
+            line-height: 1.15;
+            overflow-wrap: anywhere;
+            -webkit-box-orient: vertical;
+            -webkit-line-clamp: 3;
         }
 
         .card-order {
@@ -993,6 +1007,10 @@
             display: none;
         }
 
+        .mobile-running .card-name {
+            -webkit-line-clamp: 2;
+        }
+
         .mobile-running.many-clocks .card-order,
         .mobile-running.many-clocks .card-faction {
             display: none;
@@ -1020,6 +1038,10 @@
             --muted: #5f5348;
             --accent: #8b5e3c;
             --accent2: #9b6b45;
+        }
+
+        body.mode-scythe:not(.mobile-view):not(.setup-two-columns) .layout {
+            grid-template-columns: minmax(480px, 520px) minmax(0, 1fr);
         }
 
         .mode-scythe .topbar,
@@ -1108,11 +1130,37 @@
 
         @media (min-width: 1025px) {
             body.setup-two-columns:not(.mobile-view) .layout {
-                grid-template-columns: minmax(650px, 42vw) minmax(0, 1fr);
+                grid-template-columns: minmax(760px, 46vw) minmax(0, 1fr);
             }
 
             body.setup-two-columns:not(.mobile-view) .player-list {
-                grid-template-columns: repeat(2, minmax(280px, 1fr));
+                grid-template-columns: repeat(2, minmax(340px, 1fr));
+            }
+
+            body.setup-two-columns:not(.mobile-view) .player-row-scythe {
+                grid-template-columns: 48px minmax(0, 1fr) auto;
+                grid-template-rows: auto auto;
+            }
+
+            body.setup-two-columns:not(.mobile-view) .player-row-scythe .faction-badge {
+                grid-column: 1;
+                grid-row: 1 / 3;
+            }
+
+            body.setup-two-columns:not(.mobile-view) .player-row-scythe .player-name-input {
+                grid-column: 2 / 4;
+                grid-row: 1;
+            }
+
+            body.setup-two-columns:not(.mobile-view) .player-row-scythe select {
+                grid-column: 2;
+                grid-row: 2;
+                min-width: 0;
+            }
+
+            body.setup-two-columns:not(.mobile-view) .player-row-scythe .order-controls {
+                grid-column: 3;
+                grid-row: 2;
             }
 
             body.setup-two-columns:not(.mobile-view) .playbar {
@@ -1137,7 +1185,7 @@
             }
 
             body.setup-two-columns:not(.mobile-view) .layout {
-                grid-template-columns: minmax(650px, 38vw) minmax(0, 1fr);
+                grid-template-columns: minmax(760px, 42vw) minmax(0, 1fr);
                 height: calc(100dvh - 92px);
                 min-height: 760px;
             }
@@ -1153,7 +1201,7 @@
             }
 
             body.setup-two-columns:not(.mobile-view) .player-list {
-                grid-template-columns: repeat(2, minmax(280px, 1fr));
+                grid-template-columns: repeat(2, minmax(340px, 1fr));
             }
 
             body.setup-two-columns:not(.mobile-view) .clock-grid {
@@ -1179,7 +1227,7 @@
             }
 
             body.setup-two-columns:not(.mobile-view) .player-list {
-                grid-template-columns: repeat(2, minmax(280px, 1fr));
+                grid-template-columns: repeat(2, minmax(340px, 1fr));
             }
         }
 
@@ -1536,7 +1584,7 @@
                 const hasDefaultName = window.MULTICLOCK_TRANSLATIONS.meta.supportedLanguages.some((languageCode) =>
                     player.name === defaultNameEntry[languageCode].replace("{number}", String(index + 1))
                 );
-                if (state.gameMode !== "scythe" && hasDefaultName) {
+                if (hasDefaultName) {
                     const nextName = window.MULTICLOCK_TRANSLATIONS.strings["setup.playerDefaultName"][language]
                         .replace("{number}", String(index + 1));
                     player.name = nextName;
@@ -1864,6 +1912,21 @@
             return String(m) + ":" + String(s).padStart(2, "0");
         }
 
+        function escapeHtml(value) {
+            return String(value)
+                .replaceAll("&", "&amp;")
+                .replaceAll("<", "&lt;")
+                .replaceAll(">", "&gt;")
+                .replaceAll('"', "&quot;");
+        }
+
+        function resizePlayerNameField(field) {
+            field.style.height = "auto";
+            const contentHeight = field.scrollHeight;
+            field.style.height = Math.min(contentHeight, 96) + "px";
+            field.style.overflowY = contentHeight > 96 ? "auto" : "hidden";
+        }
+
         function orderControls(player, index) {
             return "<div class=\"order-controls\" aria-label=\"" + t("accessibility.playerOrder") + "\">"
                 + "<button class=\"order-button\" type=\"button\" data-move-player=\"" + player.id
@@ -1883,7 +1946,7 @@
             ui.playerList.appendChild(orderHelp);
             state.players.forEach((player, index) => {
                 const row = document.createElement("div");
-                const safeName = player.name.replace(/\"/g, "&quot;");
+                const safeName = escapeHtml(player.name);
                 if (state.gameMode === "scythe") {
                     const factionOptions = scytheFactions
                         .map((f) => "<option value=\"" + f.id + "\"" + (f.id === player.factionId ? " selected" : "") + ">" + f.name + "</option>")
@@ -1891,15 +1954,16 @@
                     const faction = getFactionById(player.factionId);
                     row.className = "player-row player-row-scythe";
                     row.innerHTML = "<span class=\"faction-badge\" style=\"--badge-color:" + player.color + "\">" + factionLogo(faction) + "</span>"
-                        + "<input type=\"text\" data-player-name=\"" + player.id + "\" value=\"" + safeName + "\">"
+                        + "<textarea class=\"player-name-input\" rows=\"1\" data-player-name=\"" + player.id + "\">" + safeName + "</textarea>"
                         + "<select data-player-faction=\"" + player.id + "\">" + factionOptions + "</select>"
                         + orderControls(player, index);
                 } else {
                     row.className = "player-row";
-                    row.innerHTML = "<strong>P" + (index + 1) + "</strong><input type=\"text\" data-player-name=\"" + player.id + "\" value=\"" + safeName + "\">"
+                    row.innerHTML = "<strong>P" + (index + 1) + "</strong><textarea class=\"player-name-input\" rows=\"1\" data-player-name=\"" + player.id + "\">" + safeName + "</textarea>"
                         + orderControls(player, index);
                 }
                 ui.playerList.appendChild(row);
+                resizePlayerNameField(row.querySelector(".player-name-input"));
             });
         }
 
@@ -1923,8 +1987,8 @@
                 const faction = player.factionId ? getFactionById(player.factionId) : null;
                 const playerHeading = faction
                     ? "<span class=\"card-faction-line\">" + factionLogo(faction, "faction-logo card-faction-logo")
-                        + "<span class=\"card-name\">" + player.name + "<span class=\"card-faction\">" + faction.name + "</span></span></span>"
-                    : "<span class=\"card-name\">" + player.name + "</span>";
+                        + "<span class=\"card-name\">" + escapeHtml(player.name) + "<span class=\"card-faction\">" + faction.name + "</span></span></span>"
+                    : "<span class=\"card-name\">" + escapeHtml(player.name) + "</span>";
 
                 card.innerHTML = [
                     "<div class=\"card-head\">" + playerHeading + "<span class=\"card-order\">" + t("clock.turnNumber", { number: index + 1 }) + "</span></div>",
@@ -2005,6 +2069,7 @@
                     document.body.classList.toggle("setup-two-columns", ui.setupPanel.scrollHeight > availableHeight);
                 }
 
+                document.querySelectorAll(".player-name-input").forEach(resizePlayerNameField);
                 updateGridColumns();
             });
         }
@@ -2512,7 +2577,7 @@
 
             ui.playerList.addEventListener("input", (event) => {
                 const target = event.target;
-                if (!(target instanceof HTMLInputElement)) {
+                if (!(target instanceof HTMLTextAreaElement)) {
                     return;
                 }
 
@@ -2522,7 +2587,8 @@
                 }
 
                 const playerIndex = state.players.indexOf(player);
-                player.name = target.value.trim() || "Hráč " + (playerIndex + 1);
+                player.name = target.value.trim() || t("setup.playerDefaultName", { number: playerIndex + 1 });
+                resizePlayerNameField(target);
                 renderClocks();
                 syncTimeControls();
                 persistState();

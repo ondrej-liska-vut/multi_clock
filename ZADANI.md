@@ -21,6 +21,10 @@ Tento soubor je průběžné zadání aktivní verze aplikace v `multiClock.html
 - Jazyk, zvuk, pokročilé nastavení a návrat na desktop jsou v běžícím mobilním režimu přesunuty do prvního řádku vysouvacího menu.
 - Desktop nejprve použije úzké jednosloupcové nastavení hráčů. Pokud by přeteklo výšku viewportu a viewport má alespoň 1500 px, rozšíří panel a přepne jména do dvou sloupců; na užším displeji zůstane jeden sloupec.
 - Přepnutí mezi jedním a dvěma sloupci se po změně počtu hráčů nebo velikosti okna znovu automaticky vyhodnotí; tři sloupce se nepoužívají.
+- Základní desktopový panel nastavení má až 420 px, v režimu Scythe až 520 px, aby vedle jména zbylo místo také pro frakci a pořadí.
+- Jméno hráče se zadává do automaticky rostoucího víceřádkového pole. Krátké jméno zůstává na jednom řádku, dlouhé jméno s příjmením se zalomí a zobrazí celé; při změně šířky se výška znovu přepočítá.
+- Na desktopové herní dlaždici může jméno využít až tři řádky; v kompaktním běžícím mobilním režimu zůstává limit dvou řádků.
+- Ve dvousloupcovém Scythe nastavení zabírá jméno celý horní řádek a výběr frakce se šipkami je pod ním.
 - Mřížka hodin odvozuje počet sloupců od dostupné šířky i výšky a drží klikací dlaždice co nejblíže čtvercovému poměru při minimální cílové šířce přibližně 180 px.
 - Cílové rozložení 2560 × 1440 zobrazí všech 20 hráčů bez nutnosti posouvat celou stránku; scrollování nastavení zůstává pouze jako pojistka pro nízké viewporty.
 - Přidání nebo odebrání hráče okamžitě překreslí mřížku a přepne mezi úzkým a širokým layoutem bez obnovení stránky.
@@ -77,6 +81,7 @@ Tento soubor je průběžné zadání aktivní verze aplikace v `multiClock.html
 - Pravidla pro údržbu a přidávání překladů jsou popsaná v `resources/README.md`.
 - Výběr jazyka okamžitě překládá statické texty, dynamické stavové hlášky, dlaždice, tooltipy a nastavení; zvolený jazyk se ukládá a synchronizuje mezi všemi přepínači.
 - Výchozí jména hráčů se při změně jazyka přeloží, pokud odpovídají výchozí šabloně v kterémkoli podporovaném jazyce; ručně upravená jména se nikdy nepřepisují.
+- Překlad výchozích jmen funguje stejně v obecném režimu i ve Scythe.
 - Česká hlavní tlačítka používají texty `Spustit` a `Vynulovat čas`.
 
 ## Aktuální kolo
