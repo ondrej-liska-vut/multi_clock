@@ -46,36 +46,182 @@
         }
 
         .app {
-            width: min(1320px, calc(100% - 24px));
+            width: min(1320px, calc(100% - 40px));
             margin: 0 auto;
-            padding: 12px 0 16px;
+            padding: 0 0 24px;
         }
 
         .topbar {
             display: flex;
             align-items: center;
             justify-content: space-between;
-            gap: 12px;
-            padding: 12px 14px;
-            border-radius: 16px;
-            background: rgba(236, 243, 253, 0.92);
-            border: 1px solid rgba(255, 255, 255, 0.5);
-            box-shadow: var(--shadow);
+            gap: 24px;
+            min-height: 72px;
+            padding: 14px max(20px, calc((100vw - 1320px) / 2));
+            margin-left: calc(50% - 50vw);
+            margin-right: calc(50% - 50vw);
+            background: rgba(9, 23, 43, 0.96);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.14);
+            box-shadow: 0 10px 30px rgba(5, 13, 27, 0.3);
+            color: #f8fafc;
         }
 
         .topbar h1 {
             margin: 0;
             font-size: clamp(1.05rem, 2.8vw, 1.5rem);
+            font-family: Georgia, "Times New Roman", serif;
+            font-weight: 700;
+            letter-spacing: 0.035em;
+            text-shadow: 0 2px 14px rgba(0, 0, 0, 0.24);
+        }
+
+        .topbar-actions {
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+
+        .language-select,
+        .header-control {
+            min-height: 42px;
+            border: 0;
+            background: transparent;
+            color: #f8fafc;
+            transition: background-color 160ms ease, opacity 160ms ease, transform 160ms ease;
+        }
+
+        .language-select {
+            width: 64px;
+            border-radius: 9px;
+            padding: 0 22px 0 9px;
+            font-weight: 750;
+            cursor: pointer;
+        }
+
+        .language-select option {
+            color: #172033;
+        }
+
+        .header-control {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 42px;
+            padding: 0;
+            border-radius: 9px;
+            font-size: 1.15rem;
+        }
+
+        .header-control:hover,
+        .language-select:hover {
+            background: rgba(0, 0, 0, 0.28);
+        }
+
+        .header-control:active {
+            transform: translateY(1px);
+            background: rgba(0, 0, 0, 0.4);
+        }
+
+        .header-control:focus-visible,
+        .language-select:focus-visible {
+            outline: 2px solid rgba(255, 255, 255, 0.82);
+            outline-offset: 2px;
+        }
+
+        .sound-toggle[aria-pressed="false"] {
+            opacity: 0.68;
+        }
+
+        .settings-toggle {
+            font-size: 1.25rem;
+        }
+
+        .settings-dialog {
+            width: min(520px, calc(100% - 28px));
+            max-height: calc(100dvh - 40px);
+            padding: 0;
+            border: 1px solid rgba(255, 255, 255, 0.42);
+            border-radius: 18px;
+            background: #eef3f9;
+            color: var(--text);
+            box-shadow: 0 28px 80px rgba(4, 12, 27, 0.48);
+        }
+
+        .settings-dialog::backdrop {
+            background: rgba(5, 12, 24, 0.7);
+            backdrop-filter: blur(5px);
+        }
+
+        .settings-card {
+            padding: 22px;
+        }
+
+        .settings-head {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 16px;
+            padding-bottom: 16px;
+            border-bottom: 1px solid var(--line);
+        }
+
+        .settings-head h2,
+        .settings-section h3 {
+            margin: 0;
+            font-family: Georgia, "Times New Roman", serif;
+        }
+
+        .settings-close {
+            width: 40px;
+            height: 40px;
+            background: #dbe4ef;
+            color: var(--text);
+            font-size: 1.35rem;
+        }
+
+        .settings-section {
+            padding-top: 18px;
+        }
+
+        .settings-section-intro,
+        .future-settings {
+            color: var(--muted);
+            font-size: 0.9rem;
+        }
+
+        .sound-options {
+            display: grid;
+            gap: 10px;
+            margin-top: 14px;
+        }
+
+        .sound-option {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 18px;
+            padding: 12px 14px;
+            border: 1px solid var(--line);
+            border-radius: 12px;
+            background: rgba(255, 255, 255, 0.72);
+            font-weight: 650;
+        }
+
+        .sound-option input {
+            width: 20px;
+            height: 20px;
+            accent-color: var(--accent);
+        }
+
+        .future-settings {
+            margin: 18px 0 0;
+            padding: 12px 14px;
+            border: 1px dashed var(--line);
+            border-radius: 12px;
         }
 
         .mode-toggle {
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-            padding: 10px 12px;
-            color: #0f2942;
-            border: 1px solid var(--line);
-            background: #fff;
+            color: #f8fafc;
         }
 
         .layout {
@@ -636,6 +782,33 @@
             border-color: rgba(255, 255, 255, 0.3);
         }
 
+        .mode-scythe .topbar {
+            background:
+                linear-gradient(90deg, rgba(42, 30, 22, 0.98), rgba(91, 65, 45, 0.96)),
+                repeating-linear-gradient(90deg, transparent 0 42px, rgba(255, 255, 255, 0.025) 42px 43px);
+            color: #f4ecdf;
+            border-bottom-color: rgba(216, 184, 136, 0.35);
+        }
+
+        .mode-scythe .topbar h1 {
+            color: #f0dfc1;
+            letter-spacing: 0.055em;
+        }
+
+        .mode-scythe .topbar .header-control,
+        .mode-scythe .topbar .language-select {
+            color: #f4ecdf;
+        }
+
+        .mode-scythe .topbar .header-control:hover,
+        .mode-scythe .topbar .language-select:hover {
+            background: rgba(15, 8, 4, 0.34);
+        }
+
+        .mode-scythe .settings-dialog {
+            background: linear-gradient(180deg, #e7ddcc, #cfc0aa);
+        }
+
         .mode-scythe .btn-start,
         .mode-scythe .btn-control {
             background: linear-gradient(135deg, #9b6b45, #69442a);
@@ -692,9 +865,26 @@
             }
 
             .topbar {
-                border-radius: 0;
-                border-left: 0;
-                border-right: 0;
+                padding: 10px 12px;
+                gap: 10px;
+                flex-wrap: wrap;
+            }
+
+            .topbar h1 {
+                flex: 1 0 100%;
+            }
+
+            .topbar-actions {
+                width: 100%;
+            }
+
+            .header-control,
+            .language-select {
+                flex: 0 0 42px;
+            }
+
+            .language-select {
+                flex-basis: 64px;
             }
 
             .panel {
@@ -714,11 +904,45 @@
         <div class="app">
             <header class="topbar">
                 <h1>Vícehráčové herní hodiny</h1>
-                <button id="modeToggle" class="mode-toggle" type="button" aria-label="Přepnout desktop nebo mobilní rozhraní">
-                    <span id="modeIcon">📱</span>
-                    <span id="modeLabel">Mobil</span>
-                </button>
+                <div class="topbar-actions">
+                    <select id="languageSelect" class="language-select" aria-label="Jazyk rozhraní" title="Vybrat jazyk (funkce bude doplněna)">
+                        <option value="cs">CZ</option>
+                        <option value="en">EN</option>
+                        <option value="de">DE</option>
+                    </select>
+                    <button id="soundToggle" class="header-control sound-toggle" type="button" aria-pressed="true" aria-label="Vypnout zvuk" title="Vypnout zvuk">
+                        <span id="soundIcon" aria-hidden="true">🔊</span>
+                    </button>
+                    <button id="settingsToggle" class="header-control settings-toggle" type="button" aria-label="Otevřít pokročilé nastavení" title="Nastavení">
+                        <span aria-hidden="true">⚙</span>
+                    </button>
+                    <button id="modeToggle" class="mode-toggle header-control" type="button" aria-label="Přepnout na mobilní zobrazení" title="Mobilní zobrazení">
+                        <span id="modeIcon">📱</span>
+                    </button>
+                </div>
             </header>
+
+            <dialog id="settingsDialog" class="settings-dialog" aria-labelledby="settingsTitle">
+                <div class="settings-card">
+                    <div class="settings-head">
+                        <h2 id="settingsTitle">Pokročilé nastavení</h2>
+                        <button id="settingsClose" class="settings-close" type="button" aria-label="Zavřít nastavení">×</button>
+                    </div>
+                    <section class="settings-section" aria-labelledby="soundSettingsTitle">
+                        <h3 id="soundSettingsTitle">Nastavení zvuku</h3>
+                        <p class="settings-section-intro">Vyber, které zvukové události mají být během hry slyšet.</p>
+                        <div class="sound-options">
+                            <label class="sound-option"><span>Tikání běžících hodin</span><input type="checkbox" data-sound-setting="ticking"></label>
+                            <label class="sound-option"><span>Začátek hry</span><input type="checkbox" data-sound-setting="start" checked></label>
+                            <label class="sound-option"><span>Předání tahu</span><input type="checkbox" data-sound-setting="move" checked></label>
+                            <label class="sound-option"><span>Blížící se konec času</span><input type="checkbox" data-sound-setting="warning" checked></label>
+                            <label class="sound-option"><span>Odpočet posledních 10 sekund</span><input type="checkbox" data-sound-setting="countdown" checked></label>
+                            <label class="sound-option"><span>Vypršení času</span><input type="checkbox" data-sound-setting="timeout" checked></label>
+                        </div>
+                    </section>
+                    <p class="future-settings">Přizpůsobení barev připravujeme pro některou z dalších verzí.</p>
+                </div>
+            </dialog>
 
             <main class="layout">
                 <section id="setupPanel" class="panel setup">
@@ -748,7 +972,7 @@
                     </div>
 
                     <div class="actions">
-                        <button id="startButton" class="btn btn-start" type="button">Vybrat za&#269;&#237;naj&#237;c&#237;ho</button>
+                        <button id="startButton" class="btn btn-start" type="button">Start</button>
                         <button id="resetButton" class="btn btn-reset" type="button">Reset</button>
                     </div>
                 </section>
@@ -840,8 +1064,18 @@
             quickAddSeconds: 15,
             quickAddTargetId: null,
             selectingFirstPlayer: false,
+            soundEnabled: true,
+            soundSettings: {
+                ticking: false,
+                start: true,
+                move: true,
+                warning: true,
+                countdown: true,
+                timeout: true
+            },
             timerId: null,
-            lastTickAt: null
+            lastTickAt: null,
+            audioContext: null
         };
 
         const ui = {
@@ -870,14 +1104,139 @@
             addTimeButton: document.getElementById("addTimeButton"),
             timeFeedback: document.getElementById("timeFeedback"),
             modeToggle: document.getElementById("modeToggle"),
-            modeLabel: document.getElementById("modeLabel"),
             modeIcon: document.getElementById("modeIcon"),
+            languageSelect: document.getElementById("languageSelect"),
+            soundToggle: document.getElementById("soundToggle"),
+            soundIcon: document.getElementById("soundIcon"),
+            settingsToggle: document.getElementById("settingsToggle"),
+            settingsDialog: document.getElementById("settingsDialog"),
+            settingsClose: document.getElementById("settingsClose"),
+            soundSettingInputs: document.querySelectorAll("[data-sound-setting]"),
             statusText: document.getElementById("statusText"),
             clockGrid: document.getElementById("clockGrid")
         };
 
         function clamp(value, min, max) {
             return Math.max(min, Math.min(max, value));
+        }
+
+        function getAudioContext() {
+            if (!state.soundEnabled) {
+                return null;
+            }
+            if (!state.audioContext) {
+                const AudioContextClass = window.AudioContext || window.webkitAudioContext;
+                if (!AudioContextClass) {
+                    return null;
+                }
+                state.audioContext = new AudioContextClass();
+            }
+            if (state.audioContext.state === "suspended") {
+                state.audioContext.resume();
+            }
+            return state.audioContext;
+        }
+
+        function isSoundEnabled(type) {
+            return state.soundEnabled && state.soundSettings[type] !== false;
+        }
+
+        function playTone(frequency, duration, options = {}) {
+            const context = getAudioContext();
+            if (!context) {
+                return;
+            }
+            const now = context.currentTime + (options.delay || 0);
+            const oscillator = context.createOscillator();
+            const gain = context.createGain();
+            oscillator.type = options.type || "sine";
+            oscillator.frequency.setValueAtTime(frequency, now);
+            if (options.endFrequency) {
+                oscillator.frequency.exponentialRampToValueAtTime(options.endFrequency, now + duration);
+            }
+            gain.gain.setValueAtTime(0.0001, now);
+            gain.gain.exponentialRampToValueAtTime(options.volume || 0.04, now + 0.008);
+            gain.gain.exponentialRampToValueAtTime(0.0001, now + duration);
+            oscillator.connect(gain);
+            gain.connect(context.destination);
+            oscillator.start(now);
+            oscillator.stop(now + duration + 0.02);
+        }
+
+        function playClockTick(playerIndex, urgent = false) {
+            if (!isSoundEnabled("ticking")) {
+                return;
+            }
+            const playerTone = 720 + (playerIndex % 8) * 38;
+            playTone(urgent ? playerTone + 240 : playerTone, urgent ? 0.065 : 0.025, {
+                type: urgent ? "square" : "sine",
+                volume: urgent ? 0.035 : 0.012
+            });
+        }
+
+        function playMoveSound() {
+            if (!isSoundEnabled("move")) {
+                return;
+            }
+            playTone(210, 0.045, { type: "square", volume: 0.045 });
+            playTone(155, 0.06, { type: "triangle", volume: 0.035, delay: 0.045 });
+        }
+
+        function playStartSound() {
+            if (!isSoundEnabled("start")) {
+                return;
+            }
+            [392, 523, 659].forEach((frequency, index) => {
+                playTone(frequency, 0.16, { type: "triangle", volume: 0.045, delay: index * 0.09 });
+            });
+        }
+
+        function playWarningSound() {
+            if (!isSoundEnabled("warning")) {
+                return;
+            }
+            playTone(880, 0.12, { type: "square", volume: 0.055 });
+            playTone(880, 0.12, { type: "square", volume: 0.055, delay: 0.17 });
+        }
+
+        function playCountdownSound(seconds) {
+            if (!isSoundEnabled("countdown")) {
+                return;
+            }
+            const urgency = 10 - seconds;
+            const baseFrequency = 105 + urgency * 9;
+            const delay = seconds === 10 && isSoundEnabled("warning") ? 0.38 : 0;
+            playTone(baseFrequency, 0.24, {
+                type: "sawtooth",
+                volume: 0.085,
+                delay,
+                endFrequency: Math.max(55, baseFrequency * 0.58)
+            });
+            playTone(baseFrequency * 2, 0.09, {
+                type: "square",
+                volume: 0.055,
+                delay
+            });
+        }
+
+        function playTimeoutSound() {
+            if (!isSoundEnabled("timeout")) {
+                return;
+            }
+            playTone(190, 0.65, { type: "sawtooth", volume: 0.075, endFrequency: 55 });
+            playTone(95, 0.8, { type: "square", volume: 0.045, delay: 0.12, endFrequency: 45 });
+        }
+
+        function syncSoundControl() {
+            const soundAction = state.soundEnabled ? "Vypnout zvuk" : "Zapnout zvuk";
+            ui.soundToggle.setAttribute("aria-pressed", String(state.soundEnabled));
+            ui.soundToggle.setAttribute("aria-label", soundAction);
+            ui.soundToggle.title = soundAction;
+            ui.soundIcon.textContent = state.soundEnabled ? "🔊" : "🔇";
+            ui.soundSettingInputs.forEach((input) => {
+                input.checked = state.soundSettings[input.dataset.soundSetting] !== false;
+                input.disabled = !state.soundEnabled;
+            });
         }
 
         function getFactionById(id) {
@@ -1004,6 +1363,8 @@
                 quickAddSeconds: state.quickAddSeconds,
                 quickAddTargetId: state.quickAddTargetId,
                 selectingFirstPlayer: state.selectingFirstPlayer,
+                soundEnabled: state.soundEnabled,
+                soundSettings: state.soundSettings,
                 lastTickAt: state.running && !state.paused ? Date.now() : null
             };
             localStorage.setItem(STORAGE_KEY, JSON.stringify(payload));
@@ -1030,6 +1391,16 @@
                 state.quickAddSeconds = Math.max(1, Math.floor(Number(parsed.quickAddSeconds) || 15));
                 state.quickAddTargetId = typeof parsed.quickAddTargetId === "string" ? parsed.quickAddTargetId : null;
                 state.selectingFirstPlayer = Boolean(parsed.selectingFirstPlayer) && !state.running;
+                state.soundEnabled = parsed.soundEnabled !== false;
+                const savedSoundSettings = parsed.soundSettings ?? {};
+                state.soundSettings = {
+                    ticking: savedSoundSettings.ticking === true,
+                    start: savedSoundSettings.start !== false,
+                    move: savedSoundSettings.move !== false,
+                    warning: savedSoundSettings.warning !== false,
+                    countdown: savedSoundSettings.countdown !== false,
+                    timeout: savedSoundSettings.timeout !== false
+                };
                 state.lastTickAt = typeof parsed.lastTickAt === "number" ? parsed.lastTickAt : null;
                 normalizeScythePlayers(state.players[state.activeIndex]?.id);
                 if (!state.players.some((player) => player.id === state.quickAddTargetId)) {
@@ -1253,9 +1624,23 @@
                 active.seconds -= 1;
                 state.lastTickAt = Date.now();
 
+                if (active.seconds === 10) {
+                    playWarningSound();
+                }
+                if (active.seconds > 0 && active.seconds <= 10) {
+                    if (isSoundEnabled("countdown")) {
+                        playCountdownSound(active.seconds);
+                    } else {
+                        playClockTick(state.activeIndex);
+                    }
+                } else if (active.seconds > 10) {
+                    playClockTick(state.activeIndex);
+                }
+
                 if (active.seconds <= 0) {
                     active.seconds = 0;
                     active.out = true;
+                    playTimeoutSound();
                     nextActive();
                 }
 
@@ -1265,8 +1650,8 @@
         }
 
         function onClockTap(index) {
-            if (state.selectingFirstPlayer && !state.running) {
-                startWithFirstPlayer(index);
+            if (!state.running) {
+                startGame(index);
                 return;
             }
 
@@ -1280,6 +1665,7 @@
             }
 
             active.seconds += state.incrementSeconds;
+            playMoveSound();
             nextActive();
             renderClocks();
             syncStatus();
@@ -1294,11 +1680,14 @@
             document.body.classList.toggle("mobile-running", mobileRunning);
             document.body.classList.toggle("many-clocks", state.playerCount > 9);
             document.body.classList.toggle("mode-scythe", state.gameMode === "scythe");
-            ui.modeLabel.textContent = state.mobileView ? "Desktop" : "Mobil";
             ui.modeIcon.textContent = state.mobileView ? "🖥️" : "📱";
+            const modeAction = state.mobileView ? "Desktopové zobrazení" : "Mobilní zobrazení";
+            ui.modeToggle.setAttribute("aria-label", "Přepnout na " + modeAction.toLowerCase());
+            ui.modeToggle.title = modeAction;
             ui.menuButton.textContent = state.menuOpen ? "ZAVŘÍT" : "MENU";
             syncPlayerLimit();
             syncTimeControls();
+            syncSoundControl();
 
             if (!mobileRunning) {
                 if (!ui.setupPanel.parentElement.classList.contains("layout")) {
@@ -1333,6 +1722,19 @@
             if (ui.drawerSetupHost.contains(ui.setupPanel)) {
                 document.querySelector(".layout").insertBefore(ui.setupPanel, document.querySelector(".board"));
             }
+        }
+
+        function closeMenuAndResume() {
+            state.menuOpen = false;
+            if (state.running && remainingPlayers() > 1) {
+                state.paused = false;
+                state.lastTickAt = Date.now();
+                if (!state.timerId) {
+                    startTimer();
+                }
+            }
+            syncLayout();
+            persistState();
         }
 
         function movePlayer(playerId, direction) {
@@ -1443,7 +1845,7 @@
             addConfiguredTime();
         }
 
-        function startGame() {
+        function startGame(startIndex = 0) {
             stopTimer();
             readSetupFromInputs();
             rebuildPlayers();
@@ -1452,30 +1854,16 @@
                 p.out = false;
             });
 
-            state.activeIndex = 0;
-            state.running = false;
-            state.paused = true;
-            state.selectingFirstPlayer = true;
+            state.activeIndex = Math.max(0, Math.min(startIndex, state.players.length - 1));
+            state.running = true;
+            state.paused = false;
+            state.selectingFirstPlayer = false;
             state.lastTickAt = null;
             state.menuOpen = false;
 
-            syncLayout();
-        }
-
-        function startWithFirstPlayer(index) {
-            const player = state.players[index];
-            if (!player || player.out || !state.selectingFirstPlayer) {
-                return;
-            }
-
-            state.activeIndex = index;
-            state.selectingFirstPlayer = false;
-            state.running = true;
-            state.paused = false;
-            state.lastTickAt = Date.now();
-            state.menuOpen = false;
-            syncLayout();
             startTimer();
+            playStartSound();
+            syncLayout();
         }
 
         function resetGame() {
@@ -1572,8 +1960,32 @@
                 persistState();
             });
 
-            ui.startButton.addEventListener("click", startGame);
+            ui.startButton.addEventListener("click", () => startGame(0));
             ui.resetButton.addEventListener("click", resetGame);
+            ui.soundToggle.addEventListener("click", () => {
+                state.soundEnabled = !state.soundEnabled;
+                syncSoundControl();
+                if (state.soundEnabled) {
+                    playTone(620, 0.08, { type: "triangle", volume: 0.035 });
+                }
+                persistState();
+            });
+            ui.settingsToggle.addEventListener("click", () => {
+                syncSoundControl();
+                ui.settingsDialog.showModal();
+            });
+            ui.settingsClose.addEventListener("click", () => ui.settingsDialog.close());
+            ui.settingsDialog.addEventListener("click", (event) => {
+                if (event.target === ui.settingsDialog) {
+                    ui.settingsDialog.close();
+                }
+            });
+            ui.soundSettingInputs.forEach((input) => {
+                input.addEventListener("change", () => {
+                    state.soundSettings[input.dataset.soundSetting] = input.checked;
+                    persistState();
+                });
+            });
 
             ui.pauseButton.addEventListener("click", () => {
                 if (!state.running || remainingPlayers() <= 1) {
@@ -1593,10 +2005,12 @@
                 if (opening && state.running) {
                     state.paused = true;
                     state.lastTickAt = null;
+                    state.menuOpen = true;
+                    syncLayout();
+                    persistState();
+                    return;
                 }
-                state.menuOpen = opening;
-                syncLayout();
-                persistState();
+                closeMenuAndResume();
             });
 
             ui.addTimeButton.addEventListener("click", addTimeFromMenu);
@@ -1617,16 +2031,12 @@
             });
 
             ui.closeDrawer.addEventListener("click", () => {
-                state.menuOpen = false;
-                syncLayout();
-                persistState();
+                closeMenuAndResume();
             });
 
             ui.drawer.addEventListener("click", (event) => {
                 if (event.target === ui.drawer) {
-                    state.menuOpen = false;
-                    syncLayout();
-                    persistState();
+                    closeMenuAndResume();
                 }
             });
 
