@@ -45,8 +45,21 @@
             border-radius: 12px;
         }
 
+        input[type="number"] {
+            min-height: 44px;
+        }
+
+        input[type="number"]::-webkit-inner-spin-button,
+        input[type="number"]::-webkit-outer-spin-button {
+            width: 34px;
+            height: 34px;
+            margin: 0;
+            opacity: 1;
+            cursor: pointer;
+        }
+
         .app {
-            width: min(1320px, calc(100% - 40px));
+            width: min(1680px, calc(100% - 40px));
             margin: 0 auto;
             padding: 0 0 24px;
         }
@@ -57,7 +70,7 @@
             justify-content: space-between;
             gap: 24px;
             min-height: 72px;
-            padding: 14px max(20px, calc((100vw - 1320px) / 2));
+            padding: 14px max(20px, calc((100vw - 1680px) / 2));
             margin-left: calc(50% - 50vw);
             margin-right: calc(50% - 50vw);
             background: rgba(9, 23, 43, 0.96);
@@ -183,6 +196,30 @@
             padding-top: 18px;
         }
 
+        .preset-settings {
+            display: grid;
+            grid-template-columns: repeat(5, minmax(0, 1fr));
+            gap: 8px;
+            margin-top: 12px;
+        }
+
+        .preset-setting {
+            display: grid;
+            gap: 5px;
+            color: var(--muted);
+            font-size: 0.78rem;
+            font-weight: 700;
+        }
+
+        .preset-setting input {
+            width: 100%;
+            min-width: 0;
+            padding: 8px 5px;
+            border: 1px solid var(--line);
+            border-radius: 9px;
+            background: #fff;
+        }
+
         .settings-section-intro,
         .future-settings {
             color: var(--muted);
@@ -218,6 +255,20 @@
             padding: 12px 14px;
             border: 1px dashed var(--line);
             border-radius: 12px;
+        }
+
+        .settings-reset-button {
+            width: 100%;
+            margin-top: 14px;
+            padding: 11px 14px;
+            border: 1px solid rgba(190, 18, 60, 0.25);
+            background: rgba(255, 255, 255, 0.7);
+            color: var(--danger);
+            font-weight: 750;
+        }
+
+        .settings-reset-button:hover {
+            background: rgba(190, 18, 60, 0.08);
         }
 
         .mode-toggle {
@@ -274,9 +325,17 @@
         }
 
         .player-list {
-            display: flex;
-            flex-direction: column;
+            display: grid;
+            grid-template-columns: 1fr;
             gap: 8px;
+        }
+
+        .player-config {
+            min-width: 0;
+        }
+
+        .order-help {
+            grid-column: 1 / -1;
         }
 
         .player-row {
@@ -407,15 +466,20 @@
 
         .playbar {
             display: grid;
-            grid-template-columns: minmax(160px, 1fr) auto minmax(340px, auto);
+            grid-template-columns: auto minmax(0, 1fr);
             gap: 8px;
             align-items: center;
         }
 
         .status {
             margin: 0;
+            min-width: 0;
+            grid-column: 1 / -1;
+            overflow: hidden;
             color: var(--muted);
             font-size: 0.92rem;
+            text-overflow: ellipsis;
+            white-space: nowrap;
         }
 
         .btn-control {
@@ -433,9 +497,34 @@
 
         .desktop-time-tools {
             display: grid;
-            grid-template-columns: minmax(120px, 1fr) 86px auto;
+            grid-template-columns: minmax(120px, 180px) minmax(0, 1fr);
             gap: 6px;
             align-items: center;
+            width: 100%;
+            max-width: 650px;
+            justify-self: start;
+        }
+
+        .time-preset-buttons {
+            display: grid;
+            grid-template-columns: repeat(5, minmax(0, 1fr));
+            gap: 5px;
+            min-width: 0;
+        }
+
+        .time-preset-button {
+            min-width: 0;
+            padding: 10px 5px;
+            border-radius: 9px;
+            background: var(--accent);
+            color: #fff;
+            font-size: 0.82rem;
+            font-weight: 800;
+            white-space: nowrap;
+        }
+
+        .time-preset-button:hover {
+            filter: brightness(0.88);
         }
 
         .desktop-time-tools select,
@@ -446,6 +535,19 @@
             border: 1px solid var(--line);
             border-radius: 10px;
             background: #fff;
+        }
+
+        .time-amount-field {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            min-width: 0;
+            color: var(--muted);
+            font-weight: 700;
+        }
+
+        .time-amount-field input {
+            flex: 1;
         }
 
         .desktop-time-tools .time-add-button {
@@ -460,12 +562,20 @@
             background: var(--accent);
         }
 
+        .quick-time-buttons {
+            display: none;
+        }
+
+        .mobile-inline-utilities {
+            display: none;
+        }
+
         .clock-grid {
             flex: 1;
             display: grid;
             gap: 8px;
             grid-template-columns: repeat(2, minmax(0, 1fr));
-            align-content: stretch;
+            align-content: start;
         }
 
         .clock-card {
@@ -473,7 +583,9 @@
             flex-direction: column;
             justify-content: space-between;
             text-align: left;
-            min-height: 190px;
+            min-height: 180px;
+            min-width: 0;
+            aspect-ratio: 1 / 1;
             padding: 10px;
             border: 2px solid #91a4c0;
             border-radius: 12px;
@@ -584,6 +696,42 @@
             margin-bottom: 8px;
         }
 
+        .drawer-utility-row {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            margin-bottom: 12px;
+            padding-bottom: 12px;
+            border-bottom: 1px solid var(--line);
+        }
+
+        .drawer-utility-row select,
+        .drawer-utility-button {
+            min-height: 40px;
+            border: 0;
+            border-radius: 9px;
+            background: #e5edf6;
+            color: var(--text);
+        }
+
+        .drawer-utility-row select {
+            width: 64px;
+            padding: 0 8px;
+            font-weight: 800;
+        }
+
+        .drawer-utility-button {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 42px;
+            font-size: 1.1rem;
+        }
+
+        .drawer-utility-button:hover {
+            background: #cfdae8;
+        }
+
         .drawer-close {
             width: 38px;
             height: 38px;
@@ -609,8 +757,13 @@
 
         .time-row {
             display: grid;
-            grid-template-columns: minmax(0, 1fr) 92px;
+            grid-template-columns: 1fr;
             gap: 8px;
+        }
+
+        .menu-time-presets {
+            grid-template-columns: repeat(3, minmax(0, 1fr));
+            margin-top: 8px;
         }
 
         .time-row select,
@@ -669,9 +822,90 @@
             display: block;
         }
 
+        .mobile-running .quick-time-buttons {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 5px;
+            min-width: 0;
+            width: 160px;
+            height: 44px;
+            order: 2;
+        }
+
+        .mobile-running .mobile-inline-utilities {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            order: 3;
+        }
+
+        .mobile-inline-utility {
+            display: none;
+            align-items: center;
+            justify-content: center;
+            width: 44px;
+            height: 44px;
+            padding: 0;
+            border: 0;
+            border-radius: 10px;
+            background: rgba(63, 78, 98, 0.92);
+            color: #fff;
+            font-size: 1rem;
+        }
+
+        select.mobile-inline-utility {
+            width: 64px;
+            padding: 0 8px;
+            font-weight: 800;
+        }
+
+        @media (min-width: 330px) {
+            .mobile-running .mobile-inline-desktop {
+                display: inline-flex;
+            }
+        }
+
+        @media (min-width: 400px) {
+            .mobile-running .mobile-inline-language {
+                display: inline-flex;
+            }
+        }
+
+        @media (min-width: 450px) {
+            .mobile-running .mobile-inline-sound {
+                display: inline-flex;
+            }
+        }
+
+        @media (min-width: 500px) {
+            .mobile-running .mobile-inline-settings {
+                display: inline-flex;
+            }
+        }
+
+        .mobile-running .quick-time-buttons .time-preset-button {
+            display: none;
+        }
+
+        .mobile-running .quick-time-buttons .time-preset-button[data-add-time-preset="1"],
+        .mobile-running .quick-time-buttons .time-preset-button[data-add-time-preset="3"] {
+            display: block;
+            height: 44px;
+            padding-top: 0;
+            padding-bottom: 0;
+        }
+
+        body.mobile-view:not(.mobile-running) .clock-card {
+            min-height: 0;
+        }
+
         .mobile-running .app {
             width: 100%;
             padding: 6px 0 0;
+        }
+
+        .mobile-running .topbar {
+            display: none;
         }
 
         .mobile-running .topbar {
@@ -702,7 +936,7 @@
         }
 
         .mobile-running .board {
-            min-height: calc(100dvh - 74px);
+            min-height: 100dvh;
             border-radius: 0;
             border-left: 0;
             border-right: 0;
@@ -710,8 +944,10 @@
         }
 
         .mobile-running .playbar {
-            grid-template-columns: 1fr 1fr 1fr;
+            display: flex;
+            align-items: center;
             gap: 5px;
+            width: 100%;
         }
 
         .mobile-running .playbar .status {
@@ -719,21 +955,32 @@
         }
 
         .mobile-running .btn-control,
-        .mobile-running .btn-menu,
-        .mobile-running .quick-add-button {
+        .mobile-running .btn-menu {
             min-width: 0;
-            width: 100%;
-            padding: 10px 4px;
+            width: 44px;
+            height: 44px;
+            padding: 0;
             border-radius: 10px;
-            font-size: 0.9rem;
+            font-size: 1.05rem;
+        }
+
+        .mobile-running .btn-control {
+            order: 1;
+        }
+
+        .mobile-running .btn-menu {
+            order: 4;
+            margin-left: auto;
         }
 
         .mobile-running .clock-grid {
             gap: 5px;
+            align-content: stretch;
         }
 
         .mobile-running .clock-card {
-            min-height: clamp(105px, calc((100dvh - 132px) / var(--clock-rows, 2)), 240px);
+            min-height: clamp(105px, calc((100dvh - 68px) / var(--clock-rows, 2)), 240px);
+            aspect-ratio: auto;
             padding: 7px;
             border-radius: 10px;
         }
@@ -847,15 +1094,92 @@
             }
 
             .playbar {
-                grid-template-columns: 1fr auto;
+                grid-template-columns: auto minmax(0, 1fr);
             }
 
             .desktop-time-tools {
-                grid-column: 1 / -1;
+                grid-column: 2;
             }
 
             .board {
                 min-height: 62vh;
+            }
+        }
+
+        @media (min-width: 1025px) {
+            body.setup-two-columns:not(.mobile-view) .layout {
+                grid-template-columns: minmax(650px, 42vw) minmax(0, 1fr);
+            }
+
+            body.setup-two-columns:not(.mobile-view) .player-list {
+                grid-template-columns: repeat(2, minmax(280px, 1fr));
+            }
+
+            body.setup-two-columns:not(.mobile-view) .playbar {
+                grid-template-columns: auto minmax(0, 1fr);
+            }
+
+            body.setup-two-columns:not(.mobile-view) .desktop-time-tools {
+                grid-column: 2;
+                max-width: 650px;
+            }
+        }
+
+        @media (min-width: 1600px) {
+            body.setup-two-columns:not(.mobile-view) .app {
+                width: calc(100% - 32px);
+                max-width: none;
+            }
+
+            body.setup-two-columns:not(.mobile-view) .topbar {
+                padding-left: 24px;
+                padding-right: 24px;
+            }
+
+            body.setup-two-columns:not(.mobile-view) .layout {
+                grid-template-columns: minmax(650px, 38vw) minmax(0, 1fr);
+                height: calc(100dvh - 92px);
+                min-height: 760px;
+            }
+
+            body.setup-two-columns:not(.mobile-view) .setup,
+            body.setup-two-columns:not(.mobile-view) .board {
+                min-height: 0;
+                height: 100%;
+            }
+
+            body.setup-two-columns:not(.mobile-view) .setup {
+                overflow: auto;
+            }
+
+            body.setup-two-columns:not(.mobile-view) .player-list {
+                grid-template-columns: repeat(2, minmax(280px, 1fr));
+            }
+
+            body.setup-two-columns:not(.mobile-view) .clock-grid {
+                min-height: 0;
+            }
+
+            body.setup-two-columns:not(.mobile-view) .clock-card {
+                min-height: 0;
+            }
+
+            .many-clocks .clock-card {
+                padding: 8px;
+            }
+
+            .many-clocks .card-hint {
+                display: none;
+            }
+        }
+
+        @media (min-width: 2400px) {
+            body.setup-two-columns:not(.mobile-view) .layout {
+                grid-template-columns: minmax(900px, 40vw) minmax(0, 1fr);
+            }
+
+            body.setup-two-columns:not(.mobile-view) .player-list {
+                grid-template-columns: repeat(2, minmax(280px, 1fr));
             }
         }
 
@@ -885,6 +1209,10 @@
 
             .language-select {
                 flex-basis: 64px;
+            }
+
+            .preset-settings {
+                grid-template-columns: repeat(2, minmax(0, 1fr));
             }
 
             .panel {
@@ -940,7 +1268,19 @@
                             <label class="sound-option"><span>Vypršení času</span><input type="checkbox" data-sound-setting="timeout" checked></label>
                         </div>
                     </section>
+                    <section class="settings-section" aria-labelledby="timePresetSettingsTitle">
+                        <h3 id="timePresetSettingsTitle">Předvolby přidání času</h3>
+                        <p class="settings-section-intro">Hodnoty jsou v sekundách. Druhá a čtvrtá předvolba se používají v úzkém mobilním režimu.</p>
+                        <div class="preset-settings">
+                            <label class="preset-setting"><span>1.</span><input type="number" min="1" step="1" value="5" data-time-preset="0"></label>
+                            <label class="preset-setting"><span>2.</span><input type="number" min="1" step="1" value="15" data-time-preset="1"></label>
+                            <label class="preset-setting"><span>3.</span><input type="number" min="1" step="1" value="60" data-time-preset="2"></label>
+                            <label class="preset-setting"><span>4.</span><input type="number" min="1" step="1" value="120" data-time-preset="3"></label>
+                            <label class="preset-setting"><span>5.</span><input type="number" min="1" step="1" value="300" data-time-preset="4"></label>
+                        </div>
+                    </section>
                     <p class="future-settings">Přizpůsobení barev připravujeme pro některou z dalších verzí.</p>
+                    <button id="restoreDefaultsButton" class="settings-reset-button" type="button">Obnovit výchozí nastavení</button>
                 </div>
             </dialog>
 
@@ -966,7 +1306,7 @@
                         <input id="incrementSeconds" type="number" min="0" value="0">
                     </div>
 
-                    <div>
+                    <div class="player-config">
                         <span style="font-size:0.9rem;color:#5f6e83;font-weight:600;">Jména hráčů</span>
                         <div id="playerList" class="player-list"></div>
                     </div>
@@ -983,11 +1323,20 @@
                         <button id="pauseButton" class="btn btn-control" type="button" disabled>PAUZA</button>
                         <div class="desktop-time-tools" aria-label="Jednorázové přidání času">
                             <select id="desktopTimePlayerSelect" aria-label="Hráč, kterému se přidá čas"></select>
-                            <input id="desktopTimeAmount" type="number" min="1" step="1" value="15" aria-label="Počet sekund">
-                            <button id="desktopAddTimeButton" class="btn time-add-button" type="button">Přidat sekundy</button>
+                            <div id="desktopTimePresets" class="time-preset-buttons"></div>
                         </div>
                         <button id="menuButton" class="btn btn-menu" type="button">MENU</button>
-                        <button id="quickAddButton" class="btn quick-add-button" type="button">Přidat 15 sekund</button>
+                        <div id="quickTimePresets" class="quick-time-buttons"></div>
+                        <div class="mobile-inline-utilities" aria-label="Rychlé nastavení aplikace">
+                            <select id="mobileInlineLanguage" class="mobile-inline-utility mobile-inline-language" aria-label="Jazyk rozhraní" title="Vybrat jazyk">
+                                <option value="cs">CZ</option>
+                                <option value="en">EN</option>
+                                <option value="de">DE</option>
+                            </select>
+                            <button id="mobileInlineSound" class="mobile-inline-utility mobile-inline-sound" type="button" aria-label="Vypnout zvuk" title="Zvuk"><span id="mobileInlineSoundIcon" aria-hidden="true">🔊</span></button>
+                            <button id="mobileInlineSettings" class="mobile-inline-utility mobile-inline-settings" type="button" aria-label="Otevřít pokročilé nastavení" title="Nastavení">⚙</button>
+                            <button id="mobileInlineDesktop" class="mobile-inline-utility mobile-inline-desktop" type="button" aria-label="Přepnout na desktopové zobrazení" title="Desktopové zobrazení">🖥️</button>
+                        </div>
                     </div>
 
                     <div id="clockGrid" class="clock-grid"></div>
@@ -1001,13 +1350,22 @@
                     <h2 style="margin:0;font-size:1.12rem;">Menu</h2>
                     <button id="closeDrawer" class="drawer-close" type="button" aria-label="Zavřít menu">×</button>
                 </div>
+                <div class="drawer-utility-row" aria-label="Rychlé nastavení aplikace">
+                    <select id="drawerLanguageSelect" aria-label="Jazyk rozhraní" title="Vybrat jazyk">
+                        <option value="cs">CZ</option>
+                        <option value="en">EN</option>
+                        <option value="de">DE</option>
+                    </select>
+                    <button id="drawerSoundToggle" class="drawer-utility-button" type="button" aria-label="Vypnout zvuk" title="Zvuk"><span id="drawerSoundIcon" aria-hidden="true">🔊</span></button>
+                    <button id="drawerSettingsToggle" class="drawer-utility-button" type="button" aria-label="Otevřít pokročilé nastavení" title="Nastavení">⚙</button>
+                    <button id="drawerDesktopToggle" class="drawer-utility-button" type="button" aria-label="Přepnout na desktopové zobrazení" title="Desktopové zobrazení">🖥️</button>
+                </div>
                 <section class="time-tools" aria-labelledby="timeToolsTitle">
                     <h3 id="timeToolsTitle">Jednorázově přidat čas</h3>
                     <div class="time-row">
                         <select id="timePlayerSelect" aria-label="Hráč, kterému se přidá čas"></select>
-                        <input id="timeAmount" type="number" min="1" step="1" value="15" aria-label="Počet sekund">
                     </div>
-                    <button id="addTimeButton" class="btn time-add-button" type="button">Přidat sekundy</button>
+                    <div id="menuTimePresets" class="time-preset-buttons menu-time-presets"></div>
                     <p id="timeFeedback" class="time-feedback" aria-live="polite"></p>
                 </section>
                 <section class="drawer-setup-section">
@@ -1061,7 +1419,8 @@
             paused: true,
             mobileView: false,
             menuOpen: false,
-            quickAddSeconds: 15,
+            resumeAfterMenuClose: false,
+            timePresets: [5, 15, 60, 120, 300],
             quickAddTargetId: null,
             selectingFirstPlayer: false,
             soundEnabled: true,
@@ -1092,26 +1451,36 @@
             resetButton: document.getElementById("resetButton"),
             pauseButton: document.getElementById("pauseButton"),
             menuButton: document.getElementById("menuButton"),
-            quickAddButton: document.getElementById("quickAddButton"),
+            quickTimePresets: document.getElementById("quickTimePresets"),
             desktopTimePlayerSelect: document.getElementById("desktopTimePlayerSelect"),
-            desktopTimeAmount: document.getElementById("desktopTimeAmount"),
-            desktopAddTimeButton: document.getElementById("desktopAddTimeButton"),
+            desktopTimePresets: document.getElementById("desktopTimePresets"),
             closeDrawer: document.getElementById("closeDrawer"),
             drawer: document.getElementById("drawer"),
             drawerSetupHost: document.getElementById("drawerSetupHost"),
             timePlayerSelect: document.getElementById("timePlayerSelect"),
-            timeAmount: document.getElementById("timeAmount"),
-            addTimeButton: document.getElementById("addTimeButton"),
+            menuTimePresets: document.getElementById("menuTimePresets"),
             timeFeedback: document.getElementById("timeFeedback"),
             modeToggle: document.getElementById("modeToggle"),
             modeIcon: document.getElementById("modeIcon"),
             languageSelect: document.getElementById("languageSelect"),
+            drawerLanguageSelect: document.getElementById("drawerLanguageSelect"),
+            mobileInlineLanguage: document.getElementById("mobileInlineLanguage"),
             soundToggle: document.getElementById("soundToggle"),
             soundIcon: document.getElementById("soundIcon"),
+            drawerSoundToggle: document.getElementById("drawerSoundToggle"),
+            drawerSoundIcon: document.getElementById("drawerSoundIcon"),
+            mobileInlineSound: document.getElementById("mobileInlineSound"),
+            mobileInlineSoundIcon: document.getElementById("mobileInlineSoundIcon"),
             settingsToggle: document.getElementById("settingsToggle"),
+            drawerSettingsToggle: document.getElementById("drawerSettingsToggle"),
+            drawerDesktopToggle: document.getElementById("drawerDesktopToggle"),
+            mobileInlineSettings: document.getElementById("mobileInlineSettings"),
+            mobileInlineDesktop: document.getElementById("mobileInlineDesktop"),
             settingsDialog: document.getElementById("settingsDialog"),
             settingsClose: document.getElementById("settingsClose"),
+            restoreDefaultsButton: document.getElementById("restoreDefaultsButton"),
             soundSettingInputs: document.querySelectorAll("[data-sound-setting]"),
+            timePresetInputs: document.querySelectorAll("[data-time-preset]"),
             statusText: document.getElementById("statusText"),
             clockGrid: document.getElementById("clockGrid")
         };
@@ -1233,6 +1602,12 @@
             ui.soundToggle.setAttribute("aria-label", soundAction);
             ui.soundToggle.title = soundAction;
             ui.soundIcon.textContent = state.soundEnabled ? "🔊" : "🔇";
+            ui.drawerSoundToggle.setAttribute("aria-label", soundAction);
+            ui.drawerSoundToggle.title = soundAction;
+            ui.drawerSoundIcon.textContent = state.soundEnabled ? "🔊" : "🔇";
+            ui.mobileInlineSound.setAttribute("aria-label", soundAction);
+            ui.mobileInlineSound.title = soundAction;
+            ui.mobileInlineSoundIcon.textContent = state.soundEnabled ? "🔊" : "🔇";
             ui.soundSettingInputs.forEach((input) => {
                 input.checked = state.soundSettings[input.dataset.soundSetting] !== false;
                 input.disabled = !state.soundEnabled;
@@ -1360,7 +1735,8 @@
                 paused: state.paused,
                 mobileView: state.mobileView,
                 menuOpen: state.menuOpen,
-                quickAddSeconds: state.quickAddSeconds,
+                resumeAfterMenuClose: state.resumeAfterMenuClose,
+                timePresets: state.timePresets,
                 quickAddTargetId: state.quickAddTargetId,
                 selectingFirstPlayer: state.selectingFirstPlayer,
                 soundEnabled: state.soundEnabled,
@@ -1388,7 +1764,11 @@
                 state.paused = Boolean(parsed.paused);
                 state.mobileView = Boolean(parsed.mobileView);
                 state.menuOpen = Boolean(parsed.menuOpen);
-                state.quickAddSeconds = Math.max(1, Math.floor(Number(parsed.quickAddSeconds) || 15));
+                state.resumeAfterMenuClose = Boolean(parsed.resumeAfterMenuClose);
+                const savedTimePresets = Array.isArray(parsed.timePresets) ? parsed.timePresets : [5, 15, 60, 120, 300];
+                state.timePresets = [5, 15, 60, 120, 300].map((fallback, index) =>
+                    Math.max(1, Math.floor(Number(savedTimePresets[index]) || fallback))
+                );
                 state.quickAddTargetId = typeof parsed.quickAddTargetId === "string" ? parsed.quickAddTargetId : null;
                 state.selectingFirstPlayer = Boolean(parsed.selectingFirstPlayer) && !state.running;
                 state.soundEnabled = parsed.soundEnabled !== false;
@@ -1503,13 +1883,63 @@
             if (mobileRunning) {
                 const columns = count <= 4 ? 2 : count <= 9 ? 3 : 4;
                 ui.clockGrid.style.gridTemplateColumns = "repeat(" + columns + ", minmax(0, 1fr))";
+                ui.clockGrid.style.removeProperty("grid-template-rows");
                 ui.clockGrid.style.setProperty("--clock-rows", String(Math.ceil(count / columns)));
                 return;
             }
 
-            const columns = count === 3 ? 3 : Math.min(5, Math.ceil(Math.sqrt(count)));
-            ui.clockGrid.style.gridTemplateColumns = "repeat(" + columns + ", minmax(0, 1fr))";
-            ui.clockGrid.style.removeProperty("--clock-rows");
+            if (state.mobileView) {
+                const columns = 2;
+                ui.clockGrid.style.gridTemplateColumns = "repeat(" + columns + ", minmax(0, 1fr))";
+                ui.clockGrid.style.removeProperty("grid-template-rows");
+                ui.clockGrid.style.setProperty("--clock-rows", String(Math.ceil(count / columns)));
+                return;
+            }
+
+            const availableWidth = ui.clockGrid.clientWidth || Math.floor(window.innerWidth * 0.7);
+            const availableHeight = Math.max(420, window.innerHeight - 180);
+            const minimumColumns = count === 3 ? 3 : 2;
+            const maximumColumns = Math.min(count, 8);
+            let columns = Math.min(maximumColumns, Math.max(minimumColumns, Math.ceil(Math.sqrt(count))));
+            let largestFittingTile = 0;
+
+            for (let candidate = minimumColumns; candidate <= maximumColumns; candidate += 1) {
+                const rows = Math.ceil(count / candidate);
+                const tileWidth = (availableWidth - (candidate - 1) * 8) / candidate;
+                const totalHeight = rows * tileWidth + (rows - 1) * 8;
+                if (tileWidth >= 180 && totalHeight <= availableHeight && tileWidth > largestFittingTile) {
+                    columns = candidate;
+                    largestFittingTile = tileWidth;
+                }
+            }
+
+            if (!largestFittingTile) {
+                columns = Math.max(minimumColumns, Math.min(maximumColumns, Math.floor((availableWidth + 8) / 188)));
+            }
+
+            ui.clockGrid.style.gridTemplateColumns = "repeat(" + columns + ", minmax(180px, 1fr))";
+            ui.clockGrid.style.removeProperty("grid-template-rows");
+            ui.clockGrid.style.setProperty("--clock-rows", String(Math.ceil(count / columns)));
+        }
+
+        let responsiveLayoutFrame = null;
+
+        function scheduleResponsiveFormatting() {
+            if (responsiveLayoutFrame) {
+                cancelAnimationFrame(responsiveLayoutFrame);
+            }
+            responsiveLayoutFrame = requestAnimationFrame(() => {
+                responsiveLayoutFrame = null;
+                document.body.classList.remove("setup-two-columns");
+
+                if (!state.mobileView && window.innerWidth >= 1500) {
+                    void ui.setupPanel.offsetHeight;
+                    const availableHeight = window.innerHeight - ui.setupPanel.getBoundingClientRect().top - 16;
+                    document.body.classList.toggle("setup-two-columns", ui.setupPanel.scrollHeight > availableHeight);
+                }
+
+                updateGridColumns();
+            });
         }
 
         function remainingPlayers() {
@@ -1538,7 +1968,7 @@
             if (state.selectingFirstPlayer && !state.running) {
                 ui.statusText.textContent = "Vyber hr\u00e1\u010de, kter\u00fd za\u010d\u00edn\u00e1 \u2014 klikni na jeho dla\u017edici.";
                 ui.pauseButton.disabled = true;
-                ui.pauseButton.textContent = "PAUZA";
+                setPauseButtonText("PAUZA");
                 persistState();
                 return;
             }
@@ -1546,7 +1976,7 @@
             if (!state.running) {
                 ui.statusText.textContent = "Nastav hráče a spusť odpočet.";
                 ui.pauseButton.disabled = true;
-                ui.pauseButton.textContent = "PAUZA";
+                setPauseButtonText("PAUZA");
                 persistState();
                 return;
             }
@@ -1561,11 +1991,18 @@
             }
 
             ui.pauseButton.disabled = false;
-            ui.pauseButton.textContent = state.paused ? "POKRAČOVAT" : "PAUZA";
+            setPauseButtonText(state.paused ? "POKRAČOVAT" : "PAUZA");
             ui.statusText.textContent = state.paused
                 ? "Pozastaveno. Na tahu: " + active.name
                 : "Na tahu: " + active.name + " (klikni na jeho dlaždici)";
             persistState();
+        }
+
+        function setPauseButtonText(text) {
+            const useIcon = state.mobileView && state.running;
+            ui.pauseButton.textContent = useIcon ? (state.paused ? "▶" : "⏸") : text;
+            ui.pauseButton.setAttribute("aria-label", state.paused ? "Pokračovat" : "Pozastavit");
+            ui.pauseButton.title = useIcon ? (state.paused ? "Pokračovat" : "Pozastavit") : "";
         }
 
         function stopTimer() {
@@ -1684,7 +2121,12 @@
             const modeAction = state.mobileView ? "Desktopové zobrazení" : "Mobilní zobrazení";
             ui.modeToggle.setAttribute("aria-label", "Přepnout na " + modeAction.toLowerCase());
             ui.modeToggle.title = modeAction;
-            ui.menuButton.textContent = state.menuOpen ? "ZAVŘÍT" : "MENU";
+            ui.drawerLanguageSelect.value = ui.languageSelect.value;
+            ui.mobileInlineLanguage.value = ui.languageSelect.value;
+            const compactMobileControls = state.mobileView && state.running;
+            ui.menuButton.textContent = compactMobileControls ? "☰" : (state.menuOpen ? "ZAVŘÍT" : "MENU");
+            ui.menuButton.setAttribute("aria-label", state.menuOpen ? "Zavřít menu" : "Otevřít menu");
+            ui.menuButton.title = state.menuOpen ? "Zavřít menu" : "Menu";
             syncPlayerLimit();
             syncTimeControls();
             syncSoundControl();
@@ -1704,6 +2146,7 @@
 
             renderClocks();
             syncStatus();
+            scheduleResponsiveFormatting();
         }
 
         function openDrawer() {
@@ -1726,10 +2169,12 @@
 
         function closeMenuAndResume() {
             state.menuOpen = false;
+            const shouldResume = state.resumeAfterMenuClose;
+            state.resumeAfterMenuClose = false;
             if (state.running && remainingPlayers() > 1) {
-                state.paused = false;
-                state.lastTickAt = Date.now();
-                if (!state.timerId) {
+                state.paused = !shouldResume;
+                state.lastTickAt = shouldResume ? Date.now() : null;
+                if (shouldResume && !state.timerId) {
                     startTimer();
                 }
             }
@@ -1782,9 +2227,10 @@
 
         function timeTargetOptions() {
             const activePlayer = state.players[state.activeIndex];
-            const automaticLabel = activePlayer ? "Aktivní: " + activePlayer.name : "Aktivní hráč";
-            return "<option value=\"\">" + automaticLabel + " (automaticky)</option>"
+            const activePlayerName = activePlayer ? activePlayer.name : "Hráč";
+            return "<option value=\"\">" + activePlayerName + "</option>"
                 + state.players
+                    .filter((player) => player.id !== activePlayer?.id || player.id === state.quickAddTargetId)
                     .map((player) => "<option value=\"" + player.id + "\">" + player.name + "</option>")
                     .join("");
         }
@@ -1799,29 +2245,45 @@
                 select.innerHTML = options;
                 select.value = targetValue;
             });
-            [ui.timeAmount, ui.desktopTimeAmount].forEach((input) => {
-                input.value = String(state.quickAddSeconds);
+            ui.timePresetInputs.forEach((input) => {
+                input.value = String(state.timePresets[Number(input.dataset.timePreset)]);
             });
-            ui.quickAddButton.textContent = "Přidat " + state.quickAddSeconds + " sekund";
+            const presetButtons = state.timePresets
+                .map((seconds, index) => "<button class=\"time-preset-button\" type=\"button\" data-add-time-preset=\""
+                    + index + "\" aria-label=\"Přidat " + formatPresetTime(seconds).slice(1)
+                    + " aktuálnímu hráči\" title=\"Přidat čas aktuálnímu hráči\">"
+                    + formatPresetTime(seconds) + "</button>")
+                .join("");
+            ui.desktopTimePresets.innerHTML = presetButtons;
+            ui.menuTimePresets.innerHTML = presetButtons;
+            ui.quickTimePresets.innerHTML = presetButtons;
             if (clearFeedback) {
                 ui.timeFeedback.textContent = "";
             }
+        }
+
+        function formatPresetTime(seconds) {
+            if (seconds < 60) {
+                return "+" + seconds + "s";
+            }
+            if (seconds % 60 === 0) {
+                return "+" + (seconds / 60) + "min";
+            }
+            return "+" + Math.floor(seconds / 60) + "m " + (seconds % 60) + "s";
         }
 
         function populateTimeMenu() {
             syncTimeControls(true);
         }
 
-        function updateTimeConfiguration(targetId, seconds) {
+        function updateTimeTarget(targetId) {
             state.quickAddTargetId = state.players.some((player) => player.id === targetId) ? targetId : null;
-            state.quickAddSeconds = Math.max(1, Math.floor(Number(seconds) || 15));
             syncTimeControls();
             persistState();
         }
 
-        function addConfiguredTime(feedbackElement = null) {
+        function addConfiguredTime(seconds, feedbackElement = null) {
             const player = getQuickAddPlayer();
-            const seconds = state.quickAddSeconds;
             if (!player) {
                 return;
             }
@@ -1835,14 +2297,17 @@
             syncStatus();
         }
 
-        function addTimeFromMenu() {
-            updateTimeConfiguration(ui.timePlayerSelect.value, ui.timeAmount.value);
-            addConfiguredTime(ui.timeFeedback);
-        }
-
-        function addTimeFromDesktop() {
-            updateTimeConfiguration(ui.desktopTimePlayerSelect.value, ui.desktopTimeAmount.value);
-            addConfiguredTime();
+        function addTimeFromPreset(container, presetIndex) {
+            if (container === ui.menuTimePresets) {
+                state.quickAddTargetId = state.players.some((player) => player.id === ui.timePlayerSelect.value)
+                    ? ui.timePlayerSelect.value : null;
+            } else if (container === ui.desktopTimePresets) {
+                state.quickAddTargetId = state.players.some((player) => player.id === ui.desktopTimePlayerSelect.value)
+                    ? ui.desktopTimePlayerSelect.value : null;
+            }
+            const seconds = state.timePresets[presetIndex];
+            addConfiguredTime(seconds, container === ui.menuTimePresets ? ui.timeFeedback : null);
+            persistState();
         }
 
         function startGame(startIndex = 0) {
@@ -1860,6 +2325,7 @@
             state.selectingFirstPlayer = false;
             state.lastTickAt = null;
             state.menuOpen = false;
+            state.resumeAfterMenuClose = false;
 
             startTimer();
             playStartSound();
@@ -1875,6 +2341,7 @@
             state.paused = true;
             state.selectingFirstPlayer = false;
             state.menuOpen = false;
+            state.resumeAfterMenuClose = false;
             state.quickAddTargetId = null;
             state.lastTickAt = null;
             state.players.forEach((player) => {
@@ -1884,6 +2351,51 @@
             renderPlayerInputs();
             syncLayout();
             persistState();
+        }
+
+        function restoreDefaultSettings() {
+            if (!window.confirm("Obnovit všechna výchozí nastavení včetně jmen hráčů?")) {
+                return;
+            }
+
+            stopTimer();
+            localStorage.removeItem(STORAGE_KEY);
+            state.gameMode = "generic";
+            state.playerCount = 4;
+            state.startMinutes = 10;
+            state.incrementSeconds = 0;
+            state.activeIndex = 0;
+            state.running = false;
+            state.paused = true;
+            state.mobileView = false;
+            state.menuOpen = false;
+            state.resumeAfterMenuClose = false;
+            state.timePresets = [5, 15, 60, 120, 300];
+            state.quickAddTargetId = null;
+            state.selectingFirstPlayer = false;
+            state.soundEnabled = true;
+            state.soundSettings = {
+                ticking: false,
+                start: true,
+                move: true,
+                warning: true,
+                countdown: true,
+                timeout: true
+            };
+            state.lastTickAt = null;
+            state.players = Array.from({ length: state.playerCount }, (_, index) => createPlayer(index));
+
+            ui.gameMode.value = state.gameMode;
+            ui.playerCount.value = String(state.playerCount);
+            ui.startMinutes.value = String(state.startMinutes);
+            ui.incrementSeconds.value = String(state.incrementSeconds);
+            ui.languageSelect.value = "cs";
+            ui.settingsDialog.close();
+
+            renderPlayerInputs();
+            syncLayout();
+            persistState();
+            scheduleResponsiveFormatting();
         }
 
         function bindEvents() {
@@ -1900,9 +2412,9 @@
                 readSetupFromInputs();
                 rebuildPlayers();
                 renderPlayerInputs();
-                renderClocks();
-                syncTimeControls();
+                syncLayout();
                 persistState();
+                scheduleResponsiveFormatting();
             });
 
             ui.startMinutes.addEventListener("change", () => {
@@ -1970,11 +2482,36 @@
                 }
                 persistState();
             });
+            ui.drawerSoundToggle.addEventListener("click", () => {
+                state.soundEnabled = !state.soundEnabled;
+                syncSoundControl();
+                if (state.soundEnabled) {
+                    playTone(620, 0.08, { type: "triangle", volume: 0.035 });
+                }
+                persistState();
+            });
+            ui.mobileInlineSound.addEventListener("click", () => {
+                state.soundEnabled = !state.soundEnabled;
+                syncSoundControl();
+                if (state.soundEnabled) {
+                    playTone(620, 0.08, { type: "triangle", volume: 0.035 });
+                }
+                persistState();
+            });
             ui.settingsToggle.addEventListener("click", () => {
                 syncSoundControl();
                 ui.settingsDialog.showModal();
             });
+            ui.drawerSettingsToggle.addEventListener("click", () => {
+                syncSoundControl();
+                ui.settingsDialog.showModal();
+            });
+            ui.mobileInlineSettings.addEventListener("click", () => {
+                syncSoundControl();
+                ui.settingsDialog.showModal();
+            });
             ui.settingsClose.addEventListener("click", () => ui.settingsDialog.close());
+            ui.restoreDefaultsButton.addEventListener("click", restoreDefaultSettings);
             ui.settingsDialog.addEventListener("click", (event) => {
                 if (event.target === ui.settingsDialog) {
                     ui.settingsDialog.close();
@@ -2002,9 +2539,12 @@
 
             ui.menuButton.addEventListener("click", () => {
                 const opening = !state.menuOpen;
-                if (opening && state.running) {
-                    state.paused = true;
-                    state.lastTickAt = null;
+                if (opening) {
+                    state.resumeAfterMenuClose = state.running && !state.paused;
+                    if (state.running) {
+                        state.paused = true;
+                        state.lastTickAt = null;
+                    }
                     state.menuOpen = true;
                     syncLayout();
                     persistState();
@@ -2013,21 +2553,30 @@
                 closeMenuAndResume();
             });
 
-            ui.addTimeButton.addEventListener("click", addTimeFromMenu);
-            ui.desktopAddTimeButton.addEventListener("click", addTimeFromDesktop);
-            ui.quickAddButton.addEventListener("click", () => addConfiguredTime());
+            [ui.menuTimePresets, ui.desktopTimePresets, ui.quickTimePresets].forEach((container) => {
+                container.addEventListener("click", (event) => {
+                    const button = event.target.closest("[data-add-time-preset]");
+                    if (!(button instanceof HTMLButtonElement)) {
+                        return;
+                    }
+                    addTimeFromPreset(container, Number(button.dataset.addTimePreset));
+                });
+            });
 
             ui.timePlayerSelect.addEventListener("change", () => {
-                updateTimeConfiguration(ui.timePlayerSelect.value, ui.timeAmount.value);
-            });
-            ui.timeAmount.addEventListener("change", () => {
-                updateTimeConfiguration(ui.timePlayerSelect.value, ui.timeAmount.value);
+                updateTimeTarget(ui.timePlayerSelect.value);
             });
             ui.desktopTimePlayerSelect.addEventListener("change", () => {
-                updateTimeConfiguration(ui.desktopTimePlayerSelect.value, ui.desktopTimeAmount.value);
+                updateTimeTarget(ui.desktopTimePlayerSelect.value);
             });
-            ui.desktopTimeAmount.addEventListener("change", () => {
-                updateTimeConfiguration(ui.desktopTimePlayerSelect.value, ui.desktopTimeAmount.value);
+
+            ui.timePresetInputs.forEach((input) => {
+                input.addEventListener("change", () => {
+                    const index = Number(input.dataset.timePreset);
+                    state.timePresets[index] = Math.max(1, Math.floor(Number(input.value) || [5, 15, 60, 120, 300][index]));
+                    syncTimeControls();
+                    persistState();
+                });
             });
 
             ui.closeDrawer.addEventListener("click", () => {
@@ -2042,12 +2591,35 @@
 
             ui.modeToggle.addEventListener("click", () => {
                 state.mobileView = !state.mobileView;
-                if (!state.mobileView) {
-                    state.menuOpen = false;
+                if (!state.mobileView && state.menuOpen) {
+                    closeMenuAndResume();
+                    return;
                 }
                 syncLayout();
                 persistState();
             });
+            ui.drawerDesktopToggle.addEventListener("click", () => {
+                state.mobileView = false;
+                closeMenuAndResume();
+            });
+            ui.mobileInlineDesktop.addEventListener("click", () => {
+                state.mobileView = false;
+                syncLayout();
+                persistState();
+            });
+            ui.languageSelect.addEventListener("change", () => {
+                ui.drawerLanguageSelect.value = ui.languageSelect.value;
+                ui.mobileInlineLanguage.value = ui.languageSelect.value;
+            });
+            ui.drawerLanguageSelect.addEventListener("change", () => {
+                ui.languageSelect.value = ui.drawerLanguageSelect.value;
+                ui.mobileInlineLanguage.value = ui.drawerLanguageSelect.value;
+            });
+            ui.mobileInlineLanguage.addEventListener("change", () => {
+                ui.languageSelect.value = ui.mobileInlineLanguage.value;
+                ui.drawerLanguageSelect.value = ui.mobileInlineLanguage.value;
+            });
+            window.addEventListener("resize", scheduleResponsiveFormatting);
         }
 
         function init() {

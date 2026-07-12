@@ -11,6 +11,19 @@ Tento soubor je průběžné zadání aktivní verze aplikace v `multiClock.html
 - Rozehraná hra, časy a nastavení se zachovají po obnovení stránky.
 - Rozhraní má samostatné počítačové a mobilní zobrazení.
 - V mobilním zobrazení mají po spuštění hry hlavní prostor časomíry, ale zůstává dostupná pauza, menu a návrat na počítačové zobrazení.
+- Po spuštění hry se v mobilním zobrazení horní banner včetně nadpisu skryje. Pauza/pokračování používá symbol `⏸/▶` a menu symbol `☰`.
+- Před spuštěním hry používá mobilní mřížka vždy dva sloupce a dlaždice se mohou zmenšit podle šířky panelu, takže nepřetékají přes jeho okraj.
+- Mobilní tlačítka pause/play a menu jsou kompaktní čtvercová tlačítka nezávislá na šířce dlaždic; menu používá pouze symbol `☰`.
+- Mobilní ovládací řádek má pořadí pause/play, dvě časové předvolby a menu; všechna tlačítka mají výšku 44 px a menu je zarovnané k pravému okraji.
+- Pokud zbývá šířka, mobilní herní řádek postupně zpřístupní návrat na PC od 330 px, jazyk od 400 px, zvuk od 450 px a pokročilé nastavení od 500 px.
+- Přidané utility se vizuálně řadí stejně jako na desktopu: jazyk, zvuk, nastavení a PC; skryté utility zůstávají dostupné ve vysouvacím menu.
+- Význam tlačítka menu a informace, že časová předvolba přidává čas aktuálnímu hráči, jsou viditelné pouze jako tooltip při najetí a jako přístupný popisek.
+- Jazyk, zvuk, pokročilé nastavení a návrat na desktop jsou v běžícím mobilním režimu přesunuty do prvního řádku vysouvacího menu.
+- Desktop nejprve použije úzké jednosloupcové nastavení hráčů. Pokud by přeteklo výšku viewportu a viewport má alespoň 1500 px, rozšíří panel a přepne jména do dvou sloupců; na užším displeji zůstane jeden sloupec.
+- Přepnutí mezi jedním a dvěma sloupci se po změně počtu hráčů nebo velikosti okna znovu automaticky vyhodnotí; tři sloupce se nepoužívají.
+- Mřížka hodin odvozuje počet sloupců od dostupné šířky i výšky a drží klikací dlaždice co nejblíže čtvercovému poměru při minimální cílové šířce přibližně 180 px.
+- Cílové rozložení 2560 × 1440 zobrazí všech 20 hráčů bez nutnosti posouvat celou stránku; scrollování nastavení zůstává pouze jako pojistka pro nízké viewporty.
+- Přidání nebo odebrání hráče okamžitě překreslí mřížku a přepne mezi úzkým a širokým layoutem bez obnovení stránky.
 
 ## Herní režimy
 
@@ -31,11 +44,16 @@ Tento soubor je průběžné zadání aktivní verze aplikace v `multiClock.html
 ## Menu během hry
 
 - Reset hry provádí pouze tlačítko `Reset` a nemění zvolený herní režim ani ostatní nastavení.
-- Na desktopu se tlačítko `MENU` nezobrazuje. Vedle pauzy/pokračování je přímo výběr hráče, počet sekund a tlačítko pro přidání času.
-- Na mobilu jsou během hry vedle sebe pauza/pokračování, `MENU` a rychlé tlačítko `Přidat 15 sekund`.
-- Otevření herního menu odpočet pozastaví; zavření křížkem, tlačítkem `ZAVŘÍT` nebo kliknutím mimo panel odpočet automaticky znovu spustí na mobilu i desktopu.
+- Pokročilé nastavení obsahuje potvrzovanou volbu `Obnovit výchozí nastavení`, která vrátí obecný režim, 4 hráče, výchozí časy, zvuky a jména `Hráč 1-4`.
+- Na desktopu se tlačítko `MENU` nezobrazuje. Vedle pauzy/pokračování je výběr hráče a pět tlačítek předvoleb pro okamžité přidání času.
+- Výběr cíle pro přidání času zobrazuje pouze jméno hráče; automatický aktivní cíl není doplněn vysvětlujícím textem.
+- Výchozí předvolby přidání času jsou `+5s`, `+15s`, `+1min`, `+2min` a `+5min`; každou hodnotu lze změnit v pokročilém nastavení.
+- V úzkém mobilním režimu se zobrazují druhá a čtvrtá předvolba, ve výchozím stavu `+15s` a `+2min`.
+- Pokud se desktopová herní lišta nevejde vedle stavu a pauzy, předvolby se přesunou na samostatný řádek a nepřetékají mimo viewport.
+- V PC režimu je stavové info vždy na samostatném jednom řádku nad pauzou a tlačítky pro přidání času; při nedostatku šířky se zkrátí výpustkou.
+- Otevření herního menu si zapamatuje předchozí stav odpočtu. Po zavření křížkem, tlačítkem menu, kliknutím mimo panel nebo návratem na PC se běžící hodiny znovu spustí, zatímco předem pozastavené hodiny zůstanou pozastavené.
 - Výchozím cílem rychlého přidání je vždy právě aktivní hráč; po předání tahu se cíl automaticky změní.
-- V mobilním menu lze nastavit jiného pevného hráče i jiný počet sekund.
+- V mobilním menu lze nastavit jiného pevného hráče a použít všech pět časových předvoleb.
 - Menu v mobilním režimu zpřístupňuje také kompletní nastavení partie.
 
 ## Horní lišta a zvuky
