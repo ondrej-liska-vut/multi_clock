@@ -584,7 +584,7 @@
 
         .playbar {
             display: grid;
-            grid-template-columns: auto minmax(0, 1fr);
+            grid-template-columns: auto minmax(0, 1fr) auto;
             gap: 8px;
             align-items: center;
         }
@@ -643,6 +643,25 @@
 
         .time-preset-button:hover {
             filter: brightness(0.88);
+        }
+
+        .undo-turn-button {
+            min-width: 76px;
+            padding: 10px 14px;
+            border-radius: 9px;
+            background: #475569;
+            color: #fff;
+            font-weight: 800;
+            white-space: nowrap;
+        }
+
+        .undo-turn-button:hover:not(:disabled) {
+            filter: brightness(0.88);
+        }
+
+        .undo-turn-button:disabled {
+            cursor: not-allowed;
+            opacity: 0.42;
         }
 
         .desktop-time-tools select,
@@ -981,25 +1000,25 @@
             font-weight: 800;
         }
 
-        @media (min-width: 330px) {
+        @media (min-width: 380px) {
             .mobile-running .mobile-inline-desktop {
                 display: inline-flex;
             }
         }
 
-        @media (min-width: 400px) {
+        @media (min-width: 450px) {
             .mobile-running .mobile-inline-language {
                 display: inline-flex;
             }
         }
 
-        @media (min-width: 450px) {
+        @media (min-width: 500px) {
             .mobile-running .mobile-inline-sound {
                 display: inline-flex;
             }
         }
 
-        @media (min-width: 500px) {
+        @media (min-width: 550px) {
             .mobile-running .mobile-inline-settings {
                 display: inline-flex;
             }
@@ -1077,7 +1096,8 @@
         }
 
         .mobile-running .btn-control,
-        .mobile-running .btn-menu {
+        .mobile-running .btn-menu,
+        .mobile-running .undo-turn-button {
             min-width: 0;
             width: 44px;
             height: 44px;
@@ -1091,8 +1111,16 @@
         }
 
         .mobile-running .btn-menu {
-            order: 4;
+            order: 5;
             margin-left: auto;
+        }
+
+        .mobile-running .undo-turn-button {
+            order: 3;
+        }
+
+        .mobile-running .mobile-inline-utilities {
+            order: 4;
         }
 
         .mobile-running .clock-grid {
@@ -1224,7 +1252,7 @@
             }
 
             .playbar {
-                grid-template-columns: auto minmax(0, 1fr);
+                grid-template-columns: auto minmax(0, 1fr) auto;
             }
 
             .desktop-time-tools {
@@ -1279,7 +1307,7 @@
             }
 
             body.setup-two-columns:not(.mobile-view) .playbar {
-                grid-template-columns: auto minmax(0, 1fr);
+                grid-template-columns: auto minmax(0, 1fr) auto;
             }
 
             body.setup-two-columns:not(.mobile-view) .desktop-time-tools {
@@ -1457,8 +1485,8 @@
                         </select>
                     </div>
                     <div class="field">
-                        <span id="playerCountLabel">Počet hráčů (3-20)</span>
-                        <input id="playerCount" type="number" min="3" max="20" value="4">
+                        <span id="playerCountLabel">Počet hráčů (1-20)</span>
+                        <input id="playerCount" type="number" min="1" max="20" value="4">
                     </div>
                     <div class="field">
                         <span data-i18n="setup.timePerPlayer">Čas na hráče (minuty)</span>
@@ -1488,6 +1516,7 @@
                             <select id="desktopTimePlayerSelect" aria-label="Hráč, kterému se přidá čas"></select>
                             <div id="desktopTimePresets" class="time-preset-buttons"></div>
                         </div>
+                        <button id="undoTurnButton" class="undo-turn-button" type="button" disabled>Zpět</button>
                         <button id="menuButton" class="btn btn-menu" type="button">MENU</button>
                         <div id="quickTimePresets" class="quick-time-buttons"></div>
                         <div class="mobile-inline-utilities" aria-label="Rychlé nastavení aplikace">
@@ -1588,6 +1617,7 @@
             timePresets: [5, 15, 60, 120, 300],
             quickAddTargetId: null,
             selectingFirstPlayer: false,
+            turnHistory: [],
             soundEnabled: true,
             soundSettings: {
                 ticking: false,
@@ -1617,6 +1647,7 @@
             pauseButton: document.getElementById("pauseButton"),
             menuButton: document.getElementById("menuButton"),
             quickTimePresets: document.getElementById("quickTimePresets"),
+            undoTurnButton: document.getElementById("undoTurnButton"),
             desktopTimePlayerSelect: document.getElementById("desktopTimePlayerSelect"),
             desktopTimePresets: document.getElementById("desktopTimePresets"),
             closeDrawer: document.getElementById("closeDrawer"),
@@ -2043,6 +2074,7 @@
                 timePresets: state.timePresets,
                 quickAddTargetId: state.quickAddTargetId,
                 selectingFirstPlayer: state.selectingFirstPlayer,
+                turnHistory: state.turnHistory,
                 soundEnabled: state.soundEnabled,
                 soundSettings: state.soundSettings,
                 lastTickAt: state.running && !state.paused ? Date.now() : null
@@ -2059,7 +2091,7 @@
             try {
                 const parsed = JSON.parse(raw);
                 state.gameMode = parsed.gameMode === "scythe" ? "scythe" : "generic";
-                state.playerCount = clamp(Number(parsed.playerCount) || 4, 3, getMaxPlayers(state.gameMode));
+                state.playerCount = clamp(Number(parsed.playerCount) || 4, 1, getMaxPlayers(state.gameMode));
                 state.startMinutes = Math.max(1, Number(parsed.startMinutes) || 10);
                 state.incrementSeconds = Math.max(0, Number(parsed.incrementSeconds) || 0);
                 state.language = window.MULTICLOCK_TRANSLATIONS.meta.supportedLanguages.includes(parsed.language)
@@ -2077,6 +2109,13 @@
                 );
                 state.quickAddTargetId = typeof parsed.quickAddTargetId === "string" ? parsed.quickAddTargetId : null;
                 state.selectingFirstPlayer = Boolean(parsed.selectingFirstPlayer) && !state.running;
+                state.turnHistory = Array.isArray(parsed.turnHistory)
+                    ? parsed.turnHistory.slice(-state.playerCount).filter((entry) =>
+                        typeof entry?.previousPlayerId === "string"
+                        && typeof entry?.currentPlayerId === "string"
+                        && Number.isFinite(entry.previousSeconds)
+                        && Number.isFinite(entry.currentSeconds)
+                    ) : [];
                 state.soundEnabled = parsed.soundEnabled !== false;
                 const savedSoundSettings = parsed.soundSettings ?? {};
                 state.soundSettings = {
@@ -2226,7 +2265,7 @@
 
             const availableWidth = ui.clockGrid.clientWidth || Math.floor(window.innerWidth * 0.7);
             const availableHeight = Math.max(420, window.innerHeight - 180);
-            const minimumColumns = count === 3 ? 3 : 2;
+            const minimumColumns = count === 1 ? 1 : count === 3 ? 3 : 2;
             const maximumColumns = Math.min(count, 8);
             let columns = Math.min(maximumColumns, Math.max(minimumColumns, Math.ceil(Math.sqrt(count))));
             let largestFittingTile = 0;
@@ -2276,6 +2315,12 @@
         }
 
         function nextActive() {
+            if (state.players.length === 1 && remainingPlayers() === 1) {
+                state.activeIndex = 0;
+                syncTimeControls();
+                return;
+            }
+
             if (remainingPlayers() <= 1) {
                 state.paused = true;
                 stopTimer();
@@ -2312,7 +2357,7 @@
 
             const active = state.players[state.activeIndex];
             const alive = remainingPlayers();
-            if (alive <= 1) {
+            if (alive <= 1 && state.players.length > 1) {
                 ui.pauseButton.disabled = true;
                 ui.statusText.textContent = active ? t("status.winner", { name: active.name }) : t("status.gameOver");
                 persistState();
@@ -2353,7 +2398,7 @@
             }
 
             let left = elapsed;
-            while (left > 0 && remainingPlayers() > 1) {
+            while (left > 0 && remainingPlayers() > (state.players.length === 1 ? 0 : 1)) {
                 const active = state.players[state.activeIndex];
                 if (!active || active.out) {
                     nextActive();
@@ -2407,6 +2452,7 @@
                 if (active.seconds <= 0) {
                     active.seconds = 0;
                     active.out = true;
+                    state.turnHistory = [];
                     playTimeoutSound();
                     nextActive();
                 }
@@ -2431,9 +2477,22 @@
                 return;
             }
 
+            const previousPlayerId = active.id;
+            const previousSeconds = active.seconds;
             active.seconds += state.incrementSeconds;
             playMoveSound();
             nextActive();
+            const current = state.players[state.activeIndex];
+            if (current && current.id !== previousPlayerId) {
+                state.turnHistory.push({
+                    previousPlayerId,
+                    previousSeconds,
+                    currentPlayerId: current.id,
+                    currentSeconds: current.seconds
+                });
+                state.turnHistory = state.turnHistory.slice(-state.players.length);
+            }
+            syncUndoControl();
             renderClocks();
             syncStatus();
         }
@@ -2506,7 +2565,7 @@
             state.menuOpen = false;
             const shouldResume = state.resumeAfterMenuClose;
             state.resumeAfterMenuClose = false;
-            if (state.running && remainingPlayers() > 1) {
+            if (state.running && (remainingPlayers() > 1 || state.players.length === 1)) {
                 state.paused = !shouldResume;
                 state.lastTickAt = shouldResume ? Date.now() : null;
                 if (shouldResume && !state.timerId) {
@@ -2538,12 +2597,13 @@
             const old = state.players.slice();
             state.players = Array.from({ length: state.playerCount }, (_, i) => createPlayer(i, old[i] ?? null));
             state.activeIndex = clamp(state.activeIndex, 0, state.playerCount - 1);
+            state.turnHistory = [];
             normalizeScythePlayers(activePlayerId);
         }
 
         function readSetupFromInputs() {
             state.gameMode = ui.gameMode.value === "scythe" ? "scythe" : "generic";
-            state.playerCount = clamp(Number(ui.playerCount.value) || 4, 3, getMaxPlayers());
+            state.playerCount = clamp(Number(ui.playerCount.value) || 4, 1, getMaxPlayers());
             state.startMinutes = Math.max(1, Number(ui.startMinutes.value) || 10);
             state.incrementSeconds = Math.max(0, Number(ui.incrementSeconds.value) || 0);
             syncPlayerLimit();
@@ -2592,9 +2652,50 @@
             ui.desktopTimePresets.innerHTML = presetButtons;
             ui.menuTimePresets.innerHTML = presetButtons;
             ui.quickTimePresets.innerHTML = presetButtons;
+            syncUndoControl();
             if (clearFeedback) {
                 ui.timeFeedback.textContent = "";
             }
+        }
+
+        function syncUndoControl() {
+            const lastTurn = state.turnHistory.at(-1);
+            const active = state.players[state.activeIndex];
+            const canUndo = Boolean(state.running && lastTurn && active?.id === lastTurn.currentPlayerId);
+            ui.undoTurnButton.disabled = !canUndo;
+            ui.undoTurnButton.textContent = state.mobileView && state.running ? "↶" : t("action.undoTurn");
+            ui.undoTurnButton.setAttribute("aria-label", t("action.undoTurn"));
+            ui.undoTurnButton.title = t("action.undoTurn");
+        }
+
+        function undoTurn() {
+            const lastTurn = state.turnHistory.at(-1);
+            const active = state.players[state.activeIndex];
+            if (!state.running || !lastTurn || active?.id !== lastTurn.currentPlayerId) {
+                return;
+            }
+
+            const previousIndex = state.players.findIndex((player) => player.id === lastTurn.previousPlayerId);
+            const currentPlayer = state.players.find((player) => player.id === lastTurn.currentPlayerId);
+            if (previousIndex < 0 || !currentPlayer) {
+                state.turnHistory = [];
+                syncUndoControl();
+                persistState();
+                return;
+            }
+
+            state.turnHistory.pop();
+            currentPlayer.seconds = Math.max(0, lastTurn.currentSeconds);
+            currentPlayer.out = false;
+            state.players[previousIndex].seconds = Math.max(0, lastTurn.previousSeconds);
+            state.players[previousIndex].out = false;
+            state.activeIndex = previousIndex;
+            state.quickAddTargetId = null;
+            state.lastTickAt = state.paused ? null : Date.now();
+            renderClocks();
+            syncTimeControls(true);
+            syncStatus();
+            persistState();
         }
 
         function formatPresetTime(seconds) {
@@ -2661,6 +2762,7 @@
             state.lastTickAt = null;
             state.menuOpen = false;
             state.resumeAfterMenuClose = false;
+            state.turnHistory = [];
 
             startTimer();
             playStartSound();
@@ -2678,6 +2780,7 @@
             state.menuOpen = false;
             state.resumeAfterMenuClose = false;
             state.quickAddTargetId = null;
+            state.turnHistory = [];
             state.lastTickAt = null;
             state.players.forEach((player) => {
                 player.seconds = state.startMinutes * 60;
@@ -2709,6 +2812,7 @@
             state.timePresets = [5, 15, 60, 120, 300];
             state.quickAddTargetId = null;
             state.selectingFirstPlayer = false;
+            state.turnHistory = [];
             state.soundEnabled = true;
             state.soundSettings = {
                 ticking: false,
@@ -2863,7 +2967,7 @@
             });
 
             ui.pauseButton.addEventListener("click", () => {
-                if (!state.running || remainingPlayers() <= 1) {
+                if (!state.running || (remainingPlayers() <= 1 && state.players.length > 1)) {
                     return;
                 }
 
@@ -2874,6 +2978,8 @@
                 }
                 syncStatus();
             });
+
+            ui.undoTurnButton.addEventListener("click", undoTurn);
 
             ui.menuButton.addEventListener("click", () => {
                 const opening = !state.menuOpen;

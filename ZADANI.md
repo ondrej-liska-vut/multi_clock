@@ -15,7 +15,7 @@ Tento soubor je průběžné zadání aktivní verze aplikace v `multiClock.html
 - Před spuštěním hry používá mobilní mřížka vždy dva sloupce a dlaždice se mohou zmenšit podle šířky panelu, takže nepřetékají přes jeho okraj.
 - Mobilní tlačítka pause/play a menu jsou kompaktní čtvercová tlačítka nezávislá na šířce dlaždic; menu používá pouze symbol `☰`.
 - Mobilní ovládací řádek má pořadí pause/play, dvě časové předvolby a menu; všechna tlačítka mají výšku 44 px a menu je zarovnané k pravému okraji.
-- Pokud zbývá šířka, mobilní herní řádek postupně zpřístupní návrat na PC od 330 px, jazyk od 400 px, zvuk od 450 px a pokročilé nastavení od 500 px.
+- Pokud po zobrazení návratu tahu zbývá šířka, mobilní herní řádek postupně zpřístupní návrat na PC od 380 px, jazyk od 450 px, zvuk od 500 px a pokročilé nastavení od 550 px.
 - Přidané utility se vizuálně řadí stejně jako na desktopu: jazyk, zvuk, nastavení a PC; skryté utility zůstávají dostupné ve vysouvacím menu.
 - Význam tlačítka menu a informace, že časová předvolba přidává čas aktuálnímu hráči, jsou viditelné pouze jako tooltip při najetí a jako přístupný popisek.
 - Jazyk, zvuk, pokročilé nastavení a návrat na desktop jsou v běžícím mobilním režimu přesunuty do prvního řádku vysouvacího menu.
@@ -36,12 +36,12 @@ Tento soubor je průběžné zadání aktivní verze aplikace v `multiClock.html
 
 ### Obecný režim
 
-- Podporuje 3 až 20 hráčů.
+- Podporuje 1 až 20 hráčů. V režimu jednoho hráče čas běží standardně a kliknutí na jeho dlaždici jej nezastaví.
 - Hráči hrají v pořadí zobrazených časomír.
 
 ### Scythe
 
-- Podporuje 3 až 8 hráčů.
+- Podporuje 1 až 8 hráčů. Režim jednoho hráče používá stejný nepřerušovaný odpočet jako obecný režim.
 - Dostupné frakce: Rusviet, Nordic, Crimea, Saxony, Polania, Albion, Togawa, Vesna a Fenris.
 - Dva hráči nesmí mít stejnou frakci.
 - Pokud hráč zvolí již obsazenou frakci, původní držitel dostane první volnou frakci.
@@ -58,6 +58,9 @@ Tento soubor je průběžné zadání aktivní verze aplikace v `multiClock.html
 - V úzkém mobilním režimu se zobrazují druhá a čtvrtá předvolba, ve výchozím stavu `+15s` a `+2min`.
 - Pokud se desktopová herní lišta nevejde vedle stavu a pauzy, předvolby se přesunou na samostatný řádek a nepřetékají mimo viewport.
 - V PC režimu je stavové info vždy na samostatném jednom řádku nad pauzou a tlačítky pro přidání času; při nedostatku šířky se zkrátí výpustkou.
+- Napravo od časových předvoleb je návrat posledního tahu. Desktop zobrazuje text `Zpět`, běžící mobilní režim používá symbol `↶` s přístupným popiskem.
+- Návrat obnoví čas současného hráče na hodnotu z okamžiku, kdy se dostal na řadu, vrátí tah předchozímu hráči a obnoví jeho čas před přičtením přídavku. Přídavek se tedy při návratu nezachová ani znovu nepřičítá.
+- Historie umožňuje postupně vrátit nejvýše jedno celé kolo, tedy maximálně tolik předání, kolik je hráčů. Ukládá se společně s rozehranou partií a při nové hře, resetu, změně sestavy nebo vypršení času se zahodí.
 - Otevření herního menu si zapamatuje předchozí stav odpočtu. Po zavření křížkem, tlačítkem menu, kliknutím mimo panel nebo návratem na PC se běžící hodiny znovu spustí, zatímco předem pozastavené hodiny zůstanou pozastavené.
 - Výchozím cílem rychlého přidání je vždy právě aktivní hráč; po předání tahu se cíl automaticky změní.
 - V mobilním menu lze nastavit jiného pevného hráče a použít všech pět časových předvoleb.

@@ -121,17 +121,17 @@ window.MULTICLOCK_TRANSLATIONS = {
       "bs": "Scythe"
     },
     "setup.playerCount": {
-      "cs": "Počet hráčů (3-{max})",
-      "en": "Number of players (3-{max})",
-      "de": "Spieleranzahl (3-{max})",
-      "es": "Número de jugadores (3-{max})",
-      "hu": "Játékosok száma (3-{max})",
-      "uk": "Кількість гравців (3-{max})",
-      "pl": "Liczba graczy (3-{max})",
-      "it": "Numero di giocatori (3-{max})",
-      "fr": "Nombre de joueurs (3-{max})",
-      "ru": "Количество игроков (3-{max})",
-      "bs": "Broj igrača (3-{max})"
+      "cs": "Počet hráčů (1-{max})",
+      "en": "Number of players (1-{max})",
+      "de": "Spieleranzahl (1-{max})",
+      "es": "Número de jugadores (1-{max})",
+      "hu": "Játékosok száma (1-{max})",
+      "uk": "Кількість гравців (1-{max})",
+      "pl": "Liczba graczy (1-{max})",
+      "it": "Numero di giocatori (1-{max})",
+      "fr": "Nombre de joueurs (1-{max})",
+      "ru": "Количество игроков (1-{max})",
+      "bs": "Broj igrača (1-{max})"
     },
     "setup.timePerPlayer": {
       "cs": "Čas na hráče (minuty)",
@@ -236,6 +236,19 @@ window.MULTICLOCK_TRANSLATIONS = {
       "fr": "Pause",
       "ru": "Пауза",
       "bs": "Pauza"
+    },
+    "action.undoTurn": {
+      "cs": "Zpět",
+      "en": "Undo",
+      "de": "Zurück",
+      "es": "Atrás",
+      "hu": "Vissza",
+      "uk": "Назад",
+      "pl": "Cofnij",
+      "it": "Indietro",
+      "fr": "Retour",
+      "ru": "Назад",
+      "bs": "Nazad"
     },
     "action.resume": {
       "cs": "Pokračovat",
