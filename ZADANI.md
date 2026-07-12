@@ -69,6 +69,16 @@ Tento soubor je průběžné zadání aktivní verze aplikace v `multiClock.html
 - Odpočet posledních 10 sekund je ve výchozím stavu zapnutý a používá hlasitější zlověstný tón, který se směrem k nule stupňuje.
 - Start hry, předání tahu, dosažení posledních 10 sekund a vypršení času mají samostatné zvukové signály.
 
+## Překlady
+
+- Překlady uživatelského rozhraní jsou v `resources/translations.json` pro `cs`, `en`, `de`, `es`, `hu`, `uk`, `pl`, `it`, `fr`, `ru` a `bs`.
+- Každá položka používá stabilní významový klíč a obsahuje všechny podporované jazykové varianty.
+- Dynamické texty používají pojmenované zástupné hodnoty, například `{name}`, `{number}`, `{max}` a `{seconds}`.
+- Pravidla pro údržbu a přidávání překladů jsou popsaná v `resources/README.md`.
+- Výběr jazyka okamžitě překládá statické texty, dynamické stavové hlášky, dlaždice, tooltipy a nastavení; zvolený jazyk se ukládá a synchronizuje mezi všemi přepínači.
+- Výchozí jména hráčů se při změně jazyka přeloží, pokud odpovídají výchozí šabloně v kterémkoli podporovaném jazyce; ručně upravená jména se nikdy nepřepisují.
+- Česká hlavní tlačítka používají texty `Spustit` a `Vynulovat čas`.
+
 ## Aktuální kolo
 
 - [x] Sjednotit mobilní a počítačové zobrazení bez slepé uličky.

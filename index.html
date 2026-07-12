@@ -621,7 +621,7 @@
         }
 
         .clock-card.selecting-start .card-hint::after {
-            content: "Klikni: tento hr\00e1\010d za\010d\00edn\00e1";
+            content: attr(data-start-hint);
             font-size: 0.82rem;
         }
 
@@ -1231,7 +1231,7 @@
     <div id="appRoot" class="app-root">
         <div class="app">
             <header class="topbar">
-                <h1>Vícehráčové herní hodiny</h1>
+                <h1 data-i18n="app.title">Vícehráčové herní hodiny</h1>
                 <div class="topbar-actions">
                     <select id="languageSelect" class="language-select" aria-label="Jazyk rozhraní" title="Vybrat jazyk (funkce bude doplněna)">
                         <option value="cs">CZ</option>
@@ -1253,24 +1253,24 @@
             <dialog id="settingsDialog" class="settings-dialog" aria-labelledby="settingsTitle">
                 <div class="settings-card">
                     <div class="settings-head">
-                        <h2 id="settingsTitle">Pokročilé nastavení</h2>
-                        <button id="settingsClose" class="settings-close" type="button" aria-label="Zavřít nastavení">×</button>
+                        <h2 id="settingsTitle" data-i18n="settings.title">Pokročilé nastavení</h2>
+                        <button id="settingsClose" class="settings-close" type="button" aria-label="Zavřít nastavení" data-i18n-aria="accessibility.closeSettings">×</button>
                     </div>
                     <section class="settings-section" aria-labelledby="soundSettingsTitle">
-                        <h3 id="soundSettingsTitle">Nastavení zvuku</h3>
-                        <p class="settings-section-intro">Vyber, které zvukové události mají být během hry slyšet.</p>
+                        <h3 id="soundSettingsTitle" data-i18n="settings.soundTitle">Nastavení zvuku</h3>
+                        <p class="settings-section-intro" data-i18n="settings.soundDescription">Vyber, které zvukové události mají být během hry slyšet.</p>
                         <div class="sound-options">
-                            <label class="sound-option"><span>Tikání běžících hodin</span><input type="checkbox" data-sound-setting="ticking"></label>
-                            <label class="sound-option"><span>Začátek hry</span><input type="checkbox" data-sound-setting="start" checked></label>
-                            <label class="sound-option"><span>Předání tahu</span><input type="checkbox" data-sound-setting="move" checked></label>
-                            <label class="sound-option"><span>Blížící se konec času</span><input type="checkbox" data-sound-setting="warning" checked></label>
-                            <label class="sound-option"><span>Odpočet posledních 10 sekund</span><input type="checkbox" data-sound-setting="countdown" checked></label>
-                            <label class="sound-option"><span>Vypršení času</span><input type="checkbox" data-sound-setting="timeout" checked></label>
+                            <label class="sound-option"><span data-i18n="settings.soundTicking">Tikání běžících hodin</span><input type="checkbox" data-sound-setting="ticking"></label>
+                            <label class="sound-option"><span data-i18n="settings.soundStart">Začátek hry</span><input type="checkbox" data-sound-setting="start" checked></label>
+                            <label class="sound-option"><span data-i18n="settings.soundMove">Předání tahu</span><input type="checkbox" data-sound-setting="move" checked></label>
+                            <label class="sound-option"><span data-i18n="settings.soundWarning">Blížící se konec času</span><input type="checkbox" data-sound-setting="warning" checked></label>
+                            <label class="sound-option"><span data-i18n="settings.soundCountdown">Odpočet posledních 10 sekund</span><input type="checkbox" data-sound-setting="countdown" checked></label>
+                            <label class="sound-option"><span data-i18n="settings.soundTimeout">Vypršení času</span><input type="checkbox" data-sound-setting="timeout" checked></label>
                         </div>
                     </section>
                     <section class="settings-section" aria-labelledby="timePresetSettingsTitle">
-                        <h3 id="timePresetSettingsTitle">Předvolby přidání času</h3>
-                        <p class="settings-section-intro">Hodnoty jsou v sekundách. Druhá a čtvrtá předvolba se používají v úzkém mobilním režimu.</p>
+                        <h3 id="timePresetSettingsTitle" data-i18n="settings.timePresetsTitle">Předvolby přidání času</h3>
+                        <p class="settings-section-intro" data-i18n="settings.timePresetsDescription">Hodnoty jsou v sekundách. Druhá a čtvrtá předvolba se používají v úzkém mobilním režimu.</p>
                         <div class="preset-settings">
                             <label class="preset-setting"><span>1.</span><input type="number" min="1" step="1" value="5" data-time-preset="0"></label>
                             <label class="preset-setting"><span>2.</span><input type="number" min="1" step="1" value="15" data-time-preset="1"></label>
@@ -1279,17 +1279,17 @@
                             <label class="preset-setting"><span>5.</span><input type="number" min="1" step="1" value="300" data-time-preset="4"></label>
                         </div>
                     </section>
-                    <p class="future-settings">Přizpůsobení barev připravujeme pro některou z dalších verzí.</p>
-                    <button id="restoreDefaultsButton" class="settings-reset-button" type="button">Obnovit výchozí nastavení</button>
+                    <p class="future-settings" data-i18n="settings.colorsComingSoon">Přizpůsobení barev připravujeme pro některou z dalších verzí.</p>
+                    <button id="restoreDefaultsButton" class="settings-reset-button" type="button" data-i18n="settings.restoreDefaults">Obnovit výchozí nastavení</button>
                 </div>
             </dialog>
 
             <main class="layout">
                 <section id="setupPanel" class="panel setup">
                     <div class="field">
-                        <span>Režim</span>
+                        <span data-i18n="mode.label">Režim</span>
                         <select id="gameMode">
-                            <option value="generic">Obecný</option>
+                            <option value="generic" data-i18n="mode.generic">Obecný</option>
                             <option value="scythe">Scythe</option>
                         </select>
                     </div>
@@ -1298,22 +1298,22 @@
                         <input id="playerCount" type="number" min="3" max="20" value="4">
                     </div>
                     <div class="field">
-                        <span>Čas na hráče (minuty)</span>
+                        <span data-i18n="setup.timePerPlayer">Čas na hráče (minuty)</span>
                         <input id="startMinutes" type="number" min="1" value="10">
                     </div>
                     <div class="field">
-                        <span>Přídavek na tah (sekundy)</span>
+                        <span data-i18n="setup.turnIncrement">Přídavek na tah (sekundy)</span>
                         <input id="incrementSeconds" type="number" min="0" value="0">
                     </div>
 
                     <div class="player-config">
-                        <span style="font-size:0.9rem;color:#5f6e83;font-weight:600;">Jména hráčů</span>
+                        <span style="font-size:0.9rem;color:#5f6e83;font-weight:600;" data-i18n="setup.playerNames">Jména hráčů</span>
                         <div id="playerList" class="player-list"></div>
                     </div>
 
                     <div class="actions">
-                        <button id="startButton" class="btn btn-start" type="button">Start</button>
-                        <button id="resetButton" class="btn btn-reset" type="button">Reset</button>
+                        <button id="startButton" class="btn btn-start" type="button" data-i18n="action.start">Start</button>
+                        <button id="resetButton" class="btn btn-reset" type="button" data-i18n="action.reset">Reset</button>
                     </div>
                 </section>
 
@@ -1347,8 +1347,8 @@
         <aside id="drawer" class="drawer" aria-hidden="true">
             <div class="drawer-card">
                 <div class="drawer-head">
-                    <h2 style="margin:0;font-size:1.12rem;">Menu</h2>
-                    <button id="closeDrawer" class="drawer-close" type="button" aria-label="Zavřít menu">×</button>
+                    <h2 style="margin:0;font-size:1.12rem;" data-i18n="action.menu">Menu</h2>
+                    <button id="closeDrawer" class="drawer-close" type="button" aria-label="Zavřít menu" data-i18n-aria="accessibility.closeMenu">×</button>
                 </div>
                 <div class="drawer-utility-row" aria-label="Rychlé nastavení aplikace">
                     <select id="drawerLanguageSelect" aria-label="Jazyk rozhraní" title="Vybrat jazyk">
@@ -1361,7 +1361,7 @@
                     <button id="drawerDesktopToggle" class="drawer-utility-button" type="button" aria-label="Přepnout na desktopové zobrazení" title="Desktopové zobrazení">🖥️</button>
                 </div>
                 <section class="time-tools" aria-labelledby="timeToolsTitle">
-                    <h3 id="timeToolsTitle">Jednorázově přidat čas</h3>
+                    <h3 id="timeToolsTitle" data-i18n="time.addOnceTitle">Jednorázově přidat čas</h3>
                     <div class="time-row">
                         <select id="timePlayerSelect" aria-label="Hráč, kterému se přidá čas"></select>
                     </div>
@@ -1369,13 +1369,14 @@
                     <p id="timeFeedback" class="time-feedback" aria-live="polite"></p>
                 </section>
                 <section class="drawer-setup-section">
-                    <h3>Nastavení partie</h3>
+                    <h3 data-i18n="settings.gameTitle">Nastavení partie</h3>
                     <div id="drawerSetupHost"></div>
                 </section>
             </div>
         </aside>
     </div>
 
+    <script src="resources/translations.generated.js"></script>
     <script>
         const STORAGE_KEY = "multiclock-unified-v2";
         const playerColors = [
@@ -1419,6 +1420,7 @@
             paused: true,
             mobileView: false,
             menuOpen: false,
+            language: "cs",
             resumeAfterMenuClose: false,
             timePresets: [5, 15, 60, 120, 300],
             quickAddTargetId: null,
@@ -1487,6 +1489,67 @@
 
         function clamp(value, min, max) {
             return Math.max(min, Math.min(max, value));
+        }
+
+        function t(key, variables = {}) {
+            const entry = window.MULTICLOCK_TRANSLATIONS?.strings?.[key];
+            const template = entry?.[state.language] ?? entry?.cs ?? key;
+            return Object.entries(variables).reduce(
+                (text, [name, value]) => text.replaceAll("{" + name + "}", String(value)),
+                template
+            );
+        }
+
+        function applyStaticTranslations() {
+            document.documentElement.lang = state.language;
+            document.title = t("app.title");
+            document.querySelectorAll("[data-i18n]").forEach((element) => {
+                element.textContent = t(element.dataset.i18n);
+            });
+            document.querySelectorAll("[data-i18n-aria]").forEach((element) => {
+                element.setAttribute("aria-label", t(element.dataset.i18nAria));
+            });
+            const languageOptions = window.MULTICLOCK_TRANSLATIONS.meta.supportedLanguages
+                .map((language) => "<option value=\"" + language + "\">" + language.toUpperCase() + "</option>")
+                .join("");
+            [ui.languageSelect, ui.drawerLanguageSelect, ui.mobileInlineLanguage].forEach((select) => {
+                select.innerHTML = languageOptions;
+                select.value = state.language;
+                select.setAttribute("aria-label", t("accessibility.language"));
+                select.title = t("accessibility.language");
+            });
+            [ui.settingsToggle, ui.drawerSettingsToggle, ui.mobileInlineSettings].forEach((button) => {
+                button.setAttribute("aria-label", t("accessibility.openSettings"));
+                button.title = t("accessibility.openSettings");
+            });
+            [ui.timePlayerSelect, ui.desktopTimePlayerSelect].forEach((select) => {
+                select.setAttribute("aria-label", t("accessibility.timeTarget"));
+            });
+        }
+
+        function setLanguage(language) {
+            if (!window.MULTICLOCK_TRANSLATIONS?.meta?.supportedLanguages?.includes(language)) {
+                return;
+            }
+            state.players.forEach((player, index) => {
+                const defaultNameEntry = window.MULTICLOCK_TRANSLATIONS.strings["setup.playerDefaultName"];
+                const hasDefaultName = window.MULTICLOCK_TRANSLATIONS.meta.supportedLanguages.some((languageCode) =>
+                    player.name === defaultNameEntry[languageCode].replace("{number}", String(index + 1))
+                );
+                if (state.gameMode !== "scythe" && hasDefaultName) {
+                    const nextName = window.MULTICLOCK_TRANSLATIONS.strings["setup.playerDefaultName"][language]
+                        .replace("{number}", String(index + 1));
+                    player.name = nextName;
+                }
+            });
+            state.language = language;
+            ui.languageSelect.value = language;
+            ui.drawerLanguageSelect.value = language;
+            ui.mobileInlineLanguage.value = language;
+            applyStaticTranslations();
+            renderPlayerInputs();
+            syncLayout();
+            persistState();
         }
 
         function getAudioContext() {
@@ -1597,7 +1660,7 @@
         }
 
         function syncSoundControl() {
-            const soundAction = state.soundEnabled ? "Vypnout zvuk" : "Zapnout zvuk";
+            const soundAction = t(state.soundEnabled ? "accessibility.soundOff" : "accessibility.soundOn");
             ui.soundToggle.setAttribute("aria-pressed", String(state.soundEnabled));
             ui.soundToggle.setAttribute("aria-label", soundAction);
             ui.soundToggle.title = soundAction;
@@ -1630,7 +1693,7 @@
         function syncPlayerLimit() {
             const maxPlayers = getMaxPlayers();
             ui.playerCount.max = String(maxPlayers);
-            ui.playerCountLabel.textContent = "Počet hráčů (3-" + maxPlayers + ")";
+            ui.playerCountLabel.textContent = t("setup.playerCount", { max: maxPlayers });
         }
 
         function createPlayer(index, existing = null) {
@@ -1648,7 +1711,7 @@
 
             return {
                 id: existing?.id ?? crypto.randomUUID(),
-                name: existing?.name ?? "Hráč " + (index + 1),
+                name: existing?.name ?? t("setup.playerDefaultName", { number: index + 1 }),
                 seconds: Math.max(0, Number(existing?.seconds ?? state.startMinutes * 60)),
                 out: Boolean(existing?.out),
                 color: existing?.color ?? playerColors[index % playerColors.length],
@@ -1735,6 +1798,7 @@
                 paused: state.paused,
                 mobileView: state.mobileView,
                 menuOpen: state.menuOpen,
+                language: state.language,
                 resumeAfterMenuClose: state.resumeAfterMenuClose,
                 timePresets: state.timePresets,
                 quickAddTargetId: state.quickAddTargetId,
@@ -1758,6 +1822,8 @@
                 state.playerCount = clamp(Number(parsed.playerCount) || 4, 3, getMaxPlayers(state.gameMode));
                 state.startMinutes = Math.max(1, Number(parsed.startMinutes) || 10);
                 state.incrementSeconds = Math.max(0, Number(parsed.incrementSeconds) || 0);
+                state.language = window.MULTICLOCK_TRANSLATIONS.meta.supportedLanguages.includes(parsed.language)
+                    ? parsed.language : "cs";
                 state.players = Array.from({ length: state.playerCount }, (_, i) => createPlayer(i, parsed.players?.[i] ?? null));
                 state.activeIndex = clamp(Number(parsed.activeIndex) || 0, 0, state.playerCount - 1);
                 state.running = Boolean(parsed.running);
@@ -1799,12 +1865,12 @@
         }
 
         function orderControls(player, index) {
-            return "<div class=\"order-controls\" aria-label=\"Upravit pořadí hráče\">"
+            return "<div class=\"order-controls\" aria-label=\"" + t("accessibility.playerOrder") + "\">"
                 + "<button class=\"order-button\" type=\"button\" data-move-player=\"" + player.id
-                + "\" data-move-direction=\"-1\" title=\"Posunout dříve\" aria-label=\"Posunout dříve\""
+                + "\" data-move-direction=\"-1\" title=\"" + t("action.moveEarlier") + "\" aria-label=\"" + t("action.moveEarlier") + "\""
                 + (index === 0 ? " disabled" : "") + ">↑</button>"
                 + "<button class=\"order-button\" type=\"button\" data-move-player=\"" + player.id
-                + "\" data-move-direction=\"1\" title=\"Posunout později\" aria-label=\"Posunout později\""
+                + "\" data-move-direction=\"1\" title=\"" + t("action.moveLater") + "\" aria-label=\"" + t("action.moveLater") + "\""
                 + (index === state.players.length - 1 ? " disabled" : "") + ">↓</button>"
                 + "</div>";
         }
@@ -1813,7 +1879,7 @@
             ui.playerList.innerHTML = "";
             const orderHelp = document.createElement("p");
             orderHelp.className = "order-help";
-            orderHelp.textContent = "Pořadí tahu upravíš šipkami. U Scythe se při změně frakce nejdřív obnoví automatické pořadí.";
+            orderHelp.textContent = t("setup.turnOrderHelp");
             ui.playerList.appendChild(orderHelp);
             state.players.forEach((player, index) => {
                 const row = document.createElement("div");
@@ -1849,6 +1915,7 @@
                     + (selectingStart ? " selecting-start" : "");
                 card.style.borderColor = player.color;
                 card.style.setProperty("--player-color", player.color);
+                card.dataset.startHint = t("clock.selectStarterHint");
                 if (index === state.activeIndex && !player.out && !selectingStart) {
                     card.style.boxShadow = "0 0 0 3px " + player.color + "55";
                 }
@@ -1860,9 +1927,9 @@
                     : "<span class=\"card-name\">" + player.name + "</span>";
 
                 card.innerHTML = [
-                    "<div class=\"card-head\">" + playerHeading + "<span class=\"card-order\">Tah " + (index + 1) + "</span></div>",
+                    "<div class=\"card-head\">" + playerHeading + "<span class=\"card-order\">" + t("clock.turnNumber", { number: index + 1 }) + "</span></div>",
                     "<div class=\"card-time\">" + formatTime(player.seconds) + "</div>",
-                    "<div class=\"card-hint\">" + (player.out ? "Čas vypršel" : "Klikni při předání tahu") + "</div>"
+                    "<div class=\"card-hint\">" + t(player.out ? "clock.timeExpired" : "clock.passTurnHint") + "</div>"
                 ].join("");
 
                 if (player.out) {
@@ -1966,17 +2033,17 @@
 
         function syncStatus() {
             if (state.selectingFirstPlayer && !state.running) {
-                ui.statusText.textContent = "Vyber hr\u00e1\u010de, kter\u00fd za\u010d\u00edn\u00e1 \u2014 klikni na jeho dla\u017edici.";
+                ui.statusText.textContent = t("status.selectStartingPlayer");
                 ui.pauseButton.disabled = true;
-                setPauseButtonText("PAUZA");
+                setPauseButtonText(t("action.pause"));
                 persistState();
                 return;
             }
 
             if (!state.running) {
-                ui.statusText.textContent = "Nastav hráče a spusť odpočet.";
+                ui.statusText.textContent = t("status.ready");
                 ui.pauseButton.disabled = true;
-                setPauseButtonText("PAUZA");
+                setPauseButtonText(t("action.pause"));
                 persistState();
                 return;
             }
@@ -1985,24 +2052,25 @@
             const alive = remainingPlayers();
             if (alive <= 1) {
                 ui.pauseButton.disabled = true;
-                ui.statusText.textContent = active ? "Vítězí " + active.name + "." : "Konec hry.";
+                ui.statusText.textContent = active ? t("status.winner", { name: active.name }) : t("status.gameOver");
                 persistState();
                 return;
             }
 
             ui.pauseButton.disabled = false;
-            setPauseButtonText(state.paused ? "POKRAČOVAT" : "PAUZA");
+            setPauseButtonText(t(state.paused ? "action.resume" : "action.pause"));
             ui.statusText.textContent = state.paused
-                ? "Pozastaveno. Na tahu: " + active.name
-                : "Na tahu: " + active.name + " (klikni na jeho dlaždici)";
+                ? t("status.pausedPlayer", { name: active.name })
+                : t("status.activePlayer", { name: active.name });
             persistState();
         }
 
         function setPauseButtonText(text) {
             const useIcon = state.mobileView && state.running;
             ui.pauseButton.textContent = useIcon ? (state.paused ? "▶" : "⏸") : text;
-            ui.pauseButton.setAttribute("aria-label", state.paused ? "Pokračovat" : "Pozastavit");
-            ui.pauseButton.title = useIcon ? (state.paused ? "Pokračovat" : "Pozastavit") : "";
+            const actionLabel = t(state.paused ? "action.resume" : "action.pause");
+            ui.pauseButton.setAttribute("aria-label", actionLabel);
+            ui.pauseButton.title = useIcon ? actionLabel : "";
         }
 
         function stopTimer() {
@@ -2118,15 +2186,19 @@
             document.body.classList.toggle("many-clocks", state.playerCount > 9);
             document.body.classList.toggle("mode-scythe", state.gameMode === "scythe");
             ui.modeIcon.textContent = state.mobileView ? "🖥️" : "📱";
-            const modeAction = state.mobileView ? "Desktopové zobrazení" : "Mobilní zobrazení";
-            ui.modeToggle.setAttribute("aria-label", "Přepnout na " + modeAction.toLowerCase());
+            const modeAction = t(state.mobileView ? "accessibility.desktopView" : "accessibility.mobileView");
+            ui.modeToggle.setAttribute("aria-label", modeAction);
             ui.modeToggle.title = modeAction;
+            [ui.drawerDesktopToggle, ui.mobileInlineDesktop].forEach((button) => {
+                button.setAttribute("aria-label", t("accessibility.desktopView"));
+                button.title = t("accessibility.desktopView");
+            });
             ui.drawerLanguageSelect.value = ui.languageSelect.value;
             ui.mobileInlineLanguage.value = ui.languageSelect.value;
             const compactMobileControls = state.mobileView && state.running;
-            ui.menuButton.textContent = compactMobileControls ? "☰" : (state.menuOpen ? "ZAVŘÍT" : "MENU");
-            ui.menuButton.setAttribute("aria-label", state.menuOpen ? "Zavřít menu" : "Otevřít menu");
-            ui.menuButton.title = state.menuOpen ? "Zavřít menu" : "Menu";
+            ui.menuButton.textContent = compactMobileControls ? "☰" : t(state.menuOpen ? "action.close" : "action.menu").toUpperCase();
+            ui.menuButton.setAttribute("aria-label", t(state.menuOpen ? "action.close" : "action.menu"));
+            ui.menuButton.title = t(state.menuOpen ? "action.close" : "action.menu");
             syncPlayerLimit();
             syncTimeControls();
             syncSoundControl();
@@ -2227,7 +2299,7 @@
 
         function timeTargetOptions() {
             const activePlayer = state.players[state.activeIndex];
-            const activePlayerName = activePlayer ? activePlayer.name : "Hráč";
+            const activePlayerName = activePlayer ? activePlayer.name : t("setup.playerDefaultName", { number: 1 });
             return "<option value=\"\">" + activePlayerName + "</option>"
                 + state.players
                     .filter((player) => player.id !== activePlayer?.id || player.id === state.quickAddTargetId)
@@ -2250,8 +2322,8 @@
             });
             const presetButtons = state.timePresets
                 .map((seconds, index) => "<button class=\"time-preset-button\" type=\"button\" data-add-time-preset=\""
-                    + index + "\" aria-label=\"Přidat " + formatPresetTime(seconds).slice(1)
-                    + " aktuálnímu hráči\" title=\"Přidat čas aktuálnímu hráči\">"
+                    + index + "\" aria-label=\"" + t("time.addToCurrentPlayer")
+                    + "\" title=\"" + t("time.addToCurrentPlayer") + "\">"
                     + formatPresetTime(seconds) + "</button>")
                 .join("");
             ui.desktopTimePresets.innerHTML = presetButtons;
@@ -2291,7 +2363,7 @@
             player.seconds += seconds;
             player.out = false;
             if (feedbackElement) {
-                feedbackElement.textContent = player.name + ": přidáno " + seconds + " s.";
+                feedbackElement.textContent = t("time.addedFeedback", { name: player.name, seconds });
             }
             renderClocks();
             syncStatus();
@@ -2354,7 +2426,7 @@
         }
 
         function restoreDefaultSettings() {
-            if (!window.confirm("Obnovit všechna výchozí nastavení včetně jmen hráčů?")) {
+            if (!window.confirm(t("settings.restoreDefaultsConfirm"))) {
                 return;
             }
 
@@ -2369,6 +2441,7 @@
             state.paused = true;
             state.mobileView = false;
             state.menuOpen = false;
+            state.language = "cs";
             state.resumeAfterMenuClose = false;
             state.timePresets = [5, 15, 60, 120, 300];
             state.quickAddTargetId = null;
@@ -2392,6 +2465,7 @@
             ui.languageSelect.value = "cs";
             ui.settingsDialog.close();
 
+            applyStaticTranslations();
             renderPlayerInputs();
             syncLayout();
             persistState();
@@ -2608,16 +2682,13 @@
                 persistState();
             });
             ui.languageSelect.addEventListener("change", () => {
-                ui.drawerLanguageSelect.value = ui.languageSelect.value;
-                ui.mobileInlineLanguage.value = ui.languageSelect.value;
+                setLanguage(ui.languageSelect.value);
             });
             ui.drawerLanguageSelect.addEventListener("change", () => {
-                ui.languageSelect.value = ui.drawerLanguageSelect.value;
-                ui.mobileInlineLanguage.value = ui.drawerLanguageSelect.value;
+                setLanguage(ui.drawerLanguageSelect.value);
             });
             ui.mobileInlineLanguage.addEventListener("change", () => {
-                ui.languageSelect.value = ui.mobileInlineLanguage.value;
-                ui.drawerLanguageSelect.value = ui.mobileInlineLanguage.value;
+                setLanguage(ui.mobileInlineLanguage.value);
             });
             window.addEventListener("resize", scheduleResponsiveFormatting);
         }
@@ -2634,8 +2705,12 @@
             ui.gameMode.value = state.gameMode;
             ui.startMinutes.value = String(state.startMinutes);
             ui.incrementSeconds.value = String(state.incrementSeconds);
+            ui.languageSelect.value = state.language;
+            ui.drawerLanguageSelect.value = state.language;
+            ui.mobileInlineLanguage.value = state.language;
 
             applyElapsedTime();
+            applyStaticTranslations();
             renderPlayerInputs();
             bindEvents();
             syncLayout();
