@@ -1,14 +1,17 @@
 # Vícehráčové hodiny
 
-Tento soubor je průběžné zadání aktivní verze aplikace v `multiClock.html`.
+Tento soubor je průběžné zadání aktivní verze aplikace v `index.html`.
 
 ## Základní chování
 
 - Každý hráč má vlastní časomíru.
 - Aktivní je vždy právě jeden hráč a kliknutím na jeho časomíru se tah předá dalšímu hráči.
+- Před spuštěním lze hru zahájit kliknutím na libovolnou časomíru; zvolený hráč začne první. Tlačítko `Spustit` zahajuje hru prvním hráčem v pořadí.
 - Po předání tahu se původnímu hráči přičte nastavený přídavek.
 - Hru lze společně pozastavit a znovu spustit.
 - Rozehraná hra, časy a nastavení se zachovají po obnovení stránky.
+- Hráče lze šipkami v nastavení přesouvat v pořadí tahu; mřížka i číslování časomír se ihned přizpůsobí.
+- Po vypršení času je hráč vyřazen, odpočet pokračuje dalšímu zbývajícímu hráči a při více hráčích se po vyřazení všech kromě jednoho hra zastaví s vítězem.
 - Rozhraní má samostatné počítačové a mobilní zobrazení.
 - V mobilním zobrazení mají po spuštění hry hlavní prostor časomíry, ale zůstává dostupná pauza, menu a návrat na počítačové zobrazení.
 - Po spuštění hry se v mobilním zobrazení horní banner včetně nadpisu skryje. Pauza/pokračování používá symbol `⏸/▶` a menu symbol `☰`.
@@ -38,6 +41,7 @@ Tento soubor je průběžné zadání aktivní verze aplikace v `multiClock.html
 
 - Podporuje 1 až 20 hráčů. V režimu jednoho hráče čas běží standardně a kliknutí na jeho dlaždici jej nezastaví.
 - Hráči hrají v pořadí zobrazených časomír.
+- Pořadí lze v nastavení ručně upravit šipkami.
 
 ### Scythe
 
@@ -46,6 +50,7 @@ Tento soubor je průběžné zadání aktivní verze aplikace v `multiClock.html
 - Dva hráči nesmí mít stejnou frakci.
 - Pokud hráč zvolí již obsazenou frakci, původní držitel dostane první volnou frakci.
 - Hráči a časomíry se automaticky řadí podle pořadí frakcí v seznamu výše.
+- Změna frakce obnoví automatické pořadí frakcí; poté lze pořadí hráčů případně ručně upravit šipkami.
 - Frakční barva a grafická značka jsou viditelné v nastavení i na časomíře.
 
 ## Menu během hry
@@ -71,7 +76,7 @@ Tento soubor je průběžné zadání aktivní verze aplikace v `multiClock.html
 - Horní lišta je na desktopu plnohodnotný banner přes celou šířku stránky bez zaoblení.
 - V režimu Scythe přebírá horní banner tmavý industriálně-historický motiv a výraznější patkový nadpis.
 - Ovládací prvky v liště jsou bez rámečků a textových popisků; používají symboly, tooltipy a ztmavení při najetí nebo aktivaci.
-- Lišta obsahuje kompaktní volbu `CZ / EN / DE`; přepnutí jazyka je zatím pouze připravené bez změny obsahu.
+- Lišta obsahuje kompaktní volbu jazyka; podporovány jsou čeština, angličtina, němčina, španělština, maďarština, ukrajinština, polština, italština, francouzština, ruština a bosenština. Přepnutí okamžitě změní obsah rozhraní.
 - Zvuk lze kdykoliv zapnout nebo vypnout a tato volba se ukládá.
 - Ozubené kolo v horní liště otevírá pokročilé nastavení zvuku; prostor počítá také s budoucím nastavením barev.
 - Tikání, začátek hry, předání tahu, jednorázové varování, odpočet posledních 10 sekund a vypršení času lze zapínat samostatně a volby se ukládají.
