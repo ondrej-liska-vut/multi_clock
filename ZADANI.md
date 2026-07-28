@@ -5,7 +5,7 @@ Tento soubor je průběžné zadání aktivní verze aplikace v `index.html`.
 ## Základní chování
 
 - Každý hráč má vlastní časomíru.
-- Aktivní je vždy právě jeden hráč a kliknutím na jeho časomíru se tah předá dalšímu hráči.
+- V obecném režimu a Scythe je vždy aktivní právě jeden hráč a kliknutím na jeho časomíru se tah předá dalšímu hráči. Režim Boj o atoly používá přímou volbu vlastníka bez pevného pořadí.
 - Před spuštěním lze hru zahájit kliknutím na libovolnou časomíru; zvolený hráč začne první. Tlačítko `Spustit` zahajuje hru prvním hráčem v pořadí.
 - Po předání tahu se původnímu hráči přičte nastavený přídavek.
 - Hru lze společně pozastavit a znovu spustit.
@@ -52,6 +52,31 @@ Tento soubor je průběžné zadání aktivní verze aplikace v `index.html`.
 - Hráči a časomíry se automaticky řadí podle pořadí frakcí v seznamu výše.
 - Změna frakce obnoví automatické pořadí frakcí; poté lze pořadí hráčů případně ručně upravit šipkami.
 - Frakční barva a grafická značka jsou viditelné v nastavení i na časomíře.
+
+### Boj o atoly
+
+- Režim představuje boj týmů o jednu základnu neboli atol a podporuje 1 až 20 týmů; cílové běžné rozložení počítá s 8 týmy.
+- Čas týmů začíná na nule a narůstá. Ukazuje celkovou dobu, po kterou daný tým atol ovládal.
+- Neexistuje pevné pořadí týmů. Kliknutí na libovolnou týmovou dlaždici ihned zastaví měření předchozímu vlastníkovi a spustí je zvolenému týmu.
+- Před prvním spuštěním lze kliknout přímo na tým, který atol ovládá. Tlačítko `Spustit` pouze zahájí hru bez vlastníka; čas nezačne běžet žádnému týmu, dokud obsluha neklikne na jeho dlaždici.
+- Pauza zastaví měření celé hry; žádný tým se nevyřazuje a čas nemůže vypršet.
+- Nastavení každého týmu obsahuje vlastní jméno, logo z dodané sady v `atholyLoga` a barvu z pevné palety.
+- Sada log obsahuje 8 dodaných motivů: Ďas, Žralok, Kosatka, Loděnka, Mrož, Kreveta, Rejnoc a Šotek. Aplikace používá jejich čtvercové varianty s postfixem `_ctverec`; stejné logo může být podle potřeby zvoleno více týmům.
+- Paleta obsahuje 28 kontrastních barev. Jako prvních osm jsou vždy Okrová `#B8860B`, Sytě zelená `#008A3B`, Petrolejová `#006B6B`, Purpurová `#6A1B6A`, Granátová `#6D001A`, Červená `#D50000`, Sytě modrá `#003DA5` a Tmavší růžová `#C2185B`; za nimi následuje 20 doplňkových barev.
+- Uživatelská nabídka barev zobrazuje pouze názvy barev, nikoli jejich HEX kódy.
+- Logo je hlavním prvkem herní dlaždice. Jméno a nasčítaný čas zůstávají čitelné, ale vizuálně ustupují logu.
+- Právě měřená dlaždice používá jemné pulzování, zvýrazněný barevný okraj a stavový štítek. Při systémové volbě omezení pohybu se animace vypne.
+- Běžící mobilní zobrazení skládá dlaždice do pevně vysoké mřížky, aby se při cílových 8 týmech vešlo ovládání i všechny hodiny do jednoho viewportu bez posouvání stránky.
+- Nastavení odpočtu, přídavku na tah, jednorázového přidávání času a návratu tahu se v tomto režimu nezobrazuje, protože pro součtové měření vlastnictví nemá význam.
+- Režim, sestava týmů, loga, barvy, naměřené časy i aktuální vlastník se ukládají stejně jako ostatní rozehrané hry.
+- Konec hry lze nechat bez omezení, nastavit na konkrétní místní čas zařízení nebo určit délkou v minutách. Pevný čas standardně nabízí datum `Dneska` a samostatné pole pouze pro čas; kliknutím na `Dneska` lze rozbalit volbu jiného data.
+- Po dosažení konce se měření automaticky pozastaví a všechny nasčítané údaje zůstanou zobrazené. Pokud byla hra spuštěna se zámkem, zůstává uzamčená i po skončení.
+- Během časově omezené hry se v herní liště zobrazuje zbývající čas. Po automatickém konci se ukáže stav `Konec hry`; pokračování je možné stejně jako po běžné pauze.
+- Volitelné heslo při spuštění uzamkne běžící hru a vynutí mobilní zobrazení. Po dobu zámku jsou skryté a programově blokované pauza, menu, změna zobrazení, nastavení, reset i přidávání času; týmové dlaždice zůstávají aktivní pro předávání atolu.
+- Pokud je zámek zapnutý, uživatelské heslo je povinné a bez jeho zadání nelze hru spustit.
+- Uzamčená hra nabízí pouze tlačítko se zámkem. Správné heslo vrátí běžné ovládání; automatický konec hry zámek neuvolní, takže výsledky ani nastavení nelze upravit bez hesla ani po skončení.
+- Administrátorské heslo `skynet` funguje nezávisle na uživatelském hesle jako nouzové ukončení: okamžitě hru zastaví ve stavu konce, uvolní zámek a zachová naměřené údaje.
+- Heslo a stav zámku se ukládají lokálně společně s rozehranou hrou, takže obnovení stránky zámek neobejde. Jde o ochranu proti náhodnému nebo snadnému zásahu na herním zařízení, nikoli o kryptografické zabezpečení proti správci prohlížeče.
 
 ## Menu během hry
 

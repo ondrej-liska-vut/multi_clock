@@ -443,6 +443,102 @@
             min-width: 0;
         }
 
+        .atoll-game-options {
+            display: none;
+            gap: 9px;
+            padding: 11px;
+            border: 1px solid color-mix(in srgb, var(--accent) 28%, var(--line));
+            border-radius: 12px;
+            background: color-mix(in srgb, var(--accent) 6%, #fff);
+        }
+
+        .mode-atolls .atoll-game-options {
+            display: grid;
+        }
+
+        .atoll-option-row {
+            display: grid;
+            gap: 6px;
+        }
+
+        .atoll-lock-option {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 12px;
+            padding-top: 9px;
+            border-top: 1px solid var(--line);
+            color: var(--text);
+            font-size: 0.88rem;
+            font-weight: 700;
+        }
+
+        .atoll-lock-option input {
+            width: 20px;
+            height: 20px;
+            flex: 0 0 auto;
+            accent-color: var(--accent);
+        }
+
+        .atoll-game-options input,
+        .atoll-game-options select {
+            width: 100%;
+            padding: 9px 10px;
+            border: 1px solid var(--line);
+            border-radius: 9px;
+            background: #fff;
+            color: var(--text);
+        }
+
+        .atoll-option-row[hidden] {
+            display: none;
+        }
+
+        .atoll-clock-end {
+            display: grid;
+            grid-template-columns: auto minmax(120px, 1fr);
+            gap: 8px;
+            align-items: center;
+        }
+
+        .atoll-date-button {
+            min-height: 40px;
+            padding: 8px 13px;
+            border: 1px solid color-mix(in srgb, var(--accent) 42%, var(--line));
+            border-radius: 999px;
+            background: color-mix(in srgb, var(--accent) 10%, #fff);
+            color: var(--accent-strong);
+            font: inherit;
+            font-size: 0.88rem;
+            font-weight: 800;
+            cursor: pointer;
+        }
+
+        .atoll-date-button:hover,
+        .atoll-date-button:focus-visible {
+            background: color-mix(in srgb, var(--accent) 18%, #fff);
+        }
+
+        .atoll-date-picker {
+            grid-column: 1 / -1;
+            padding: 9px;
+            border: 1px solid var(--line);
+            border-radius: 10px;
+            background: color-mix(in srgb, var(--accent) 5%, #fff);
+        }
+
+        .atoll-date-picker[hidden] {
+            display: none;
+        }
+
+        .atoll-date-picker label {
+            display: grid;
+            gap: 5px;
+            color: var(--muted);
+            font-size: 0.8rem;
+            font-weight: 700;
+        }
+
         .order-help {
             grid-column: 1 / -1;
         }
@@ -482,6 +578,41 @@
 
         .player-row-scythe {
             grid-template-columns: 58px minmax(0, 1fr) 105px auto;
+        }
+
+        .player-row-atolls {
+            grid-template-columns: 58px minmax(0, 1fr) minmax(105px, 0.85fr) minmax(118px, 0.9fr);
+        }
+
+        .atoll-config-logo {
+            width: 46px;
+            height: 46px;
+            padding: 4px;
+            border-radius: 12px;
+            background: color-mix(in srgb, var(--team-color) 18%, #fff);
+            border: 2px solid var(--team-color);
+            object-fit: contain;
+        }
+
+        .atoll-color-field {
+            display: grid;
+            grid-template-columns: 18px minmax(0, 1fr);
+            gap: 6px;
+            align-items: center;
+            min-width: 0;
+        }
+
+        .atoll-color-swatch {
+            width: 18px;
+            height: 18px;
+            border: 2px solid rgba(15, 23, 42, 0.18);
+            border-radius: 50%;
+            background: var(--team-color);
+        }
+
+        .player-row-atolls select {
+            width: 100%;
+            min-width: 0;
         }
 
         .order-controls {
@@ -664,6 +795,30 @@
             opacity: 0.42;
         }
 
+        .atoll-end-badge {
+            display: none;
+            min-width: 0;
+            padding: 8px 11px;
+            border: 1px solid color-mix(in srgb, var(--accent) 30%, transparent);
+            border-radius: 999px;
+            background: color-mix(in srgb, var(--accent) 12%, #fff);
+            color: color-mix(in srgb, var(--accent) 82%, #102337);
+            font-size: 0.78rem;
+            font-weight: 900;
+            white-space: nowrap;
+        }
+
+        .atoll-unlock-button {
+            display: none;
+            width: 44px;
+            height: 44px;
+            padding: 0;
+            border-radius: 10px;
+            background: linear-gradient(135deg, #334155, #0f172a);
+            color: #fff;
+            font-size: 1.15rem;
+        }
+
         .desktop-time-tools select,
         .desktop-time-tools input {
             width: 100%;
@@ -805,6 +960,339 @@
             font-size: 0.82rem;
             color: #64748b;
             text-align: center;
+        }
+
+        .mode-atolls {
+            --bg: #082f49;
+            --bg2: #071d2d;
+            --panel: rgba(239, 248, 250, 0.96);
+            --line: #b8d3db;
+            --accent: #006b6b;
+            --accent2: #b8860b;
+        }
+
+        .mode-atolls .topbar {
+            background:
+                radial-gradient(circle at 22% 30%, rgba(56, 189, 248, 0.18), transparent 28%),
+                linear-gradient(100deg, #073447, #006b6b 62%, #06445d);
+        }
+
+        .mode-atolls .clock-card.atoll-card {
+            position: relative;
+            isolation: isolate;
+            justify-content: stretch;
+            overflow: hidden;
+            padding: 9px;
+            border: 3px solid var(--player-color);
+            background:
+                linear-gradient(160deg,
+                    color-mix(in srgb, var(--player-color) 24%, #fff),
+                    color-mix(in srgb, var(--player-color) 9%, #e5f7fb));
+        }
+
+        .mode-atolls .clock-card.atoll-card::before {
+            content: "";
+            position: absolute;
+            inset: 0;
+            z-index: -1;
+            opacity: 0.2;
+            background:
+                radial-gradient(circle at 16% 12%, #fff 0 2px, transparent 3px),
+                radial-gradient(circle at 88% 78%, #fff 0 2px, transparent 3px);
+            background-size: 28px 28px, 34px 34px;
+        }
+
+        .mode-atolls .clock-card.atoll-card.active {
+            background:
+                linear-gradient(150deg,
+                    color-mix(in srgb, var(--player-color) 34%, #fff),
+                    color-mix(in srgb, var(--player-color) 16%, #dff7fb));
+            box-shadow:
+                0 0 0 3px color-mix(in srgb, var(--player-color) 38%, transparent),
+                0 0 28px color-mix(in srgb, var(--player-color) 52%, transparent);
+            animation: atoll-active-pulse 1.8s ease-in-out infinite;
+        }
+
+        @keyframes atoll-active-pulse {
+            0%, 100% {
+                filter: brightness(1);
+                box-shadow:
+                    0 0 0 3px color-mix(in srgb, var(--player-color) 34%, transparent),
+                    0 0 20px color-mix(in srgb, var(--player-color) 38%, transparent);
+            }
+            50% {
+                filter: brightness(1.06);
+                box-shadow:
+                    0 0 0 5px color-mix(in srgb, var(--player-color) 48%, transparent),
+                    0 0 34px color-mix(in srgb, var(--player-color) 58%, transparent);
+            }
+        }
+
+        .atoll-card-head {
+            position: relative;
+            z-index: 2;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 8px;
+        }
+
+        .atoll-card .card-name {
+            padding: 5px 8px;
+            border-radius: 8px;
+            background: rgba(255, 255, 255, 0.82);
+            color: #102337;
+            box-shadow: 0 2px 8px rgba(8, 47, 73, 0.12);
+        }
+
+        .atoll-owner-badge {
+            flex: 0 0 auto;
+            padding: 4px 7px;
+            border-radius: 999px;
+            background: rgba(255, 255, 255, 0.86);
+            color: #17324a;
+            font-size: 0.68rem;
+            font-weight: 900;
+            letter-spacing: 0.035em;
+            text-transform: uppercase;
+            opacity: 0;
+            transform: translateY(-3px);
+            transition: opacity 140ms ease, transform 140ms ease;
+        }
+
+        .atoll-card.active .atoll-owner-badge {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .atoll-logo-stage {
+            flex: 1;
+            min-height: 0;
+            margin: 5px 0;
+            padding: 7px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 14px;
+            overflow: hidden;
+            background: rgba(255, 255, 255, 0.7);
+            box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.75);
+        }
+
+        .atoll-team-logo {
+            width: 100%;
+            height: 100%;
+            max-width: 82%;
+            max-height: 82%;
+            min-height: 74px;
+            object-fit: contain;
+            filter: drop-shadow(0 5px 7px rgba(15, 23, 42, 0.18));
+        }
+
+        .atoll-card-footer {
+            position: relative;
+            z-index: 2;
+            display: grid;
+            grid-template-columns: auto minmax(0, 1fr);
+            gap: 8px;
+            align-items: end;
+        }
+
+        .atoll-card .card-time {
+            padding: 3px 8px;
+            border-radius: 8px;
+            background: rgba(255, 255, 255, 0.84);
+            font-size: clamp(1.15rem, 3.4vw, 2rem);
+            line-height: 1.1;
+            color: #102337;
+            font-variant-numeric: tabular-nums;
+            box-shadow: 0 2px 8px rgba(8, 47, 73, 0.1);
+        }
+
+        .atoll-card .card-hint {
+            align-self: center;
+            padding: 4px 6px;
+            border-radius: 7px;
+            background: rgba(255, 255, 255, 0.68);
+            color: #29445b;
+            font-weight: 700;
+        }
+
+        .mode-atolls #startTimeField,
+        .mode-atolls #incrementField,
+        .mode-atolls .desktop-time-tools,
+        .mode-atolls .quick-time-buttons,
+        .mode-atolls .undo-turn-button,
+        .mode-atolls .time-tools,
+        .mode-atolls #timePresetSettingsSection,
+        .mode-atolls .future-settings {
+            display: none !important;
+        }
+
+        .mode-atolls .playbar {
+            grid-template-columns: auto minmax(0, 1fr);
+        }
+
+        .atoll-locked .btn-control,
+        .atoll-locked .btn-menu,
+        .atoll-locked .mobile-inline-utilities,
+        .atoll-locked .mode-toggle {
+            display: none !important;
+        }
+
+        .atoll-locked .atoll-unlock-button {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            order: 1;
+        }
+
+        .mobile-running.mode-atolls .atoll-end-badge {
+            order: 2;
+            max-width: min(54vw, 230px);
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .atoll-locked.mobile-running.mode-atolls .playbar {
+            justify-content: space-between;
+        }
+
+        body.mode-atolls:not(.mobile-view):not(.setup-two-columns) .layout {
+            grid-template-columns: minmax(560px, 620px) minmax(0, 1fr);
+        }
+
+        .mobile-view .player-row-atolls,
+        body.setup-two-columns:not(.mobile-view) .player-row-atolls {
+            grid-template-columns: 48px minmax(0, 1fr);
+        }
+
+        .mobile-view .player-row-atolls > select,
+        .mobile-view .player-row-atolls > .atoll-color-field,
+        body.setup-two-columns:not(.mobile-view) .player-row-atolls > select,
+        body.setup-two-columns:not(.mobile-view) .player-row-atolls > .atoll-color-field {
+            grid-column: 1 / -1;
+        }
+
+        .mobile-running.mode-atolls .atoll-team-logo {
+            min-height: 40px;
+        }
+
+        .mobile-running.mode-atolls .atoll-card .card-time {
+            font-size: clamp(1rem, 5vw, 1.55rem);
+        }
+
+        .mobile-running.mode-atolls .atoll-logo-stage {
+            padding: 3px;
+            margin: 3px 0;
+        }
+
+        .mobile-running.mode-atolls .atoll-owner-badge {
+            display: none;
+        }
+
+        .mobile-running.mode-atolls {
+            overflow: hidden;
+        }
+
+        .mobile-running.mode-atolls .app,
+        .mobile-running.mode-atolls .layout,
+        .mobile-running.mode-atolls .board {
+            height: 100dvh;
+            min-height: 0;
+            overflow: hidden;
+        }
+
+        .mobile-running.mode-atolls .board {
+            display: flex;
+            padding-bottom: 6px;
+        }
+
+        .mobile-running.mode-atolls .clock-grid {
+            min-height: 0;
+            overflow: hidden;
+        }
+
+        .mobile-running.mode-atolls .clock-card.atoll-card {
+            min-height: 0;
+            height: auto;
+            padding: 4px;
+        }
+
+        .mobile-running.mode-atolls .atoll-card-head {
+            min-height: 0;
+        }
+
+        .mobile-running.mode-atolls .atoll-card .card-name {
+            padding: 3px 6px;
+            font-size: clamp(0.66rem, 2.8vw, 0.82rem);
+        }
+
+        .mobile-running.mode-atolls .atoll-card-footer {
+            grid-template-columns: auto;
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            .mode-atolls .clock-card.atoll-card.active {
+                animation: none;
+            }
+        }
+
+        .unlock-dialog {
+            width: min(390px, calc(100% - 28px));
+            padding: 0;
+            border: 0;
+            border-radius: 16px;
+            color: var(--text);
+            background: #f7fbff;
+            box-shadow: 0 24px 70px rgba(4, 16, 30, 0.38);
+        }
+
+        .unlock-dialog::backdrop {
+            background: rgba(4, 12, 24, 0.68);
+            backdrop-filter: blur(3px);
+        }
+
+        .unlock-card {
+            display: grid;
+            gap: 12px;
+            padding: 18px;
+        }
+
+        .unlock-card h2,
+        .unlock-card p {
+            margin: 0;
+        }
+
+        .unlock-card p {
+            color: var(--muted);
+            font-size: 0.9rem;
+        }
+
+        .unlock-card input {
+            width: 100%;
+            padding: 11px 12px;
+            border: 1px solid var(--line);
+            border-radius: 10px;
+            font-size: 1rem;
+        }
+
+        .unlock-error {
+            min-height: 1.2em;
+            color: var(--danger);
+            font-size: 0.82rem;
+            font-weight: 700;
+        }
+
+        .unlock-actions {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 8px;
+        }
+
+        .unlock-actions button {
+            padding: 10px;
+            font-weight: 800;
         }
 
         .drawer {
@@ -1459,7 +1947,7 @@
                             <label class="sound-option"><span data-i18n="settings.soundTimeout">Vypršení času</span><input type="checkbox" data-sound-setting="timeout" checked></label>
                         </div>
                     </section>
-                    <section class="settings-section" aria-labelledby="timePresetSettingsTitle">
+                    <section id="timePresetSettingsSection" class="settings-section" aria-labelledby="timePresetSettingsTitle">
                         <h3 id="timePresetSettingsTitle" data-i18n="settings.timePresetsTitle">Předvolby přidání času</h3>
                         <p class="settings-section-intro" data-i18n="settings.timePresetsDescription">Hodnoty jsou v sekundách. Druhá a čtvrtá předvolba se používají v úzkém mobilním režimu.</p>
                         <div class="preset-settings">
@@ -1475,30 +1963,85 @@
                 </div>
             </dialog>
 
+            <dialog id="unlockDialog" class="unlock-dialog" aria-labelledby="unlockTitle">
+                <div class="unlock-card">
+                    <h2 id="unlockTitle" data-i18n="atolls.unlockTitle">Odemknout hodiny</h2>
+                    <p data-i18n="atolls.unlockDescription">Zadej heslo nastavené před spuštěním hry.</p>
+                    <input id="unlockPasswordInput" type="password" autocomplete="current-password" data-i18n-aria="atolls.password">
+                    <p id="unlockError" class="unlock-error" aria-live="polite"></p>
+                    <div class="unlock-actions">
+                        <button id="unlockCancelButton" type="button" class="btn-reset" data-i18n="action.close">Zavřít</button>
+                        <button id="unlockSubmitButton" type="button" class="btn-start" data-i18n="atolls.unlock">Odemknout</button>
+                    </div>
+                </div>
+            </dialog>
+
             <main class="layout">
                 <section id="setupPanel" class="panel setup">
                     <div class="field">
                         <span data-i18n="mode.label">Režim</span>
                         <select id="gameMode">
                             <option value="generic" data-i18n="mode.generic">Obecný</option>
-                            <option value="scythe">Scythe</option>
+                            <option value="scythe" data-i18n="mode.scythe">Scythe</option>
+                            <option value="atolls" data-i18n="mode.atolls">Boj o atoly</option>
                         </select>
                     </div>
                     <div class="field">
                         <span id="playerCountLabel">Počet hráčů (1-20)</span>
                         <input id="playerCount" type="number" min="1" max="20" value="4">
                     </div>
-                    <div class="field">
+                    <div id="startTimeField" class="field">
                         <span data-i18n="setup.timePerPlayer">Čas na hráče (minuty)</span>
                         <input id="startMinutes" type="number" min="1" value="10">
                     </div>
-                    <div class="field">
+                    <div id="incrementField" class="field">
                         <span data-i18n="setup.turnIncrement">Přídavek na tah (sekundy)</span>
                         <input id="incrementSeconds" type="number" min="0" value="0">
                     </div>
 
+                    <div id="atollGameOptions" class="atoll-game-options">
+                        <label class="atoll-option-row">
+                            <span data-i18n="atolls.endCondition">Konec hry</span>
+                            <select id="atollEndMode">
+                                <option value="none" data-i18n="atolls.endNone">Bez omezení</option>
+                                <option value="clock" data-i18n="atolls.endAtTime">V konkrétní čas</option>
+                                <option value="duration" data-i18n="atolls.endAfterDuration">Po uplynutí doby</option>
+                            </select>
+                        </label>
+                        <div id="atollEndClockRow" class="atoll-option-row" hidden>
+                            <span data-i18n="atolls.endTime">Čas konce</span>
+                            <div class="atoll-clock-end">
+                                <button id="atollEndDateButton" class="atoll-date-button" type="button"
+                                    aria-expanded="false" data-i18n-aria="atolls.changeEndDate">
+                                    <span id="atollEndDateLabel">Dneska</span>
+                                </button>
+                                <input id="atollEndTime" type="time" step="60" required
+                                    data-i18n-aria="atolls.endTime">
+                                <div id="atollEndDatePicker" class="atoll-date-picker" hidden>
+                                    <label>
+                                        <span data-i18n="atolls.chooseEndDate">Vybrat jiné datum</span>
+                                        <input id="atollEndDate" type="date"
+                                            data-i18n-aria="atolls.chooseEndDate">
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                        <label id="atollDurationRow" class="atoll-option-row" hidden>
+                            <span data-i18n="atolls.durationMinutes">Délka hry (minuty)</span>
+                            <input id="atollDurationMinutes" type="number" min="1" step="1" value="60">
+                        </label>
+                        <label class="atoll-lock-option">
+                            <span data-i18n="atolls.lockWithPassword">Uzamknout běžící hru heslem</span>
+                            <input id="atollLockEnabled" type="checkbox">
+                        </label>
+                        <label id="atollPasswordRow" class="atoll-option-row" hidden>
+                            <span data-i18n="atolls.password">Heslo pro odemčení</span>
+                            <input id="atollPassword" type="password" autocomplete="new-password">
+                        </label>
+                    </div>
+
                     <div class="player-config">
-                        <span style="font-size:0.9rem;color:#5f6e83;font-weight:600;" data-i18n="setup.playerNames">Jména hráčů</span>
+                        <span id="playerConfigLabel" style="font-size:0.9rem;color:#5f6e83;font-weight:600;" data-i18n="setup.playerNames">Jména hráčů</span>
                         <div id="playerList" class="player-list"></div>
                     </div>
 
@@ -1512,6 +2055,8 @@
                     <div class="playbar">
                         <p id="statusText" class="status">Nastav hráče a spusť odpočet.</p>
                         <button id="pauseButton" class="btn btn-control" type="button" disabled>PAUZA</button>
+                        <span id="atollEndBadge" class="atoll-end-badge"></span>
+                        <button id="atollUnlockButton" class="atoll-unlock-button" type="button" aria-label="Odemknout hodiny" title="Odemknout hodiny">🔒</button>
                         <div class="desktop-time-tools" aria-label="Jednorázové přidání času">
                             <select id="desktopTimePlayerSelect" aria-label="Hráč, kterému se přidá čas"></select>
                             <div id="desktopTimePresets" class="time-preset-buttons"></div>
@@ -1571,6 +2116,7 @@
     <script src="resources/translations.generated.js"></script>
     <script>
         const STORAGE_KEY = "multiclock-unified-v2";
+        const ATOLL_ADMIN_PASSWORD = "skynet";
         const playerColors = [
             "#0f766e", "#f97316", "#2563eb", "#be123c", "#9333ea",
             "#16a34a", "#0891b2", "#ca8a04", "#db2777", "#4f46e5",
@@ -1587,6 +2133,46 @@
             { id: "togawa", name: "Togawa", color: "#7a4db2", mark: "TG" },
             { id: "vesna", name: "Vesna", color: "#35bdb9", mark: "VS" },
             { id: "fenris", name: "Fenris", color: "#ef8218", mark: "FN" }
+        ];
+        const atollLogos = [
+            { id: "das", name: "Ďas", file: "atholyLoga/01das_ctverec.svg" },
+            { id: "zralok", name: "Žralok", file: "atholyLoga/02zralok_ctverec.svg" },
+            { id: "kosatka", name: "Kosatka", file: "atholyLoga/03kosatka_ctverec.svg" },
+            { id: "lodenka", name: "Loděnka", file: "atholyLoga/04lodenka_ctverec.svg" },
+            { id: "mroz", name: "Mrož", file: "atholyLoga/05mrož_ctverec.svg" },
+            { id: "plankton", name: "Kreveta", file: "atholyLoga/06plankton_ctverec.svg" },
+            { id: "rejnoc", name: "Rejnoc", file: "atholyLoga/07rejnoc_ctverec.svg" },
+            { id: "sotek", name: "Šotek", file: "atholyLoga/08sotek_ctverec.svg" }
+        ];
+        const atollColors = [
+            { name: "Okrová", hex: "#B8860B" },
+            { name: "Sytě zelená", hex: "#008A3B" },
+            { name: "Petrolejová", hex: "#006B6B" },
+            { name: "Purpurová", hex: "#6A1B6A" },
+            { name: "Granátová", hex: "#6D001A" },
+            { name: "Červená", hex: "#D50000" },
+            { name: "Sytě modrá", hex: "#003DA5" },
+            { name: "Tmavší růžová", hex: "#C2185B" },
+            { name: "Jantarová", hex: "#D97706" },
+            { name: "Smaragdová", hex: "#047857" },
+            { name: "Tyrkysová", hex: "#0F766E" },
+            { name: "Azurová", hex: "#0369A1" },
+            { name: "Královská modrá", hex: "#1D4ED8" },
+            { name: "Indigová", hex: "#4F46E5" },
+            { name: "Fialová", hex: "#7C3AED" },
+            { name: "Ostružinová", hex: "#A21CAF" },
+            { name: "Karmínová", hex: "#BE123C" },
+            { name: "Cihlová", hex: "#C2410C" },
+            { name: "Olivová", hex: "#4D7C0F" },
+            { name: "Lesní zelená", hex: "#166534" },
+            { name: "Mořská modrá", hex: "#0E7490" },
+            { name: "Břidlicová", hex: "#475569" },
+            { name: "Grafitová", hex: "#334155" },
+            { name: "Kaštanová", hex: "#92400E" },
+            { name: "Korálová", hex: "#E11D48" },
+            { name: "Malinová", hex: "#DB2777" },
+            { name: "Levandulová", hex: "#8B5CF6" },
+            { name: "Limetková", hex: "#65A30D" }
         ];
 
         const factionLogoShapes = {
@@ -1627,6 +2213,14 @@
                 countdown: true,
                 timeout: true
             },
+            atollEndMode: "none",
+            atollEndDateTime: "",
+            atollDurationMinutes: 60,
+            atollGameEndAt: null,
+            atollLockEnabled: false,
+            atollPassword: "",
+            atollLocked: false,
+            atollFinished: false,
             timerId: null,
             lastTickAt: null,
             audioContext: null
@@ -1639,12 +2233,32 @@
             gameMode: document.getElementById("gameMode"),
             playerCount: document.getElementById("playerCount"),
             playerCountLabel: document.getElementById("playerCountLabel"),
+            playerConfigLabel: document.getElementById("playerConfigLabel"),
             startMinutes: document.getElementById("startMinutes"),
             incrementSeconds: document.getElementById("incrementSeconds"),
+            atollEndMode: document.getElementById("atollEndMode"),
+            atollEndClockRow: document.getElementById("atollEndClockRow"),
+            atollEndDateButton: document.getElementById("atollEndDateButton"),
+            atollEndDateLabel: document.getElementById("atollEndDateLabel"),
+            atollEndDatePicker: document.getElementById("atollEndDatePicker"),
+            atollEndDate: document.getElementById("atollEndDate"),
+            atollEndTime: document.getElementById("atollEndTime"),
+            atollDurationMinutes: document.getElementById("atollDurationMinutes"),
+            atollDurationRow: document.getElementById("atollDurationRow"),
+            atollLockEnabled: document.getElementById("atollLockEnabled"),
+            atollPassword: document.getElementById("atollPassword"),
+            atollPasswordRow: document.getElementById("atollPasswordRow"),
             playerList: document.getElementById("playerList"),
             startButton: document.getElementById("startButton"),
             resetButton: document.getElementById("resetButton"),
             pauseButton: document.getElementById("pauseButton"),
+            atollEndBadge: document.getElementById("atollEndBadge"),
+            atollUnlockButton: document.getElementById("atollUnlockButton"),
+            unlockDialog: document.getElementById("unlockDialog"),
+            unlockPasswordInput: document.getElementById("unlockPasswordInput"),
+            unlockError: document.getElementById("unlockError"),
+            unlockCancelButton: document.getElementById("unlockCancelButton"),
+            unlockSubmitButton: document.getElementById("unlockSubmitButton"),
             menuButton: document.getElementById("menuButton"),
             quickTimePresets: document.getElementById("quickTimePresets"),
             undoTurnButton: document.getElementById("undoTurnButton"),
@@ -1694,6 +2308,201 @@
             );
         }
 
+        function isAtollLocked() {
+            return state.gameMode === "atolls" && state.running && state.atollLocked;
+        }
+
+        function toLocalDateTimeInput(timestamp) {
+            const date = new Date(timestamp);
+            const offset = date.getTimezoneOffset() * 60000;
+            return new Date(timestamp - offset).toISOString().slice(0, 16);
+        }
+
+        function defaultAtollEndDateTime() {
+            const now = new Date();
+            const end = new Date(now);
+            end.setMinutes(0, 0, 0);
+            end.setHours(now.getHours() + 1);
+            if (end.getDate() !== now.getDate()) {
+                end.setFullYear(now.getFullYear(), now.getMonth(), now.getDate());
+                end.setHours(23, 59, 0, 0);
+            }
+            if (end <= now) {
+                end.setDate(end.getDate() + 1);
+                end.setHours(0, 30, 0, 0);
+            }
+            return toLocalDateTimeInput(end.getTime());
+        }
+
+        function getAtollEndDateParts() {
+            const value = /^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}$/.test(state.atollEndDateTime)
+                ? state.atollEndDateTime
+                : defaultAtollEndDateTime();
+            const [date, time] = value.split("T");
+            return { date, time };
+        }
+
+        function composeAtollEndDateTime() {
+            const date = ui.atollEndDate.value || toLocalDateTimeInput(Date.now()).slice(0, 10);
+            const time = ui.atollEndTime.value;
+            state.atollEndDateTime = time ? date + "T" + time : "";
+        }
+
+        function formatAtollEndDateLabel(dateValue) {
+            const today = toLocalDateTimeInput(Date.now()).slice(0, 10);
+            if (dateValue === today) {
+                return t("atolls.today");
+            }
+            const date = new Date(dateValue + "T12:00:00");
+            if (!Number.isFinite(date.getTime())) {
+                return t("atolls.today");
+            }
+            return new Intl.DateTimeFormat(state.language, {
+                day: "numeric",
+                month: "short",
+                year: date.getFullYear() === new Date().getFullYear() ? undefined : "numeric"
+            }).format(date);
+        }
+
+        function syncAtollOptionControls() {
+            const isClockEnd = state.atollEndMode === "clock";
+            const isDurationEnd = state.atollEndMode === "duration";
+            if (isClockEnd && !state.atollEndDateTime) {
+                state.atollEndDateTime = defaultAtollEndDateTime();
+            }
+            const endParts = getAtollEndDateParts();
+            ui.atollEndClockRow.hidden = !isClockEnd;
+            ui.atollDurationRow.hidden = !isDurationEnd;
+            ui.atollPasswordRow.hidden = !state.atollLockEnabled;
+            ui.atollEndMode.value = state.atollEndMode;
+            ui.atollEndDate.min = toLocalDateTimeInput(Date.now()).slice(0, 10);
+            ui.atollEndDate.value = endParts.date;
+            ui.atollEndTime.value = endParts.time;
+            ui.atollEndDateLabel.textContent = formatAtollEndDateLabel(endParts.date);
+            if (!isClockEnd) {
+                ui.atollEndDatePicker.hidden = true;
+            }
+            ui.atollEndDateButton.setAttribute("aria-expanded", String(!ui.atollEndDatePicker.hidden));
+            ui.atollDurationMinutes.value = String(state.atollDurationMinutes);
+            ui.atollLockEnabled.checked = state.atollLockEnabled;
+            ui.atollPassword.value = state.atollPassword;
+        }
+
+        function formatRemainingTime(totalSeconds) {
+            const safe = Math.max(0, Math.ceil(totalSeconds));
+            const hours = Math.floor(safe / 3600);
+            const minutes = Math.floor((safe % 3600) / 60);
+            const seconds = safe % 60;
+            if (hours > 0) {
+                return hours + ":" + String(minutes).padStart(2, "0") + ":" + String(seconds).padStart(2, "0");
+            }
+            return minutes + ":" + String(seconds).padStart(2, "0");
+        }
+
+        function syncAtollEndBadge() {
+            if (state.gameMode !== "atolls" || !state.running) {
+                ui.atollEndBadge.style.display = "none";
+                ui.atollEndBadge.textContent = "";
+                return;
+            }
+            if (state.atollFinished) {
+                ui.atollEndBadge.textContent = t("atolls.finishedBadge");
+                ui.atollEndBadge.style.display = "inline-flex";
+                return;
+            }
+            if (!state.atollGameEndAt) {
+                ui.atollEndBadge.style.display = "none";
+                ui.atollEndBadge.textContent = "";
+                return;
+            }
+            const seconds = Math.max(0, Math.ceil((state.atollGameEndAt - Date.now()) / 1000));
+            ui.atollEndBadge.textContent = t("atolls.endsIn", { time: formatRemainingTime(seconds) });
+            ui.atollEndBadge.style.display = "inline-flex";
+        }
+
+        function validateAtollStartOptions() {
+            if (state.gameMode !== "atolls") {
+                return true;
+            }
+            ui.atollEndTime.setCustomValidity("");
+            ui.atollPassword.setCustomValidity("");
+            if (state.atollEndMode === "clock") {
+                const endTimestamp = new Date(state.atollEndDateTime).getTime();
+                if (!Number.isFinite(endTimestamp) || endTimestamp <= Date.now()) {
+                    ui.atollEndTime.setCustomValidity(t("atolls.endMustBeFuture"));
+                    ui.atollEndTime.reportValidity();
+                    return false;
+                }
+            }
+            if (state.atollLockEnabled && !state.atollPassword.trim()) {
+                ui.atollPassword.setCustomValidity(t("atolls.passwordRequired"));
+                ui.atollPassword.reportValidity();
+                return false;
+            }
+            return true;
+        }
+
+        function calculateAtollGameEndAt() {
+            if (state.gameMode !== "atolls" || state.atollEndMode === "none") {
+                return null;
+            }
+            if (state.atollEndMode === "clock") {
+                return new Date(state.atollEndDateTime).getTime();
+            }
+            return Date.now() + state.atollDurationMinutes * 60000;
+        }
+
+        function finishAtollGame({ render = true } = {}) {
+            if (state.gameMode !== "atolls" || !state.running) {
+                return;
+            }
+            state.paused = true;
+            state.atollFinished = true;
+            state.atollGameEndAt = null;
+            state.lastTickAt = null;
+            if (!render) {
+                return;
+            }
+            playTimeoutSound();
+            renderClocks();
+            syncLayout();
+            persistState();
+        }
+
+        function openUnlockDialog() {
+            if (!isAtollLocked()) {
+                return;
+            }
+            ui.unlockPasswordInput.value = "";
+            ui.unlockError.textContent = "";
+            ui.unlockDialog.showModal();
+            ui.unlockPasswordInput.focus();
+        }
+
+        function submitAtollUnlock() {
+            if (!isAtollLocked()) {
+                ui.unlockDialog.close();
+                return;
+            }
+            if (ui.unlockPasswordInput.value === ATOLL_ADMIN_PASSWORD) {
+                ui.unlockError.textContent = "";
+                ui.unlockDialog.close();
+                state.atollLocked = false;
+                finishAtollGame();
+                return;
+            }
+            if (ui.unlockPasswordInput.value !== state.atollPassword) {
+                ui.unlockError.textContent = t("atolls.wrongPassword");
+                ui.unlockPasswordInput.select();
+                return;
+            }
+            state.atollLocked = false;
+            ui.unlockError.textContent = "";
+            ui.unlockDialog.close();
+            syncLayout();
+            persistState();
+        }
+
         function applyStaticTranslations() {
             document.documentElement.lang = state.language;
             document.title = t("app.title");
@@ -1727,6 +2536,8 @@
                 button.setAttribute("aria-label", t("accessibility.openSettings"));
                 button.title = t("accessibility.openSettings");
             });
+            ui.atollUnlockButton.setAttribute("aria-label", t("atolls.unlock"));
+            ui.atollUnlockButton.title = t("atolls.unlock");
             [ui.timePlayerSelect, ui.desktopTimePlayerSelect].forEach((select) => {
                 select.setAttribute("aria-label", t("accessibility.timeTarget"));
             });
@@ -1738,14 +2549,15 @@
                 return;
             }
             state.players.forEach((player, index) => {
-                const defaultNameEntry = window.MULTICLOCK_TRANSLATIONS.strings["setup.playerDefaultName"];
+                const defaultNameKey = state.gameMode === "atolls" ? "setup.teamDefaultName" : "setup.playerDefaultName";
+                const defaultNameEntry = window.MULTICLOCK_TRANSLATIONS.strings[defaultNameKey];
                 const hasDefaultName = window.MULTICLOCK_TRANSLATIONS.meta.supportedLanguages.some((languageCode) =>
                     player.name === defaultNameEntry[languageCode].replace("{number}", String(index + 1))
                 );
                 const hasLegacyFactionName = state.gameMode === "scythe"
                     && scytheFactions.some((faction) => player.name === faction.name);
                 if (hasDefaultName || hasLegacyFactionName) {
-                    const nextName = window.MULTICLOCK_TRANSLATIONS.strings["setup.playerDefaultName"][language]
+                    const nextName = window.MULTICLOCK_TRANSLATIONS.strings[defaultNameKey][language]
                         .replace("{number}", String(index + 1));
                     player.name = nextName;
                 }
@@ -1952,6 +2764,15 @@
             return scytheFactions.find((f) => f.id === id) ?? scytheFactions[0];
         }
 
+        function getAtollLogoById(id) {
+            return atollLogos.find((logo) => logo.id === id) ?? atollLogos[0];
+        }
+
+        function atollLogoImage(logo, className = "atoll-config-logo") {
+            return "<img class=\"" + className + "\" src=\"" + escapeHtml(logo.file)
+                + "\" alt=\"" + escapeHtml(logo.name) + "\">";
+        }
+
         function getMaxPlayers(mode = state.gameMode) {
             return mode === "scythe" ? 8 : 20;
         }
@@ -1964,7 +2785,13 @@
         function syncPlayerLimit() {
             const maxPlayers = getMaxPlayers();
             ui.playerCount.max = String(maxPlayers);
-            ui.playerCountLabel.textContent = t("setup.playerCount", { max: maxPlayers });
+            ui.playerCountLabel.textContent = t(
+                state.gameMode === "atolls" ? "setup.teamCount" : "setup.playerCount",
+                { max: maxPlayers }
+            );
+            ui.playerConfigLabel.textContent = t(
+                state.gameMode === "atolls" ? "setup.teams" : "setup.playerNames"
+            );
         }
 
         function createPlayer(index, existing = null) {
@@ -1980,13 +2807,31 @@
                 };
             }
 
+            if (state.gameMode === "atolls") {
+                const logo = getAtollLogoById(existing?.logoId ?? atollLogos[index % atollLogos.length].id);
+                const savedColor = String(existing?.color ?? "").toUpperCase();
+                const color = atollColors.some((item) => item.hex === savedColor)
+                    ? savedColor
+                    : atollColors[index % atollColors.length].hex;
+                return {
+                    id: existing?.id ?? crypto.randomUUID(),
+                    name: existing?.name ?? t("setup.teamDefaultName", { number: index + 1 }),
+                    seconds: Math.max(0, Number(existing?.seconds ?? 0)),
+                    out: false,
+                    color,
+                    factionId: null,
+                    logoId: logo.id
+                };
+            }
+
             return {
                 id: existing?.id ?? crypto.randomUUID(),
                 name: existing?.name ?? t("setup.playerDefaultName", { number: index + 1 }),
                 seconds: Math.max(0, Number(existing?.seconds ?? state.startMinutes * 60)),
                 out: Boolean(existing?.out),
                 color: existing?.color ?? playerColors[index % playerColors.length],
-                factionId: null
+                factionId: null,
+                logoId: null
             };
         }
 
@@ -2077,6 +2922,14 @@
                 turnHistory: state.turnHistory,
                 soundEnabled: state.soundEnabled,
                 soundSettings: state.soundSettings,
+                atollEndMode: state.atollEndMode,
+                atollEndDateTime: state.atollEndDateTime,
+                atollDurationMinutes: state.atollDurationMinutes,
+                atollGameEndAt: state.atollGameEndAt,
+                atollLockEnabled: state.atollLockEnabled,
+                atollPassword: state.atollPassword,
+                atollLocked: state.atollLocked,
+                atollFinished: state.atollFinished,
                 lastTickAt: state.running && !state.paused ? Date.now() : null
             };
             localStorage.setItem(STORAGE_KEY, JSON.stringify(payload));
@@ -2090,14 +2943,19 @@
 
             try {
                 const parsed = JSON.parse(raw);
-                state.gameMode = parsed.gameMode === "scythe" ? "scythe" : "generic";
+                state.gameMode = ["generic", "scythe", "atolls"].includes(parsed.gameMode)
+                    ? parsed.gameMode
+                    : "generic";
                 state.playerCount = clamp(Number(parsed.playerCount) || 4, 1, getMaxPlayers(state.gameMode));
                 state.startMinutes = Math.max(1, Number(parsed.startMinutes) || 10);
                 state.incrementSeconds = Math.max(0, Number(parsed.incrementSeconds) || 0);
                 state.language = window.MULTICLOCK_TRANSLATIONS.meta.supportedLanguages.includes(parsed.language)
                     ? parsed.language : "cs";
                 state.players = Array.from({ length: state.playerCount }, (_, i) => createPlayer(i, parsed.players?.[i] ?? null));
-                state.activeIndex = clamp(Number(parsed.activeIndex) || 0, 0, state.playerCount - 1);
+                const restoredActiveIndex = Number(parsed.activeIndex);
+                state.activeIndex = state.gameMode === "atolls" && restoredActiveIndex === -1
+                    ? -1
+                    : clamp(Number.isFinite(restoredActiveIndex) ? restoredActiveIndex : 0, 0, state.playerCount - 1);
                 state.running = Boolean(parsed.running);
                 state.paused = Boolean(parsed.paused);
                 state.mobileView = Boolean(parsed.mobileView);
@@ -2126,6 +2984,26 @@
                     countdown: savedSoundSettings.countdown !== false,
                     timeout: savedSoundSettings.timeout !== false
                 };
+                state.atollEndMode = ["none", "clock", "duration"].includes(parsed.atollEndMode)
+                    ? parsed.atollEndMode
+                    : "none";
+                state.atollEndDateTime = typeof parsed.atollEndDateTime === "string"
+                    ? parsed.atollEndDateTime
+                    : "";
+                state.atollDurationMinutes = Math.max(1, Math.floor(Number(parsed.atollDurationMinutes) || 60));
+                state.atollGameEndAt = Number.isFinite(parsed.atollGameEndAt)
+                    ? parsed.atollGameEndAt
+                    : null;
+                state.atollLockEnabled = Boolean(parsed.atollLockEnabled);
+                state.atollPassword = typeof parsed.atollPassword === "string" ? parsed.atollPassword : "";
+                state.atollFinished = Boolean(parsed.atollFinished);
+                state.atollLocked = state.gameMode === "atolls"
+                    && state.running
+                    && Boolean(parsed.atollLocked);
+                if (state.atollLocked) {
+                    state.mobileView = true;
+                    state.menuOpen = false;
+                }
                 state.lastTickAt = typeof parsed.lastTickAt === "number" ? parsed.lastTickAt : null;
                 normalizeScythePlayers(state.players[state.activeIndex]?.id);
                 if (!state.players.some((player) => player.id === state.quickAddTargetId)) {
@@ -2171,15 +3049,18 @@
 
         function renderPlayerInputs() {
             ui.playerList.innerHTML = "";
-            const orderHelp = document.createElement("p");
-            orderHelp.className = "order-help";
-            orderHelp.textContent = t("setup.turnOrderHelp");
-            ui.playerList.appendChild(orderHelp);
+            if (state.gameMode !== "atolls") {
+                const orderHelp = document.createElement("p");
+                orderHelp.className = "order-help";
+                orderHelp.textContent = t("setup.turnOrderHelp");
+                ui.playerList.appendChild(orderHelp);
+            }
             state.players.forEach((player, index) => {
                 const row = document.createElement("div");
                 const firstColumnCount = Math.ceil(state.players.length / 2);
                 const playerColumn = index < firstColumnCount ? 1 : 2;
-                const playerRow = index < firstColumnCount ? index + 2 : index - firstColumnCount + 2;
+                const rowOffset = state.gameMode === "atolls" ? 1 : 2;
+                const playerRow = index < firstColumnCount ? index + rowOffset : index - firstColumnCount + rowOffset;
                 row.style.setProperty("--player-list-column", String(playerColumn));
                 row.style.setProperty("--player-list-row", String(playerRow));
                 const safeName = escapeHtml(player.name);
@@ -2193,6 +3074,27 @@
                         + "<textarea class=\"player-name-input\" rows=\"1\" data-player-name=\"" + player.id + "\">" + safeName + "</textarea>"
                         + "<select data-player-faction=\"" + player.id + "\">" + factionOptions + "</select>"
                         + orderControls(player, index);
+                } else if (state.gameMode === "atolls") {
+                    const logo = getAtollLogoById(player.logoId);
+                    const logoOptions = atollLogos
+                        .map((item) => "<option value=\"" + item.id + "\"" + (item.id === logo.id ? " selected" : "") + ">"
+                            + escapeHtml(item.name) + "</option>")
+                        .join("");
+                    const colorOptions = atollColors
+                        .map((item) => "<option value=\"" + item.hex + "\""
+                            + (item.hex === player.color ? " selected" : "") + ">"
+                            + escapeHtml(item.name) + "</option>")
+                        .join("");
+                    row.className = "player-row player-row-atolls";
+                    row.style.setProperty("--team-color", player.color);
+                    row.innerHTML = atollLogoImage(logo)
+                        + "<textarea class=\"player-name-input\" rows=\"1\" data-player-name=\"" + player.id
+                        + "\" aria-label=\"" + t("setup.teamName") + "\">" + safeName + "</textarea>"
+                        + "<select data-player-logo=\"" + player.id + "\" aria-label=\"" + t("setup.teamLogo") + "\">"
+                        + logoOptions + "</select>"
+                        + "<label class=\"atoll-color-field\"><span class=\"atoll-color-swatch\" aria-hidden=\"true\"></span>"
+                        + "<select data-player-color=\"" + player.id + "\" aria-label=\"" + t("setup.teamColor") + "\">"
+                        + colorOptions + "</select></label>";
                 } else {
                     row.className = "player-row";
                     row.innerHTML = "<strong>P" + (index + 1) + "</strong><textarea class=\"player-name-input\" rows=\"1\" data-player-name=\"" + player.id + "\">" + safeName + "</textarea>"
@@ -2210,14 +3112,36 @@
                 const card = document.createElement("button");
                 card.type = "button";
                 const selectingStart = state.selectingFirstPlayer && !state.running;
-                card.className = "clock-card" + (player.out ? " out" : "")
-                    + (index === state.activeIndex && !player.out && !selectingStart ? " active" : "")
+                const isActiveCard = index === state.activeIndex && !player.out && !selectingStart
+                    && (state.gameMode !== "atolls" || (state.running && !state.paused));
+                card.className = "clock-card" + (state.gameMode === "atolls" ? " atoll-card" : "")
+                    + (player.out ? " out" : "")
+                    + (isActiveCard ? " active" : "")
                     + (selectingStart ? " selecting-start" : "");
                 card.style.borderColor = player.color;
                 card.style.setProperty("--player-color", player.color);
                 card.dataset.startHint = t("clock.selectStarterHint");
-                if (index === state.activeIndex && !player.out && !selectingStart) {
+                if (isActiveCard) {
                     card.style.boxShadow = "0 0 0 3px " + player.color + "55";
+                }
+
+                if (state.gameMode === "atolls") {
+                    const logo = getAtollLogoById(player.logoId);
+                    const active = index === state.activeIndex && state.running && !state.paused;
+                    card.setAttribute("aria-label", t("clock.atollCardLabel", {
+                        name: player.name,
+                        time: formatTime(player.seconds)
+                    }));
+                    card.innerHTML = [
+                        "<div class=\"atoll-card-head\"><span class=\"card-name\">" + escapeHtml(player.name) + "</span>",
+                        (active ? "<span class=\"atoll-owner-badge\">" + t("clock.atollOwner") + "</span>" : "") + "</div>",
+                        "<div class=\"atoll-logo-stage\">" + atollLogoImage(logo, "atoll-team-logo") + "</div>",
+                        "<div class=\"atoll-card-footer\"><div class=\"card-time\">" + formatTime(player.seconds) + "</div>",
+                        "<div class=\"card-hint\">" + t(active ? "clock.atollHoldingHint" : "clock.atollClaimHint") + "</div></div>"
+                    ].join("");
+                    card.addEventListener("click", () => onClockTap(index));
+                    ui.clockGrid.appendChild(card);
+                    return;
                 }
 
                 const faction = player.factionId ? getFactionById(player.factionId) : null;
@@ -2249,9 +3173,14 @@
 
             if (mobileRunning) {
                 const columns = count <= 4 ? 2 : count <= 9 ? 3 : 4;
+                const rows = Math.ceil(count / columns);
                 ui.clockGrid.style.gridTemplateColumns = "repeat(" + columns + ", minmax(0, 1fr))";
-                ui.clockGrid.style.removeProperty("grid-template-rows");
-                ui.clockGrid.style.setProperty("--clock-rows", String(Math.ceil(count / columns)));
+                if (state.gameMode === "atolls") {
+                    ui.clockGrid.style.gridTemplateRows = "repeat(" + rows + ", minmax(0, 1fr))";
+                } else {
+                    ui.clockGrid.style.removeProperty("grid-template-rows");
+                }
+                ui.clockGrid.style.setProperty("--clock-rows", String(rows));
                 return;
             }
 
@@ -2339,6 +3268,7 @@
         }
 
         function syncStatus() {
+            syncAtollEndBadge();
             if (state.selectingFirstPlayer && !state.running) {
                 ui.statusText.textContent = t("status.selectStartingPlayer");
                 ui.pauseButton.disabled = true;
@@ -2348,7 +3278,7 @@
             }
 
             if (!state.running) {
-                ui.statusText.textContent = t("status.ready");
+                ui.statusText.textContent = t(state.gameMode === "atolls" ? "status.atollsReady" : "status.ready");
                 ui.pauseButton.disabled = true;
                 setPauseButtonText(t("action.pause"));
                 persistState();
@@ -2356,6 +3286,26 @@
             }
 
             const active = state.players[state.activeIndex];
+            if (state.gameMode === "atolls") {
+                ui.pauseButton.disabled = false;
+                setPauseButtonText(t(state.paused ? "action.resume" : "action.pause"));
+                if (state.atollFinished) {
+                    ui.statusText.textContent = active
+                        ? t("status.atollsFinished", { name: active.name })
+                        : t("status.atollsFinishedNoOwner");
+                } else if (!active) {
+                    ui.statusText.textContent = t(
+                        state.paused ? "status.atollsPausedNoOwner" : "status.atollsWaiting"
+                    );
+                } else {
+                    ui.statusText.textContent = state.paused
+                        ? t("status.atollsPaused", { name: active.name })
+                        : t("status.atollsControlled", { name: active.name });
+                }
+                persistState();
+                return;
+            }
+
             const alive = remainingPlayers();
             if (alive <= 1 && state.players.length > 1) {
                 ui.pauseButton.disabled = true;
@@ -2388,11 +3338,36 @@
         }
 
         function applyElapsedTime() {
-            if (!state.running || state.paused || !state.lastTickAt) {
+            if (!state.running) {
                 return;
             }
 
-            const elapsed = Math.floor((Date.now() - state.lastTickAt) / 1000);
+            const now = Date.now();
+            if (state.gameMode === "atolls") {
+                const deadlineReached = Boolean(state.atollGameEndAt && now >= state.atollGameEndAt);
+                if (!state.paused && state.lastTickAt) {
+                    const effectiveNow = state.atollGameEndAt
+                        ? Math.min(now, state.atollGameEndAt)
+                        : now;
+                    const elapsed = Math.max(0, Math.floor((effectiveNow - state.lastTickAt) / 1000));
+                    const active = state.players[state.activeIndex];
+                    if (active && elapsed > 0) {
+                        active.seconds += elapsed;
+                    }
+                }
+                if (deadlineReached) {
+                    finishAtollGame({ render: false });
+                } else {
+                    state.lastTickAt = state.paused ? null : now;
+                }
+                return;
+            }
+
+            if (state.paused || !state.lastTickAt) {
+                return;
+            }
+
+            const elapsed = Math.floor((now - state.lastTickAt) / 1000);
             if (elapsed <= 0) {
                 return;
             }
@@ -2424,7 +3399,31 @@
             state.lastTickAt = Date.now();
 
             state.timerId = setInterval(() => {
-                if (!state.running || state.paused) {
+                if (!state.running) {
+                    return;
+                }
+
+                if (state.gameMode === "atolls") {
+                    if (state.atollGameEndAt && Date.now() >= state.atollGameEndAt) {
+                        finishAtollGame();
+                        return;
+                    }
+                    if (state.paused) {
+                        syncAtollEndBadge();
+                        return;
+                    }
+                    const active = state.players[state.activeIndex];
+                    if (active) {
+                        active.seconds += 1;
+                        playClockTick(state.activeIndex);
+                    }
+                    state.lastTickAt = Date.now();
+                    renderClocks();
+                    syncStatus();
+                    return;
+                }
+
+                if (state.paused) {
                     return;
                 }
 
@@ -2468,7 +3467,39 @@
                 return;
             }
 
-            if (!state.running || state.paused || index !== state.activeIndex) {
+            if (!state.running || state.paused) {
+                return;
+            }
+
+            if (state.gameMode === "atolls") {
+                if (index === state.activeIndex && state.activeIndex >= 0) {
+                    return;
+                }
+                const previous = state.players[state.activeIndex];
+                const current = state.players[index];
+                if (!current) {
+                    return;
+                }
+                if (previous) {
+                    state.turnHistory.push({
+                        previousPlayerId: previous.id,
+                        previousSeconds: previous.seconds,
+                        currentPlayerId: current.id,
+                        currentSeconds: current.seconds
+                    });
+                }
+                state.turnHistory = state.turnHistory.slice(-state.players.length);
+                state.activeIndex = index;
+                state.quickAddTargetId = null;
+                state.lastTickAt = Date.now();
+                playMoveSound();
+                syncUndoControl();
+                renderClocks();
+                syncStatus();
+                return;
+            }
+
+            if (index !== state.activeIndex) {
                 return;
             }
 
@@ -2498,6 +3529,10 @@
         }
 
         function syncLayout() {
+            if (isAtollLocked()) {
+                state.mobileView = true;
+                state.menuOpen = false;
+            }
             const mobileRunning = state.mobileView && state.running;
             if (!state.mobileView) {
                 state.menuOpen = false;
@@ -2506,6 +3541,9 @@
             document.body.classList.toggle("mobile-running", mobileRunning);
             document.body.classList.toggle("many-clocks", state.playerCount > 9);
             document.body.classList.toggle("mode-scythe", state.gameMode === "scythe");
+            document.body.classList.toggle("mode-atolls", state.gameMode === "atolls");
+            document.body.classList.toggle("atoll-locked", isAtollLocked());
+            document.body.classList.toggle("atoll-finished", state.gameMode === "atolls" && state.atollFinished);
             ui.modeIcon.textContent = state.mobileView ? "🖥️" : "📱";
             const modeAction = t(state.mobileView ? "accessibility.desktopView" : "accessibility.mobileView");
             ui.modeToggle.setAttribute("aria-label", modeAction);
@@ -2521,6 +3559,7 @@
             ui.menuButton.setAttribute("aria-label", t(state.menuOpen ? "action.close" : "action.menu"));
             ui.menuButton.title = t(state.menuOpen ? "action.close" : "action.menu");
             syncPlayerLimit();
+            syncAtollOptionControls();
             syncTimeControls();
             syncSoundControl();
             syncNumberSteppers();
@@ -2596,16 +3635,27 @@
             const activePlayerId = state.players[state.activeIndex]?.id;
             const old = state.players.slice();
             state.players = Array.from({ length: state.playerCount }, (_, i) => createPlayer(i, old[i] ?? null));
-            state.activeIndex = clamp(state.activeIndex, 0, state.playerCount - 1);
+            if (!(state.gameMode === "atolls" && state.activeIndex === -1)) {
+                state.activeIndex = clamp(state.activeIndex, 0, state.playerCount - 1);
+            }
             state.turnHistory = [];
             normalizeScythePlayers(activePlayerId);
         }
 
         function readSetupFromInputs() {
-            state.gameMode = ui.gameMode.value === "scythe" ? "scythe" : "generic";
+            state.gameMode = ["generic", "scythe", "atolls"].includes(ui.gameMode.value)
+                ? ui.gameMode.value
+                : "generic";
             state.playerCount = clamp(Number(ui.playerCount.value) || 4, 1, getMaxPlayers());
             state.startMinutes = Math.max(1, Number(ui.startMinutes.value) || 10);
             state.incrementSeconds = Math.max(0, Number(ui.incrementSeconds.value) || 0);
+            state.atollEndMode = ["none", "clock", "duration"].includes(ui.atollEndMode.value)
+                ? ui.atollEndMode.value
+                : "none";
+            composeAtollEndDateTime();
+            state.atollDurationMinutes = Math.max(1, Math.floor(Number(ui.atollDurationMinutes.value) || 60));
+            state.atollLockEnabled = ui.atollLockEnabled.checked;
+            state.atollPassword = ui.atollPassword.value;
             syncPlayerLimit();
             ui.gameMode.value = state.gameMode;
             ui.playerCount.value = String(state.playerCount);
@@ -2747,15 +3797,20 @@
         }
 
         function startGame(startIndex = 0) {
-            stopTimer();
             readSetupFromInputs();
+            if (!validateAtollStartOptions()) {
+                return;
+            }
+            stopTimer();
             rebuildPlayers();
             state.players.forEach((p) => {
-                p.seconds = state.startMinutes * 60;
+                p.seconds = state.gameMode === "atolls" ? 0 : state.startMinutes * 60;
                 p.out = false;
             });
 
-            state.activeIndex = Math.max(0, Math.min(startIndex, state.players.length - 1));
+            state.activeIndex = state.gameMode === "atolls" && startIndex === null
+                ? -1
+                : Math.max(0, Math.min(startIndex, state.players.length - 1));
             state.running = true;
             state.paused = false;
             state.selectingFirstPlayer = false;
@@ -2763,17 +3818,27 @@
             state.menuOpen = false;
             state.resumeAfterMenuClose = false;
             state.turnHistory = [];
+            state.atollFinished = false;
+            state.atollGameEndAt = calculateAtollGameEndAt();
+            state.atollLocked = state.gameMode === "atolls" && state.atollLockEnabled;
+            if (state.atollLocked) {
+                state.mobileView = true;
+            }
 
+            renderPlayerInputs();
             startTimer();
             playStartSound();
             syncLayout();
         }
 
         function resetGame() {
+            if (isAtollLocked()) {
+                return;
+            }
             stopTimer();
             readSetupFromInputs();
             rebuildPlayers();
-            state.activeIndex = 0;
+            state.activeIndex = state.gameMode === "atolls" ? -1 : 0;
             state.running = false;
             state.paused = true;
             state.selectingFirstPlayer = false;
@@ -2782,8 +3847,11 @@
             state.quickAddTargetId = null;
             state.turnHistory = [];
             state.lastTickAt = null;
+            state.atollGameEndAt = null;
+            state.atollLocked = false;
+            state.atollFinished = false;
             state.players.forEach((player) => {
-                player.seconds = state.startMinutes * 60;
+                player.seconds = state.gameMode === "atolls" ? 0 : state.startMinutes * 60;
                 player.out = false;
             });
             renderPlayerInputs();
@@ -2792,6 +3860,9 @@
         }
 
         function restoreDefaultSettings() {
+            if (isAtollLocked()) {
+                return;
+            }
             if (!window.confirm(t("settings.restoreDefaultsConfirm"))) {
                 return;
             }
@@ -2822,6 +3893,14 @@
                 countdown: true,
                 timeout: true
             };
+            state.atollEndMode = "none";
+            state.atollEndDateTime = "";
+            state.atollDurationMinutes = 60;
+            state.atollGameEndAt = null;
+            state.atollLockEnabled = false;
+            state.atollPassword = "";
+            state.atollLocked = false;
+            state.atollFinished = false;
             state.lastTickAt = null;
             state.players = Array.from({ length: state.playerCount }, (_, index) => createPlayer(index));
 
@@ -2841,8 +3920,41 @@
 
         function bindEvents() {
             ui.gameMode.addEventListener("change", () => {
+                if (isAtollLocked()) {
+                    ui.gameMode.value = state.gameMode;
+                    return;
+                }
+                const previousMode = state.gameMode;
                 readSetupFromInputs();
                 rebuildPlayers();
+                if (state.gameMode !== previousMode) {
+                    stopTimer();
+                    state.running = false;
+                    state.paused = true;
+                    state.activeIndex = state.gameMode === "atolls" ? -1 : 0;
+                    state.lastTickAt = null;
+                    state.turnHistory = [];
+                    state.atollGameEndAt = null;
+                    state.atollLocked = false;
+                    state.atollFinished = false;
+                    state.players.forEach((player, index) => {
+                        const previousDefaultKey = previousMode === "atolls"
+                            ? "setup.teamDefaultName"
+                            : "setup.playerDefaultName";
+                        const wasDefaultName = window.MULTICLOCK_TRANSLATIONS.meta.supportedLanguages.some((languageCode) =>
+                            player.name === window.MULTICLOCK_TRANSLATIONS.strings[previousDefaultKey][languageCode]
+                                .replace("{number}", String(index + 1))
+                        );
+                        if (wasDefaultName) {
+                            player.name = t(
+                                state.gameMode === "atolls" ? "setup.teamDefaultName" : "setup.playerDefaultName",
+                                { number: index + 1 }
+                            );
+                        }
+                        player.seconds = state.gameMode === "atolls" ? 0 : state.startMinutes * 60;
+                        player.out = false;
+                    });
+                }
                 renderPlayerInputs();
                 renderClocks();
                 syncLayout();
@@ -2868,6 +3980,58 @@
                 persistState();
             });
 
+            ui.atollEndMode.addEventListener("change", () => {
+                state.atollEndMode = ["none", "clock", "duration"].includes(ui.atollEndMode.value)
+                    ? ui.atollEndMode.value
+                    : "none";
+                if (state.atollEndMode === "clock" && !state.atollEndDateTime) {
+                    state.atollEndDateTime = defaultAtollEndDateTime();
+                }
+                syncAtollOptionControls();
+                persistState();
+            });
+            ui.atollEndDateButton.addEventListener("click", () => {
+                ui.atollEndDatePicker.hidden = !ui.atollEndDatePicker.hidden;
+                ui.atollEndDateButton.setAttribute("aria-expanded", String(!ui.atollEndDatePicker.hidden));
+                if (!ui.atollEndDatePicker.hidden) {
+                    ui.atollEndDate.focus();
+                    if (typeof ui.atollEndDate.showPicker === "function") {
+                        try {
+                            ui.atollEndDate.showPicker();
+                        } catch {
+                            // The date input remains visible when a browser blocks programmatic picker opening.
+                        }
+                    }
+                }
+            });
+            ui.atollEndDate.addEventListener("change", () => {
+                composeAtollEndDateTime();
+                ui.atollEndDatePicker.hidden = true;
+                ui.atollEndDateButton.setAttribute("aria-expanded", "false");
+                syncAtollOptionControls();
+                persistState();
+            });
+            ui.atollEndTime.addEventListener("change", () => {
+                ui.atollEndTime.setCustomValidity("");
+                composeAtollEndDateTime();
+                persistState();
+            });
+            ui.atollDurationMinutes.addEventListener("change", () => {
+                readSetupFromInputs();
+                syncAtollOptionControls();
+                persistState();
+            });
+            ui.atollLockEnabled.addEventListener("change", () => {
+                state.atollLockEnabled = ui.atollLockEnabled.checked;
+                syncAtollOptionControls();
+                persistState();
+            });
+            ui.atollPassword.addEventListener("input", () => {
+                ui.atollPassword.setCustomValidity("");
+                state.atollPassword = ui.atollPassword.value;
+                persistState();
+            });
+
             ui.playerList.addEventListener("click", (event) => {
                 const button = event.target.closest("button[data-move-player]");
                 if (!(button instanceof HTMLButtonElement)) {
@@ -2889,7 +4053,10 @@
                 }
 
                 const playerIndex = state.players.indexOf(player);
-                player.name = target.value.trim() || t("setup.playerDefaultName", { number: playerIndex + 1 });
+                player.name = target.value.trim() || t(
+                    state.gameMode === "atolls" ? "setup.teamDefaultName" : "setup.playerDefaultName",
+                    { number: playerIndex + 1 }
+                );
                 resizePlayerNameField(target);
                 renderClocks();
                 syncTimeControls();
@@ -2902,21 +4069,38 @@
                     return;
                 }
 
-                const playerId = target.dataset.playerFaction;
-                if (!playerId) {
+                const factionPlayerId = target.dataset.playerFaction;
+                const logoPlayerId = target.dataset.playerLogo;
+                const colorPlayerId = target.dataset.playerColor;
+                if (logoPlayerId) {
+                    const player = state.players.find((item) => item.id === logoPlayerId);
+                    if (player) {
+                        player.logoId = getAtollLogoById(target.value).id;
+                    }
+                } else if (colorPlayerId) {
+                    const player = state.players.find((item) => item.id === colorPlayerId);
+                    const color = atollColors.find((item) => item.hex === target.value);
+                    if (player && color) {
+                        player.color = color.hex;
+                    }
+                } else if (factionPlayerId) {
+                    chooseFaction(factionPlayerId, target.value);
+                } else {
                     return;
                 }
 
-                chooseFaction(playerId, target.value);
                 renderPlayerInputs();
                 renderClocks();
                 syncTimeControls();
                 persistState();
             });
 
-            ui.startButton.addEventListener("click", () => startGame(0));
+            ui.startButton.addEventListener("click", () => startGame(state.gameMode === "atolls" ? null : 0));
             ui.resetButton.addEventListener("click", resetGame);
             ui.soundToggle.addEventListener("click", () => {
+                if (isAtollLocked()) {
+                    return;
+                }
                 state.soundEnabled = !state.soundEnabled;
                 syncSoundControl();
                 if (state.soundEnabled) {
@@ -2925,6 +4109,9 @@
                 persistState();
             });
             ui.drawerSoundToggle.addEventListener("click", () => {
+                if (isAtollLocked()) {
+                    return;
+                }
                 state.soundEnabled = !state.soundEnabled;
                 syncSoundControl();
                 if (state.soundEnabled) {
@@ -2933,6 +4120,9 @@
                 persistState();
             });
             ui.mobileInlineSound.addEventListener("click", () => {
+                if (isAtollLocked()) {
+                    return;
+                }
                 state.soundEnabled = !state.soundEnabled;
                 syncSoundControl();
                 if (state.soundEnabled) {
@@ -2941,14 +4131,23 @@
                 persistState();
             });
             ui.settingsToggle.addEventListener("click", () => {
+                if (isAtollLocked()) {
+                    return;
+                }
                 syncSoundControl();
                 ui.settingsDialog.showModal();
             });
             ui.drawerSettingsToggle.addEventListener("click", () => {
+                if (isAtollLocked()) {
+                    return;
+                }
                 syncSoundControl();
                 ui.settingsDialog.showModal();
             });
             ui.mobileInlineSettings.addEventListener("click", () => {
+                if (isAtollLocked()) {
+                    return;
+                }
                 syncSoundControl();
                 ui.settingsDialog.showModal();
             });
@@ -2967,21 +4166,30 @@
             });
 
             ui.pauseButton.addEventListener("click", () => {
-                if (!state.running || (remainingPlayers() <= 1 && state.players.length > 1)) {
+                if (isAtollLocked()
+                    || !state.running
+                    || (state.gameMode !== "atolls" && remainingPlayers() <= 1 && state.players.length > 1)) {
                     return;
                 }
 
                 state.paused = !state.paused;
+                if (!state.paused && state.gameMode === "atolls") {
+                    state.atollFinished = false;
+                }
                 state.lastTickAt = state.paused ? null : Date.now();
                 if (!state.paused && !state.timerId) {
                     startTimer();
                 }
+                renderClocks();
                 syncStatus();
             });
 
             ui.undoTurnButton.addEventListener("click", undoTurn);
 
             ui.menuButton.addEventListener("click", () => {
+                if (isAtollLocked()) {
+                    return;
+                }
                 const opening = !state.menuOpen;
                 if (opening) {
                     state.resumeAfterMenuClose = state.running && !state.paused;
@@ -2999,6 +4207,9 @@
 
             [ui.menuTimePresets, ui.desktopTimePresets, ui.quickTimePresets].forEach((container) => {
                 container.addEventListener("click", (event) => {
+                    if (isAtollLocked()) {
+                        return;
+                    }
                     const button = event.target.closest("[data-add-time-preset]");
                     if (!(button instanceof HTMLButtonElement)) {
                         return;
@@ -3034,6 +4245,9 @@
             });
 
             ui.modeToggle.addEventListener("click", () => {
+                if (isAtollLocked()) {
+                    return;
+                }
                 state.mobileView = !state.mobileView;
                 if (!state.mobileView && state.menuOpen) {
                     closeMenuAndResume();
@@ -3043,10 +4257,16 @@
                 persistState();
             });
             ui.drawerDesktopToggle.addEventListener("click", () => {
+                if (isAtollLocked()) {
+                    return;
+                }
                 state.mobileView = false;
                 closeMenuAndResume();
             });
             ui.mobileInlineDesktop.addEventListener("click", () => {
+                if (isAtollLocked()) {
+                    return;
+                }
                 state.mobileView = false;
                 syncLayout();
                 persistState();
@@ -3059,6 +4279,15 @@
             });
             ui.mobileInlineLanguage.addEventListener("change", () => {
                 setLanguage(ui.mobileInlineLanguage.value);
+            });
+            ui.atollUnlockButton.addEventListener("click", openUnlockDialog);
+            ui.unlockCancelButton.addEventListener("click", () => ui.unlockDialog.close());
+            ui.unlockSubmitButton.addEventListener("click", submitAtollUnlock);
+            ui.unlockPasswordInput.addEventListener("keydown", (event) => {
+                if (event.key === "Enter") {
+                    event.preventDefault();
+                    submitAtollUnlock();
+                }
             });
             window.addEventListener("resize", scheduleResponsiveFormatting);
         }
