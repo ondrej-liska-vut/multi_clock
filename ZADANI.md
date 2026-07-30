@@ -82,6 +82,12 @@ Tento soubor je průběžné zadání aktivní verze aplikace v `index.html`.
 
 - Reset hry provádí pouze tlačítko `Reset` a nemění zvolený herní režim ani ostatní nastavení.
 - Pokročilé nastavení obsahuje potvrzovanou volbu `Obnovit výchozí nastavení`, která vrátí obecný režim, 4 hráče, výchozí časy, zvuky a jména `Hráč 1-4`.
+
+## Offline distribuce
+
+- Soubor `multi_clock_offline.html` je samostatná offline varianta určená k poslání uživatelům. Obsahuje přímo překlady i všechna loga a lze jej otevřít dvojklikem bez internetu a bez dalších souborů.
+- Původní `index.html` zůstává zdrojovou verzí aplikace a offline soubor jej nenahrazuje.
+- Po změnách zdrojové aplikace se offline varianta znovu vytvoří příkazem `node resources/build-offline.js`. Generovaný soubor se neupravuje ručně.
 - Na desktopu se tlačítko `MENU` nezobrazuje. Vedle pauzy/pokračování je výběr hráče a pět tlačítek předvoleb pro okamžité přidání času.
 - Výběr cíle pro přidání času zobrazuje pouze jméno hráče; automatický aktivní cíl není doplněn vysvětlujícím textem.
 - Výchozí předvolby přidání času jsou `+5s`, `+15s`, `+1min`, `+2min` a `+5min`; každou hodnotu lze změnit v pokročilém nastavení.
