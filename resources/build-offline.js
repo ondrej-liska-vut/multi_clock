@@ -23,8 +23,8 @@ const logoPaths = [...new Set(
     [...html.matchAll(/atholyLoga\/[^"']+_ctverec\.svg/g)].map((match) => match[0])
 )];
 
-if (logoPaths.length !== 8) {
-    throw new Error(`Expected 8 square atoll logos, found ${logoPaths.length}.`);
+if (logoPaths.length !== 9) {
+    throw new Error(`Expected 9 square atoll logos, found ${logoPaths.length}.`);
 }
 
 logoPaths.forEach((logoPath) => {

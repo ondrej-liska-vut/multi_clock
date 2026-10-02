@@ -496,7 +496,7 @@
 
         .atoll-clock-end {
             display: grid;
-            grid-template-columns: auto minmax(120px, 1fr);
+            grid-template-columns: auto minmax(108px, 1fr) 42px;
             gap: 8px;
             align-items: center;
         }
@@ -537,6 +537,175 @@
             color: var(--muted);
             font-size: 0.8rem;
             font-weight: 700;
+        }
+
+        .atoll-time-dial-button {
+            width: 42px;
+            height: 42px;
+            padding: 0;
+            border: 1px solid color-mix(in srgb, var(--accent) 42%, var(--line));
+            border-radius: 50%;
+            background: color-mix(in srgb, var(--accent) 10%, #fff);
+            color: var(--accent-strong);
+            font-size: 1.15rem;
+            cursor: pointer;
+        }
+
+        .atoll-time-dial-button:hover,
+        .atoll-time-dial-button:focus-visible {
+            background: color-mix(in srgb, var(--accent) 18%, #fff);
+        }
+
+        .time-dial-dialog {
+            width: min(94vw, 390px);
+            max-height: 94vh;
+            padding: 0;
+            border: 0;
+            border-radius: 22px;
+            background: transparent;
+            color: var(--text);
+        }
+
+        .time-dial-dialog::backdrop {
+            background: rgba(15, 23, 42, 0.62);
+            backdrop-filter: blur(3px);
+        }
+
+        .time-dial-card {
+            display: grid;
+            gap: 14px;
+            padding: 20px;
+            border: 1px solid color-mix(in srgb, var(--accent) 28%, var(--line));
+            border-radius: 22px;
+            background: #fff;
+            box-shadow: 0 24px 70px rgba(15, 23, 42, 0.3);
+        }
+
+        .time-dial-card h2 {
+            margin: 0;
+            font-size: 1.15rem;
+            text-align: center;
+        }
+
+        .time-dial-display {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 4px;
+            font-size: 2rem;
+            font-weight: 900;
+        }
+
+        .time-dial-display button {
+            min-width: 62px;
+            padding: 7px 10px;
+            border: 0;
+            border-radius: 12px;
+            background: #eef2f7;
+            color: var(--muted);
+            font: inherit;
+            cursor: pointer;
+        }
+
+        .time-dial-display button.active {
+            background: color-mix(in srgb, var(--accent) 18%, #fff);
+            color: var(--accent-strong);
+        }
+
+        .time-dial-prompt {
+            margin: -5px 0 0;
+            color: var(--muted);
+            font-size: 0.84rem;
+            font-weight: 700;
+            text-align: center;
+        }
+
+        .time-dial-face {
+            --hand-angle: 0deg;
+            --hand-length: 110px;
+            position: relative;
+            width: min(78vw, 310px);
+            aspect-ratio: 1;
+            margin: 0 auto;
+            border: 1px solid color-mix(in srgb, var(--accent) 18%, var(--line));
+            border-radius: 50%;
+            background:
+                radial-gradient(circle at center, color-mix(in srgb, var(--accent) 8%, #fff) 0 31%, transparent 32%),
+                #f4f7fb;
+        }
+
+        .time-dial-hand {
+            position: absolute;
+            z-index: 1;
+            left: 50%;
+            top: 50%;
+            width: 3px;
+            height: var(--hand-length);
+            border-radius: 99px;
+            background: color-mix(in srgb, var(--accent) 65%, transparent);
+            transform: translate(-50%, -100%) rotate(var(--hand-angle));
+            transform-origin: 50% 100%;
+            pointer-events: none;
+        }
+
+        .time-dial-center {
+            position: absolute;
+            z-index: 3;
+            left: 50%;
+            top: 50%;
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background: var(--accent);
+            transform: translate(-50%, -50%);
+            pointer-events: none;
+        }
+
+        .time-dial-number {
+            position: absolute;
+            z-index: 2;
+            left: 50%;
+            top: 50%;
+            width: 36px;
+            height: 36px;
+            padding: 0;
+            border: 0;
+            border-radius: 50%;
+            background: transparent;
+            color: var(--text);
+            font-size: 0.82rem;
+            font-weight: 800;
+            cursor: pointer;
+            transform:
+                translate(-50%, -50%)
+                rotate(var(--dial-angle))
+                translateY(calc(-1 * var(--dial-radius)))
+                rotate(calc(-1 * var(--dial-angle)));
+        }
+
+        .time-dial-number:hover,
+        .time-dial-number:focus-visible {
+            background: color-mix(in srgb, var(--accent) 14%, #fff);
+        }
+
+        .time-dial-number.selected {
+            background: var(--accent);
+            color: #fff;
+            box-shadow: 0 0 0 4px color-mix(in srgb, var(--accent) 20%, transparent);
+        }
+
+        .time-dial-actions {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 9px;
+        }
+
+        .time-dial-actions button {
+            min-height: 42px;
+            border: 0;
+            border-radius: 10px;
+            font-weight: 800;
+            cursor: pointer;
         }
 
         .order-help {
@@ -1229,7 +1398,16 @@
         }
 
         .mobile-running.mode-atolls .atoll-card-footer {
-            grid-template-columns: auto;
+            grid-template-columns: minmax(0, 0.8fr) minmax(0, 1.2fr);
+            gap: 3px;
+        }
+
+        .mobile-running.mode-atolls .atoll-card .card-hint {
+            display: block;
+            min-width: 0;
+            padding: 2px 3px;
+            font-size: clamp(0.52rem, 2vw, 0.66rem);
+            line-height: 1.05;
         }
 
         @media (prefers-reduced-motion: reduce) {
@@ -1976,6 +2154,26 @@
                 </div>
             </dialog>
 
+            <dialog id="timeDialDialog" class="time-dial-dialog" aria-labelledby="timeDialTitle">
+                <div class="time-dial-card">
+                    <h2 id="timeDialTitle" data-i18n="atolls.timePickerTitle">Vybrat čas konce</h2>
+                    <div class="time-dial-display" aria-live="polite">
+                        <button id="timeDialHourDisplay" type="button">00</button>
+                        <span aria-hidden="true">:</span>
+                        <button id="timeDialMinuteDisplay" type="button">00</button>
+                    </div>
+                    <p id="timeDialPrompt" class="time-dial-prompt"></p>
+                    <div id="timeDialFace" class="time-dial-face">
+                        <div class="time-dial-hand" aria-hidden="true"></div>
+                        <div class="time-dial-center" aria-hidden="true"></div>
+                    </div>
+                    <div class="time-dial-actions">
+                        <button id="timeDialCancelButton" type="button" class="btn-reset" data-i18n="action.close">Zavřít</button>
+                        <button id="timeDialApplyButton" type="button" class="btn-start" data-i18n="atolls.applyTime">Použít čas</button>
+                    </div>
+                </div>
+            </dialog>
+
             <main class="layout">
                 <section id="setupPanel" class="panel setup">
                     <div class="field">
@@ -2015,8 +2213,11 @@
                                     aria-expanded="false" data-i18n-aria="atolls.changeEndDate">
                                     <span id="atollEndDateLabel">Dneska</span>
                                 </button>
-                                <input id="atollEndTime" type="time" step="60" required
-                                    data-i18n-aria="atolls.endTime">
+                                <input id="atollEndTime" type="text" inputmode="numeric" maxlength="5"
+                                    pattern="(?:[01]\d|2[0-3]):[0-5]\d" placeholder="HH:MM"
+                                    autocomplete="off" required data-i18n-aria="atolls.endTime">
+                                <button id="atollTimeDialButton" class="atoll-time-dial-button" type="button"
+                                    data-i18n-aria="atolls.openTimePicker" title="Vybrat čas na ciferníku">🕘</button>
                                 <div id="atollEndDatePicker" class="atoll-date-picker" hidden>
                                     <label>
                                         <span data-i18n="atolls.chooseEndDate">Vybrat jiné datum</span>
@@ -2142,17 +2343,18 @@
             { id: "mroz", name: "Mrož", file: "atholyLoga/05mrož_ctverec.svg" },
             { id: "plankton", name: "Kreveta", file: "atholyLoga/06plankton_ctverec.svg" },
             { id: "rejnoc", name: "Rejnoc", file: "atholyLoga/07rejnoc_ctverec.svg" },
-            { id: "sotek", name: "Šotek", file: "atholyLoga/08sotek_ctverec.svg" }
+            { id: "sotek", name: "Šotek", file: "atholyLoga/08sotek_ctverec.svg" },
+            { id: "cthulhu", name: "Cthulhu", file: "atholyLoga/cathula_ctverec.svg" }
         ];
         const atollColors = [
-            { name: "Okrová", hex: "#B8860B" },
-            { name: "Sytě zelená", hex: "#008A3B" },
-            { name: "Petrolejová", hex: "#006B6B" },
-            { name: "Purpurová", hex: "#6A1B6A" },
-            { name: "Granátová", hex: "#6D001A" },
-            { name: "Červená", hex: "#D50000" },
-            { name: "Sytě modrá", hex: "#003DA5" },
-            { name: "Tmavší růžová", hex: "#C2185B" },
+            { name: "Okrová", hex: "#B8860B", preferred: true },
+            { name: "Sytě zelená", hex: "#008A3B", preferred: true },
+            { name: "Petrolejová", hex: "#006B6B", preferred: true },
+            { name: "Purpurová", hex: "#6A1B6A", preferred: true },
+            { name: "Granátová", hex: "#6D001A", preferred: true },
+            { name: "Červená", hex: "#D50000", preferred: true },
+            { name: "Sytě modrá", hex: "#003DA5", preferred: true },
+            { name: "Tmavší růžová", hex: "#C2185B", preferred: true },
             { name: "Jantarová", hex: "#D97706" },
             { name: "Smaragdová", hex: "#047857" },
             { name: "Tyrkysová", hex: "#0F766E" },
@@ -2243,6 +2445,7 @@
             atollEndDatePicker: document.getElementById("atollEndDatePicker"),
             atollEndDate: document.getElementById("atollEndDate"),
             atollEndTime: document.getElementById("atollEndTime"),
+            atollTimeDialButton: document.getElementById("atollTimeDialButton"),
             atollDurationMinutes: document.getElementById("atollDurationMinutes"),
             atollDurationRow: document.getElementById("atollDurationRow"),
             atollLockEnabled: document.getElementById("atollLockEnabled"),
@@ -2259,6 +2462,13 @@
             unlockError: document.getElementById("unlockError"),
             unlockCancelButton: document.getElementById("unlockCancelButton"),
             unlockSubmitButton: document.getElementById("unlockSubmitButton"),
+            timeDialDialog: document.getElementById("timeDialDialog"),
+            timeDialHourDisplay: document.getElementById("timeDialHourDisplay"),
+            timeDialMinuteDisplay: document.getElementById("timeDialMinuteDisplay"),
+            timeDialPrompt: document.getElementById("timeDialPrompt"),
+            timeDialFace: document.getElementById("timeDialFace"),
+            timeDialCancelButton: document.getElementById("timeDialCancelButton"),
+            timeDialApplyButton: document.getElementById("timeDialApplyButton"),
             menuButton: document.getElementById("menuButton"),
             quickTimePresets: document.getElementById("quickTimePresets"),
             undoTurnButton: document.getElementById("undoTurnButton"),
@@ -2294,6 +2504,10 @@
             statusText: document.getElementById("statusText"),
             clockGrid: document.getElementById("clockGrid")
         };
+
+        let timeDialHour = 0;
+        let timeDialMinute = 0;
+        let timeDialStep = "hour";
 
         function clamp(value, min, max) {
             return Math.max(min, Math.min(max, value));
@@ -2342,10 +2556,114 @@
             return { date, time };
         }
 
+        function normalizeAtollEndTime(value) {
+            let normalized = String(value ?? "").trim().replaceAll(".", ":");
+            if (/^\d{1,2}$/.test(normalized)) {
+                normalized += ":00";
+            } else if (/^\d{3,4}$/.test(normalized)) {
+                normalized = normalized.slice(0, -2) + ":" + normalized.slice(-2);
+            }
+            const match = normalized.match(/^(\d{1,2}):(\d{2})$/);
+            if (!match) {
+                return null;
+            }
+            const hour = Number(match[1]);
+            const minute = Number(match[2]);
+            if (hour > 23 || minute > 59) {
+                return null;
+            }
+            return String(hour).padStart(2, "0") + ":" + String(minute).padStart(2, "0");
+        }
+
         function composeAtollEndDateTime() {
             const date = ui.atollEndDate.value || toLocalDateTimeInput(Date.now()).slice(0, 10);
-            const time = ui.atollEndTime.value;
+            const time = normalizeAtollEndTime(ui.atollEndTime.value) ?? ui.atollEndTime.value.trim();
             state.atollEndDateTime = time ? date + "T" + time : "";
+        }
+
+        function renderTimeDial() {
+            const isHourStep = timeDialStep === "hour";
+            ui.timeDialHourDisplay.textContent = String(timeDialHour).padStart(2, "0");
+            ui.timeDialMinuteDisplay.textContent = String(timeDialMinute).padStart(2, "0");
+            ui.timeDialHourDisplay.classList.toggle("active", isHourStep);
+            ui.timeDialMinuteDisplay.classList.toggle("active", !isHourStep);
+            ui.timeDialHourDisplay.setAttribute("aria-label", t("atolls.chooseHour"));
+            ui.timeDialMinuteDisplay.setAttribute("aria-label", t("atolls.chooseMinute"));
+            ui.timeDialPrompt.textContent = t(isHourStep ? "atolls.chooseHour" : "atolls.chooseMinute");
+
+            ui.timeDialFace.querySelectorAll(".time-dial-number").forEach((button) => button.remove());
+            const values = isHourStep
+                ? [...Array.from({ length: 12 }, (_, index) => ({
+                    value: index + 1,
+                    label: String(index + 1),
+                    radius: 112
+                })), ...Array.from({ length: 12 }, (_, index) => ({
+                    value: (index + 13) % 24,
+                    label: String((index + 13) % 24).padStart(2, "0"),
+                    radius: 74
+                }))]
+                : Array.from({ length: 12 }, (_, index) => ({
+                    value: index * 5,
+                    label: String(index * 5).padStart(2, "0"),
+                    radius: 112
+                }));
+
+            values.forEach(({ value, label, radius }) => {
+                const angle = isHourStep ? (value % 12) * 30 : value * 6;
+                const button = document.createElement("button");
+                button.type = "button";
+                button.className = "time-dial-number";
+                button.textContent = label;
+                button.style.setProperty("--dial-angle", angle + "deg");
+                button.style.setProperty("--dial-radius", radius + "px");
+                button.classList.toggle(
+                    "selected",
+                    value === (isHourStep ? timeDialHour : timeDialMinute)
+                );
+                button.setAttribute(
+                    "aria-label",
+                    t(isHourStep ? "atolls.hourChoice" : "atolls.minuteChoice", { value: label })
+                );
+                button.addEventListener("click", () => {
+                    if (isHourStep) {
+                        timeDialHour = value;
+                        timeDialStep = "minute";
+                    } else {
+                        timeDialMinute = value;
+                    }
+                    renderTimeDial();
+                });
+                ui.timeDialFace.appendChild(button);
+            });
+
+            const selectedAngle = isHourStep
+                ? (timeDialHour % 12) * 30
+                : timeDialMinute * 6;
+            const selectedRadius = isHourStep && timeDialHour !== 0 && timeDialHour <= 12 ? 112 : (
+                isHourStep ? 74 : 112
+            );
+            ui.timeDialFace.style.setProperty("--hand-angle", selectedAngle + "deg");
+            ui.timeDialFace.style.setProperty("--hand-length", selectedRadius + "px");
+        }
+
+        function openTimeDial() {
+            const currentTime = normalizeAtollEndTime(ui.atollEndTime.value)
+                ?? getAtollEndDateParts().time;
+            const [hour, minute] = currentTime.split(":").map(Number);
+            timeDialHour = clamp(hour, 0, 23);
+            timeDialMinute = clamp(minute, 0, 59);
+            timeDialStep = "hour";
+            renderTimeDial();
+            ui.timeDialDialog.showModal();
+        }
+
+        function applyTimeDial() {
+            ui.atollEndTime.value = String(timeDialHour).padStart(2, "0")
+                + ":" + String(timeDialMinute).padStart(2, "0");
+            ui.atollEndTime.setCustomValidity("");
+            composeAtollEndDateTime();
+            persistState();
+            ui.timeDialDialog.close();
         }
 
         function formatAtollEndDateLabel(dateValue) {
@@ -2427,6 +2745,14 @@
             ui.atollEndTime.setCustomValidity("");
             ui.atollPassword.setCustomValidity("");
             if (state.atollEndMode === "clock") {
+                const normalizedTime = normalizeAtollEndTime(ui.atollEndTime.value);
+                if (!normalizedTime) {
+                    ui.atollEndTime.setCustomValidity(t("atolls.invalidTime"));
+                    ui.atollEndTime.reportValidity();
+                    return false;
+                }
+                ui.atollEndTime.value = normalizedTime;
+                composeAtollEndDateTime();
                 const endTimestamp = new Date(state.atollEndDateTime).getTime();
                 if (!Number.isFinite(endTimestamp) || endTimestamp <= Date.now()) {
                     ui.atollEndTime.setCustomValidity(t("atolls.endMustBeFuture"));
@@ -2538,6 +2864,8 @@
             });
             ui.atollUnlockButton.setAttribute("aria-label", t("atolls.unlock"));
             ui.atollUnlockButton.title = t("atolls.unlock");
+            ui.atollTimeDialButton.setAttribute("aria-label", t("atolls.openTimePicker"));
+            ui.atollTimeDialButton.title = t("atolls.openTimePicker");
             [ui.timePlayerSelect, ui.desktopTimePlayerSelect].forEach((select) => {
                 select.setAttribute("aria-label", t("accessibility.timeTarget"));
             });
@@ -3080,11 +3408,14 @@
                         .map((item) => "<option value=\"" + item.id + "\"" + (item.id === logo.id ? " selected" : "") + ">"
                             + escapeHtml(item.name) + "</option>")
                         .join("");
-                    const colorOptions = atollColors
-                        .map((item) => "<option value=\"" + item.hex + "\""
+                    const colorOption = (item) => "<option value=\"" + item.hex + "\""
                             + (item.hex === player.color ? " selected" : "") + ">"
-                            + escapeHtml(item.name) + "</option>")
-                        .join("");
+                            + escapeHtml(item.name) + "</option>";
+                    const colorOptions = "<optgroup label=\"8 statečných\">"
+                        + atollColors.filter((item) => item.preferred).map(colorOption).join("")
+                        + "</optgroup><optgroup label=\"Ostatní barvy\">"
+                        + atollColors.filter((item) => !item.preferred).map(colorOption).join("")
+                        + "</optgroup>";
                     row.className = "player-row player-row-atolls";
                     row.style.setProperty("--team-color", player.color);
                     row.innerHTML = atollLogoImage(logo)
@@ -4013,8 +4344,31 @@
             });
             ui.atollEndTime.addEventListener("change", () => {
                 ui.atollEndTime.setCustomValidity("");
+                const normalizedTime = normalizeAtollEndTime(ui.atollEndTime.value);
+                if (normalizedTime) {
+                    ui.atollEndTime.value = normalizedTime;
+                }
                 composeAtollEndDateTime();
                 persistState();
+            });
+            ui.atollEndTime.addEventListener("input", () => {
+                ui.atollEndTime.setCustomValidity("");
+            });
+            ui.atollTimeDialButton.addEventListener("click", openTimeDial);
+            ui.timeDialHourDisplay.addEventListener("click", () => {
+                timeDialStep = "hour";
+                renderTimeDial();
+            });
+            ui.timeDialMinuteDisplay.addEventListener("click", () => {
+                timeDialStep = "minute";
+                renderTimeDial();
+            });
+            ui.timeDialCancelButton.addEventListener("click", () => ui.timeDialDialog.close());
+            ui.timeDialApplyButton.addEventListener("click", applyTimeDial);
+            ui.timeDialDialog.addEventListener("click", (event) => {
+                if (event.target === ui.timeDialDialog) {
+                    ui.timeDialDialog.close();
+                }
             });
             ui.atollDurationMinutes.addEventListener("change", () => {
                 readSetupFromInputs();
